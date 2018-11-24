@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next gemini" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="swift,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Swift是一种支持多编程范式和编译式的开源编程语言,苹果于2014年WWDC（苹果开发者大会）发布，用于开发 iOS，OS X 和 watchOS 应用程序。 Swift 结合了 C 和 Objective-C的优点并且不受C兼容性的限制。 Swift 在 Mac OS 和 iOS 平台可以和 Objective-C使用相同的运行环境。 2015年6月8日，苹果于WWDC 2015上宣布，Swi">
+<meta name="keywords" content="swift">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Swift学习实践">
+<meta property="og:url" content="http://yoursite.com/2017/01/02/2017-1-2-Swift学习实践/index.html">
+<meta property="og:site_name" content="Karl&#39;s Blog">
+<meta property="og:description" content="Swift是一种支持多编程范式和编译式的开源编程语言,苹果于2014年WWDC（苹果开发者大会）发布，用于开发 iOS，OS X 和 watchOS 应用程序。 Swift 结合了 C 和 Objective-C的优点并且不受C兼容性的限制。 Swift 在 Mac OS 和 iOS 平台可以和 Objective-C使用相同的运行环境。 2015年6月8日，苹果于WWDC 2015上宣布，Swi">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-11-01T16:03:41.022Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Swift学习实践">
+<meta name="twitter:description" content="Swift是一种支持多编程范式和编译式的开源编程语言,苹果于2014年WWDC（苹果开发者大会）发布，用于开发 iOS，OS X 和 watchOS 应用程序。 Swift 结合了 C 和 Objective-C的优点并且不受C兼容性的限制。 Swift 在 Mac OS 和 iOS 平台可以和 Objective-C使用相同的运行环境。 2015年6月8日，苹果于WWDC 2015上宣布，Swi">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/01/02/2017-1-2-Swift学习实践/">
+
+
+
+
+
+  <title>Swift学习实践 | Karl's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Karl's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/02/2017-1-2-Swift学习实践/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="karl">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Karl's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Swift学习实践</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-01-02T23:31:07+08:00">
+                2017-01-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/swift/" itemprop="url" rel="index">
+                    <span itemprop="name">swift</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><code>Swift</code>是一种支持多编程范式和编译式的开源编程语言,苹果于2014年WWDC（苹果开发者大会）发布，用于开发 iOS，OS X 和 watchOS 应用程序。</p>
+<p><code>Swift</code> 结合了 <code>C</code> 和 <code>Objective-C</code>的优点并且不受<code>C</code>兼容性的限制。</p>
+<p><code>Swift</code> 在 Mac OS 和 iOS 平台可以和 <code>Objective-C</code>使用相同的运行环境。</p>
+<p>2015年6月8日，苹果于WWDC 2015上宣布，<code>Swift</code>将开放源代码，包括编译器和标准库。</p>
+<a id="more"></a>
+<h2 id="上手使用与OC肉眼可见的差异"><a href="#上手使用与OC肉眼可见的差异" class="headerlink" title="上手使用与OC肉眼可见的差异"></a>上手使用与OC肉眼可见的差异</h2><ul>
+<li>swift 不分<code>.h</code>和<code>.m</code>文件 ，一个类只有<code>.swift</code>一个文件，所以整体的文件数量比起OC有一定减少。</li>
+<li>swift 句尾不需要分号 ，除非你想在一行中写三行代码就加<code>分号</code>隔开。</li>
+<li>swift 数据类型都会自动判断 ， 只区分<ul>
+<li>变量<code>var</code></li>
+<li>常量<code>let</code></li>
+</ul>
+</li>
+<li>强制类型转换格式不同 <ul>
+<li><code>OC</code>强转：<code>(int)a</code>     </li>
+<li>Swift强转：<code>Int(a)</code></li>
+</ul>
+</li>
+<li>swift的 循环语句中必须加<code>{}</code>就算只有一行代码也必须要加 </li>
+<li>swift的 <code>switch</code>语句后面可以跟各种数据类型了 ，如<code>Int</code>、<code>string</code>都行，并且里面不用写<code>break</code></li>
+<li>swift <code>if</code>后的括号可以省略: <code>if a&gt;b {}</code></li>
+<li>swift打印  用<code>print(&quot;&quot;)</code>    打印变量时可以  <code>print(&quot;\(value)&quot;)</code>，不用像OC那样记很多<code>%@</code>，<code>d%</code>等。</li>
+<li><p>Swift3的<code>Any</code>可以代表任何类型的值，无论是类、枚举、结构体还是任何其他Swift类型，这个对应OC中的<code>id</code>类型。</p>
+</li>
+<li><p>范围运算符</p>
+<ul>
+<li><code>a...b</code> 表示 [a,b] 包括a和b 。 （如3…5  就是范围取3，4，5）</li>
+<li><p><code>a..&lt;b</code> 表示 [a,b) 包括a，不包括b 。 （如3…5  就是范围取3，4）</p>
+</li>
+<li><p>常见的如for循环：<code>for i in 0...9{}</code></p>
+</li>
+</ul>
+</li>
+<li><p>独有的元组类型</p>
+<ul>
+<li>元组(<code>tuples</code>)把多个值组合成一个复合值。元组内的值可以使任意类型,并不要求是相同类型。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> value = (<span class="type">Int</span>,<span class="type">String</span>) = (x:<span class="number">15</span>,y:<span class="string">"abc"</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="Optional-可选类型，眼前一亮"><a href="#Optional-可选类型，眼前一亮" class="headerlink" title="Optional 可选类型，眼前一亮"></a>Optional 可选类型，眼前一亮</h2><ul>
+<li>定义变量时，如果指定是可选的，表示该变量可以有一个指定类型的值，也可以是 <code>nil</code></li>
+<li>定义变量时，在类型后面添加一个<code>?</code>，表示该变量是可选的</li>
+<li>变量可选项的默认值是 <code>nil</code></li>
+<li>常量可选项没有默认值，主要用于在<strong>构造函数</strong>中给常量设置初始数值</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// num 可以是一个整数，也可以是 nil，注意如果为 nil，不能参与计算</span></span><br><span class="line"><span class="comment">// 只有解包(unwrap)后才能参与计算</span></span><br><span class="line"><span class="keyword">var</span> num: <span class="type">Int</span>? = <span class="number">10</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>在变量后添加一个  <code>!</code>，可以强行<strong>解包</strong></li>
+</ul>
+<p><strong>注意：必须要确保解包后的值不是 nil，否则会报错</strong></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// num 可以是一个整数，也可以是 nil，注意如果为 nil，不能参与计算</span></span><br><span class="line"><span class="keyword">var</span> num: <span class="type">Int</span>? = <span class="number">10</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 如果 num 为 nil，使用 ! 强行解包会报错</span></span><br><span class="line"><span class="keyword">let</span> sum = num! + <span class="number">100</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用以下判断，当 num 为 nil 时，if 分支中的代码不会执行</span></span><br><span class="line"><span class="keyword">if</span> <span class="keyword">let</span> n = num &#123;</span><br><span class="line">    <span class="keyword">let</span> result = n + <span class="number">10</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h2><p>我们公司的项目并没有采用 Swift 来开发，但是单纯的看书或看教程没有实战经验谈不上会 Swift。而且就目前的学习来看，更多的是语法的转变而已，这里的难点是不大的，而 Swift 的编程思想我们可以后期慢慢学习并深入体会。以下是我的Demo：</p>
+<p><a href="https://github.com/likenow/KLSwiftFragmentation" target="_blank" rel="noopener"><strong>KLSwiftFragmentation</strong></a></p>
+<h2 id="推荐文献"><a href="#推荐文献" class="headerlink" title="推荐文献"></a>推荐文献</h2><ul>
+<li><p><a href="https://developer.apple.com/swift/" target="_blank" rel="noopener">Swift 官方文档</a></p>
+</li>
+<li><p><a href="https://github.com/ipader/SwiftGuide" target="_blank" rel="noopener">SwiftGuide</a></p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/swift/" rel="tag"># swift</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/12/24/WEEX-iOS视角/" rel="next" title="WEEX--iOS视角">
+                <i class="fa fa-chevron-left"></i> WEEX--iOS视角
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/03/17/2017-3-17-读《遇见未知的自己》摘录/" rel="prev" title="读《遇见未知的自己》摘录">
+                读《遇见未知的自己》摘录 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="karl">
+            
+              <p class="site-author-name" itemprop="name">karl</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">97</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">83</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/likenow" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:fmslikai@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://yujiangshui.com/" title="yujiangshui" target="_blank">yujiangshui</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#上手使用与OC肉眼可见的差异"><span class="nav-number">1.</span> <span class="nav-text">上手使用与OC肉眼可见的差异</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Optional-可选类型，眼前一亮"><span class="nav-number">2.</span> <span class="nav-text">Optional 可选类型，眼前一亮</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实践"><span class="nav-number">3.</span> <span class="nav-text">实践</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#推荐文献"><span class="nav-number">4.</span> <span class="nav-text">推荐文献</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2013 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">karl</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

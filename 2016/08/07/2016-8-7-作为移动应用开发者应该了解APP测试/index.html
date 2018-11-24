@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next gemini" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="黑盒测试,白盒测试,灰盒测试,冒烟测试,回归测试,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="废话不多说，直接切入正题：什么是黑盒测试？什么是白盒测试？什么是灰盒测试？ 黑盒测试黑盒测试也称功能测试或数据驱动测试。 它是在已知产品所应具有的功能，通过测试来检测每个功能是否都能正常使用，在测试时，把程序看作一个不能打开的黑盒子，在完全不考虑程序内部结构和内部特性的情况下，测试者在程序接口进行测试，它只检查程序功能是否按照需求规格说明书的规定正常使用，程序是否能适当地接收输入数锯而产生正确的输">
+<meta name="keywords" content="黑盒测试,白盒测试,灰盒测试,冒烟测试,回归测试">
+<meta property="og:type" content="article">
+<meta property="og:title" content="作为移动应用开发者应该了解APP测试">
+<meta property="og:url" content="http://yoursite.com/2016/08/07/2016-8-7-作为移动应用开发者应该了解APP测试/index.html">
+<meta property="og:site_name" content="Karl&#39;s Blog">
+<meta property="og:description" content="废话不多说，直接切入正题：什么是黑盒测试？什么是白盒测试？什么是灰盒测试？ 黑盒测试黑盒测试也称功能测试或数据驱动测试。 它是在已知产品所应具有的功能，通过测试来检测每个功能是否都能正常使用，在测试时，把程序看作一个不能打开的黑盒子，在完全不考虑程序内部结构和内部特性的情况下，测试者在程序接口进行测试，它只检查程序功能是否按照需求规格说明书的规定正常使用，程序是否能适当地接收输入数锯而产生正确的输">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-10-28T08:41:55.219Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="作为移动应用开发者应该了解APP测试">
+<meta name="twitter:description" content="废话不多说，直接切入正题：什么是黑盒测试？什么是白盒测试？什么是灰盒测试？ 黑盒测试黑盒测试也称功能测试或数据驱动测试。 它是在已知产品所应具有的功能，通过测试来检测每个功能是否都能正常使用，在测试时，把程序看作一个不能打开的黑盒子，在完全不考虑程序内部结构和内部特性的情况下，测试者在程序接口进行测试，它只检查程序功能是否按照需求规格说明书的规定正常使用，程序是否能适当地接收输入数锯而产生正确的输">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/08/07/2016-8-7-作为移动应用开发者应该了解APP测试/">
+
+
+
+
+
+  <title>作为移动应用开发者应该了解APP测试 | Karl's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Karl's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/08/07/2016-8-7-作为移动应用开发者应该了解APP测试/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="karl">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Karl's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">作为移动应用开发者应该了解APP测试</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-08-07T13:10:21+08:00">
+                2016-08-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/测试/" itemprop="url" rel="index">
+                    <span itemprop="name">测试</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>废话不多说，直接切入正题：什么是<strong>黑盒测试</strong>？什么是<strong>白盒测试</strong>？什么是<strong>灰盒测试</strong>？</p>
+<h2 id="黑盒测试"><a href="#黑盒测试" class="headerlink" title="黑盒测试"></a>黑盒测试</h2><p><strong>黑盒测试</strong>也称功能测试或数据驱动测试。</p>
+<p>它是在已知产品所应具有的功能，通过测试来检测每个功能是否都能正常使用，在测试时，把程序看作一个不能打开的黑盒子，在完全不考虑程序内部结构和内部特性的情况下，测试者在程序接口进行测试，它只检查程序功能是否按照需求规格说明书的规定正常使用，程序是否能适当地接收输入数锯而产生正确的输出信息，并且保持外部信息（如数据库或文件）的完整性。</p>
+<a id="more"></a>
+<h3 id="黑盒测试主要是为了发现以下几类错误："><a href="#黑盒测试主要是为了发现以下几类错误：" class="headerlink" title="黑盒测试主要是为了发现以下几类错误："></a>黑盒测试主要是为了发现以下几类错误：</h3><ul>
+<li><p>是否有不正确或遗漏的功能？</p>
+</li>
+<li><p>在接口上，输入是否能正确的接受？能否输出正确的结果？</p>
+</li>
+<li><p>是否有数据结构错误或外部信息（例如数据文件）访问错误？</p>
+</li>
+<li><p>性能上是否能够满足要求？</p>
+</li>
+<li><p>是否有初始化或终止性错误？</p>
+</li>
+</ul>
+<h2 id="白盒测试"><a href="#白盒测试" class="headerlink" title="白盒测试"></a>白盒测试</h2><p><strong>白盒测试</strong>也称结构测试或逻辑驱动测试。</p>
+<p>它是知道产品内部工作过程，可通过测试来检测产品内部动作是否按照规格说明书的规定正常进行，按照程序内部的结构测试程序，检验程序中的每条通路是否都有能按预定要求正确工作，而不顾它的功能，白盒测试的主要方法有逻辑驱动、基路测试等，主要用于软件验证。</p>
+<h3 id="白盒测试主要是想对程序模块进行如下检查："><a href="#白盒测试主要是想对程序模块进行如下检查：" class="headerlink" title="白盒测试主要是想对程序模块进行如下检查："></a>白盒测试主要是想对程序模块进行如下检查：</h3><ul>
+<li><p>对程序模块的所有独立的执行路径至少测试一遍。</p>
+</li>
+<li><p>对所有的逻辑判定，取“真”与取“假”的两种情况都能至少测一遍。</p>
+</li>
+<li><p>在循环的边界和运行的界限内执行循环体。</p>
+</li>
+<li><p>测试内部数据结构的有效性，等等。</p>
+</li>
+</ul>
+<h2 id="灰盒测试"><a href="#灰盒测试" class="headerlink" title="灰盒测试"></a>灰盒测试</h2><p><strong>灰盒测试</strong>，确实是介于二者之间的。</p>
+<p>可以这样理解，灰盒测试关注输出对于输入的正确性，同时也关注内部表现，但这种关注不象白盒那样详细、完整，只是通过一些表征性的现象、事件、标志来判断内部的运行状态，有时候输出是正确的，但内部其实已经错误了，这种情况非常多，如果每次都通过白盒测试来操作，效率会很低，因此需要采取这样的一种灰盒的方法。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>了解了一些基本概念，可能比较空洞，但可以知道的是软件测试工作，没有想象的那么简单。就像开发者会出现<code>bug</code>一样，测试由于只能进行少量（相对于穷举的巨大数量而言）的有限的测试，在未发现错误时，不能说明程序中没有错误，所以也不能保证测试完成对外发布的就是没有<code>bug</code>的应用。(ps.这个小结像是打太极，zzzz)</p>
+<h2 id="具体来看一下移动测试"><a href="#具体来看一下移动测试" class="headerlink" title="具体来看一下移动测试"></a>具体来看一下移动测试</h2><p>这里举例也仅以我了解到的我所在公司的测试情况。</p>
+<h3 id="测试流程"><a href="#测试流程" class="headerlink" title="测试流程"></a>测试流程</h3><ol>
+<li>用一个手机先做<strong>冒烟测试</strong>；冒烟通过之后，先用一个<code>android</code>或者<code>IOS</code>做详细测试。</li>
+</ol>
+<blockquote>
+<p>冒烟测试，这一术语源自硬件行业。对一个硬件或硬件组件进行更改或修复后，直接给设备加电。如果没有冒烟，则该组件就通过了测试。在软件中，“冒烟测试”这一术语描述的是在将代码更改嵌入到产品的源树中之前对这些更改进行验证的过程。在检查了代码后，冒烟测试是确定和修复<em>软件缺陷</em>的最经济有效的方法。冒烟测试设计用于确认代码中的更改会按预期运行，且不会破坏整个版本的稳定性。</p>
+<p>冒烟测试优点是节省测试时间，防止build失败。缺点是覆盖率还是比较低。</p>
+</blockquote>
+<ol start="2">
+<li>有时间测试之前应该有测试用例，按照用例执行功能；没有时间写用例，也是一边测试，一边记录：每走一个测试流程测试的是那个模块的什么功能。这样记录下已经测试的点，如果测试点没有通过的，要记录下，以便做<strong>回归测试</strong>重点关注。</li>
+</ol>
+<blockquote>
+<p>回归测试是指修改了旧代码后，重新进行测试以确认修改没有引入新的错误或导致其他代码产生错误。自动回归测试将大幅降低系统测试、维护升级等阶段的成本。</p>
+<p>回归测试的两层理解，一是就是当你修复一个bug后，把之前的测试用例再次应用到修复后的版本上进行测试。二是当一个新版本开发好后，而且冒烟测试通过，此时可以先用上一个版本的测试用例对新版本进行测试，看是否有bug。</p>
+</blockquote>
+<ol start="3">
+<li><p>详细测试：所有的功能都走一遍（不管所有功能通没通过）,第一轮就算测试完。并做好相应记录。这样可以直观看到，第一轮测试完成之后，剩余的bug情况。</p>
+</li>
+<li><p>第二轮测试，除了验证第一轮遗留的bug做回归测试之外，换一个手机测试，如果之前用的是<code>IOS</code>，这次改成<code>android</code>。所有功能再跑一遍。</p>
+</li>
+<li><p>测试完2轮，基本上bug就解决了有80%。然后再使用其他的手机做<strong>兼容性测试</strong>。如果时间不充分，也一定保证<code>android</code>与<code>IOS</code>一个必须每个测试一部手机。</p>
+</li>
+<li><p>如果时间充分，再使用其他的手机做一下主流程测试，保证兼容性没有大问题。</p>
+</li>
+<li><p>熟练使用抓包工具，看日志，查数据库，协助开发定位问题。</p>
+</li>
+<li><p>对业务流程熟悉，数据源知道怎么来，各个跟APP有关的功能，流程都要特别熟悉。</p>
+</li>
+</ol>
+<h3 id="APP测试"><a href="#APP测试" class="headerlink" title="APP测试"></a>APP测试</h3><ol>
+<li>功能，主要指app是否完成了设计的所有功能。分清模块，写一份<code>checklist</code>，避免漏测。考虑横竖屏切换，不过很多app现在只支持竖屏。</li>
+<li>App 在经过功能测试后，也需对其进行适配兼容测试实际测试中，常常会遇到下列问题： 在某个平牌某个系统上 app安装不上，app无法拉起，app拉起后无响应或拉起后黑屏、花屏,app无法顺利卸载。</li>
+<li>性能、稳定性，app后台长时间运行的耗流量，耗电量。</li>
+<li>易用性，UI 是否吸引人、容易理解。IO整洁、简单。无错别字。点击范围确定等。这部分测试中，如果测试认为有不合理的地方通常会提交需求<code>bug</code>。</li>
+<li>外场：<ul>
+<li>网络切换，网络信号强/弱下的 app 运行情况。<ul>
+<li>移动端有多种网络：无线网络、2G、3G、4G等，断网、网速较差及网络之间的切换时页面的显示等，这些对于移动端来说很重要。此外，在非 wifi 下，还需要注意网络使用量问题。</li>
+</ul>
+</li>
+<li>中断测试<ul>
+<li>来电中断</li>
+<li>短信与消息中断</li>
+<li>其他中断： 蓝牙，闹钟，插拔数据线， 手机锁定， 手机断电， 手机问题(系统死机， 重启)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>异常测试：<ul>
+<li>对 app 断网测试，断电测试</li>
+<li>服务器异常测试</li>
+</ul>
+</li>
+<li>界面操作：关于手机端测试，需注意手势，横竖屏切换，多点触控，前后台切换</li>
+<li>安全测试：安装包是否可反编译代码、安装包是否签名、权限设置，例如访问通讯录等</li>
+<li>边界测试：可用存储空间少、没有SD卡/双SD卡、飞行模式、系统时间有误、第三方依赖（QQ、微信登录）等</li>
+<li>权限测试：设置某个App是否可以获取该权限，例如是否可访问通讯录、相册、照相机等</li>
+</ol>
+<h2 id="致谢"><a href="#致谢" class="headerlink" title="致谢"></a>致谢</h2><p>感谢我司的测试人员在一次内部分享会上的分享。谢谢！希望我的梳理，对大家也有帮助！</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/黑盒测试/" rel="tag"># 黑盒测试</a>
+          
+            <a href="/tags/白盒测试/" rel="tag"># 白盒测试</a>
+          
+            <a href="/tags/灰盒测试/" rel="tag"># 灰盒测试</a>
+          
+            <a href="/tags/冒烟测试/" rel="tag"># 冒烟测试</a>
+          
+            <a href="/tags/回归测试/" rel="tag"># 回归测试</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/07/23/2016-7-23-iOS签到日历功能实现/" rel="next" title="iOS签到日历功能实现">
+                <i class="fa fa-chevron-left"></i> iOS签到日历功能实现
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/08/27/2016-8-27-Cocoapods搭建OC私repo/" rel="prev" title="Cocoapods搭建OC私repo">
+                Cocoapods搭建OC私repo <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="karl">
+            
+              <p class="site-author-name" itemprop="name">karl</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">97</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">83</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/likenow" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:fmslikai@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://yujiangshui.com/" title="yujiangshui" target="_blank">yujiangshui</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#黑盒测试"><span class="nav-number">1.</span> <span class="nav-text">黑盒测试</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#黑盒测试主要是为了发现以下几类错误："><span class="nav-number">1.1.</span> <span class="nav-text">黑盒测试主要是为了发现以下几类错误：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#白盒测试"><span class="nav-number">2.</span> <span class="nav-text">白盒测试</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#白盒测试主要是想对程序模块进行如下检查："><span class="nav-number">2.1.</span> <span class="nav-text">白盒测试主要是想对程序模块进行如下检查：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#灰盒测试"><span class="nav-number">3.</span> <span class="nav-text">灰盒测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">4.</span> <span class="nav-text">小结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#具体来看一下移动测试"><span class="nav-number">5.</span> <span class="nav-text">具体来看一下移动测试</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#测试流程"><span class="nav-number">5.1.</span> <span class="nav-text">测试流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#APP测试"><span class="nav-number">5.2.</span> <span class="nav-text">APP测试</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#致谢"><span class="nav-number">6.</span> <span class="nav-text">致谢</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2013 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">karl</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

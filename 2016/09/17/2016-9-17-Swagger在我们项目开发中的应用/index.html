@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next gemini" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="swagger,api,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="一下是我与老板的简单对话：  老板：你对接口开发效率与APP 开发冲突怎么看？   我委婉的说：接口开发的时候我们画UI、做交互两不耽误   老板：关于API 的工具–swagger 了解过吗？   我懵逼的说：没用过，不了解。我回头调研一下   老板：咱们项目开发后期打算用起这个工具来，我们后端的同学已经搞出来了一套东西，客户端尽快了解一下。   我：嗯，收到">
+<meta name="keywords" content="swagger,api">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Swagger在我们项目开发中的应用">
+<meta property="og:url" content="http://yoursite.com/2016/09/17/2016-9-17-Swagger在我们项目开发中的应用/index.html">
+<meta property="og:site_name" content="Karl&#39;s Blog">
+<meta property="og:description" content="一下是我与老板的简单对话：  老板：你对接口开发效率与APP 开发冲突怎么看？   我委婉的说：接口开发的时候我们画UI、做交互两不耽误   老板：关于API 的工具–swagger 了解过吗？   我懵逼的说：没用过，不了解。我回头调研一下   老板：咱们项目开发后期打算用起这个工具来，我们后端的同学已经搞出来了一套东西，客户端尽快了解一下。   我：嗯，收到">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-10-28T08:42:11.661Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Swagger在我们项目开发中的应用">
+<meta name="twitter:description" content="一下是我与老板的简单对话：  老板：你对接口开发效率与APP 开发冲突怎么看？   我委婉的说：接口开发的时候我们画UI、做交互两不耽误   老板：关于API 的工具–swagger 了解过吗？   我懵逼的说：没用过，不了解。我回头调研一下   老板：咱们项目开发后期打算用起这个工具来，我们后端的同学已经搞出来了一套东西，客户端尽快了解一下。   我：嗯，收到">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/09/17/2016-9-17-Swagger在我们项目开发中的应用/">
+
+
+
+
+
+  <title>Swagger在我们项目开发中的应用 | Karl's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Karl's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/09/17/2016-9-17-Swagger在我们项目开发中的应用/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="karl">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Karl's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Swagger在我们项目开发中的应用</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-17T20:13:46+08:00">
+                2016-09-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/工具/" itemprop="url" rel="index">
+                    <span itemprop="name">工具</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>一下是我与老板的简单对话：</p>
+<blockquote>
+<p>老板：你对接口开发效率与APP 开发冲突怎么看？</p>
+</blockquote>
+<blockquote>
+<p>我委婉的说：接口开发的时候我们画UI、做交互两不耽误</p>
+</blockquote>
+<blockquote>
+<p>老板：关于API 的工具–swagger 了解过吗？</p>
+</blockquote>
+<blockquote>
+<p>我懵逼的说：没用过，不了解。我回头调研一下</p>
+</blockquote>
+<blockquote>
+<p>老板：咱们项目开发后期打算用起这个工具来，我们后端的同学已经搞出来了一套东西，客户端尽快了解一下。</p>
+</blockquote>
+<blockquote>
+<p>我：嗯，收到</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="Swagger-简述"><a href="#Swagger-简述" class="headerlink" title="Swagger 简述"></a>Swagger 简述</h2><blockquote>
+<p>Swagger 是一个规范和完整的框架，用于生成、描述、调用和可视化 <code>RESTful</code> 风格的 Web 服务。</p>
+</blockquote>
+<p><a href="https://swagger.io/" target="_blank" rel="noopener">Swagger</a> 包括库、编辑器等。</p>
+<ul>
+<li><p><a href="http://editor.swagger.io/" target="_blank" rel="noopener">swagger editor</a></p>
+</li>
+<li><p><a href="http://www.sosoapi.com/" target="_blank" rel="noopener">sosoApi</a></p>
+</li>
+</ul>
+<p>更多的内容，大家直接看对应的指南，上手就行了。</p>
+<h2 id="Swagger-在-iOS工程中的应用"><a href="#Swagger-在-iOS工程中的应用" class="headerlink" title="Swagger 在 iOS工程中的应用"></a>Swagger 在 iOS工程中的应用</h2><p>通过 Swagger 提供的工具定义完接口，可以通过 <a href="http://editor.swagger.io/" target="_blank" rel="noopener">swagger editor</a> 编辑配置文件，然后通过 Swagger 提供的平台代码生成工具，生成移动平台的代码（ iOS 平台的模型）。一个比较大的痛点是生成的代码并不是非常符合预期的，需要调整。更为关键的是定义接口的开发者，如果对APP流程和UI不熟悉，就不能定义出一个符合预期的数据格式，和生成的代码。</p>
+<p>其实到了移动端这边，操作和使用看上去是变得简单了。iOS 只需要 <code>pod</code>相关的<strong>私有库</strong>（这里 Swagger 生成的代码我们作为私有库引入项目）即可。</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod <span class="string">'SwaggerClient'</span>, <span class="symbol">:path</span> =&gt; <span class="string">'/Users/kailee/WorkSpace/objc-client14/SwaggerClient.podspec'</span></span><br></pre></td></tr></table></figure>
+<p>但是iOS端原来需要定义模型，然后通过JSON解析库，赋值给对应模型的属性的过程其实变得不那么单纯了。因为揉进了 Swagger 动态生成的代码。我们在这中间做了一层<strong>解耦</strong>，来处理<strong>自己定义的数据模型</strong>和<strong>Swagger 生成的数据模型</strong>。</p>
+<p>Swagger 生成的OC代码的头文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">#import &lt;UIKit/UIKit.h&gt;</span><br><span class="line"></span><br><span class="line">#import &quot;AYIBESWGApi.h&quot;</span><br><span class="line">#import &quot;JSONValueTransformer+ISO8601.h&quot;</span><br><span class="line">#import &quot;SWGApi.h&quot;</span><br><span class="line">#import &quot;SWGApiClient.h&quot;</span><br><span class="line">#import &quot;SWGConfiguration.h&quot;</span><br><span class="line">#import &quot;SWGJSONRequestSerializer.h&quot;</span><br><span class="line">#import &quot;SWGJSONResponseSerializer.h&quot;</span><br><span class="line">#import &quot;SWGLogger.h&quot;</span><br><span class="line">#import &quot;SWGObject.h&quot;</span><br><span class="line">#import &quot;SWGQueryParamCollection.h&quot;</span><br><span class="line">#import &quot;SWGResponseDeserializer.h&quot;</span><br><span class="line">#import &quot;SWGSanitizer.h&quot;</span><br><span class="line">#import &quot;SWG200.h&quot;</span><br><span class="line">#import &quot;SWG200Data.h&quot;</span><br><span class="line">#import &quot;SWGApproveManageResp.h&quot;</span><br><span class="line">#import &quot;SWGApproveManageRespData.h&quot;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>Swagger 生成的OC代码的<code>.m</code>文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">#pragma mark - Api Methods</span><br><span class="line"></span><br><span class="line">///</span><br><span class="line">/// 充值支付</span><br><span class="line">/// 选择金额进行充值</span><br><span class="line">///  @param token  </span><br><span class="line">///</span><br><span class="line">///  @param money  </span><br><span class="line">///</span><br><span class="line">///  @param payType  </span><br><span class="line">///</span><br><span class="line">///  @returns SWGPayResp*</span><br><span class="line">///</span><br><span class="line">-(NSNumber*) accountChargePostWithToken: (NSString*) token</span><br><span class="line">    money: (NSString*) money</span><br><span class="line">    payType: (NSString*) payType</span><br><span class="line">    completionHandler: (void (^)(SWGPayResp* output, NSError* error)) handler &#123;</span><br><span class="line">    // verify the required parameter &apos;token&apos; is set</span><br><span class="line">    if (token == nil) &#123;</span><br><span class="line">        NSParameterAssert(token);</span><br><span class="line">        if(handler) &#123;</span><br><span class="line">            NSDictionary * userInfo = @&#123;NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@&quot;Missing required parameter &apos;%@&apos;&quot;, nil),@&quot;token&quot;] &#125;;</span><br><span class="line">            NSError* error = [NSError errorWithDomain:kSWGApiErrorDomain code:kSWGApiMissingParamErrorCode userInfo:userInfo];</span><br><span class="line">            handler(nil, error);</span><br><span class="line">        &#125;</span><br><span class="line">        return nil;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // verify the required parameter &apos;money&apos; is set</span><br><span class="line">    if (money == nil) &#123;</span><br><span class="line">        NSParameterAssert(money);</span><br><span class="line">        if(handler) &#123;</span><br><span class="line">            NSDictionary * userInfo = @&#123;NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@&quot;Missing required parameter &apos;%@&apos;&quot;, nil),@&quot;money&quot;] &#125;;</span><br><span class="line">            NSError* error = [NSError errorWithDomain:kSWGApiErrorDomain code:kSWGApiMissingParamErrorCode userInfo:userInfo];</span><br><span class="line">            handler(nil, error);</span><br><span class="line">        &#125;</span><br><span class="line">        return nil;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // verify the required parameter &apos;payType&apos; is set</span><br><span class="line">    if (payType == nil) &#123;</span><br><span class="line">        NSParameterAssert(payType);</span><br><span class="line">        if(handler) &#123;</span><br><span class="line">            NSDictionary * userInfo = @&#123;NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@&quot;Missing required parameter &apos;%@&apos;&quot;, nil),@&quot;payType&quot;] &#125;;</span><br><span class="line">            NSError* error = [NSError errorWithDomain:kSWGApiErrorDomain code:kSWGApiMissingParamErrorCode userInfo:userInfo];</span><br><span class="line">            handler(nil, error);</span><br><span class="line">        &#125;</span><br><span class="line">        return nil;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@&quot;/account/charge&quot;];</span><br><span class="line"></span><br><span class="line">    // remove format in URL if needed</span><br><span class="line">    [resourcePath replaceOccurrencesOfString:@&quot;.&#123;format&#125;&quot; withString:@&quot;.json&quot; options:0 range:NSMakeRange(0,resourcePath.length)];</span><br><span class="line"></span><br><span class="line">    NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];</span><br><span class="line"></span><br><span class="line">    NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];</span><br><span class="line">    if (token != nil) &#123;</span><br><span class="line">        queryParams[@&quot;token&quot;] = token;</span><br><span class="line">    &#125;</span><br><span class="line">    if (money != nil) &#123;</span><br><span class="line">        queryParams[@&quot;money&quot;] = money;</span><br><span class="line">    &#125;</span><br><span class="line">    if (payType != nil) &#123;</span><br><span class="line">        queryParams[@&quot;payType&quot;] = payType;</span><br><span class="line">    &#125;</span><br><span class="line">    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];</span><br><span class="line">    [headerParams addEntriesFromDictionary:self.defaultHeaders];</span><br><span class="line">    // HTTP header `Accept`</span><br><span class="line">    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@&quot;application/json&quot;]];</span><br><span class="line">    if(acceptHeader.length &gt; 0) &#123;</span><br><span class="line">        headerParams[@&quot;Accept&quot;] = acceptHeader;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // response content type</span><br><span class="line">    NSString *responseContentType = [[acceptHeader componentsSeparatedByString:@&quot;, &quot;] firstObject] ?: @&quot;&quot;;</span><br><span class="line"></span><br><span class="line">    // request content type</span><br><span class="line">    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[@&quot;application/json&quot;]];</span><br><span class="line"></span><br><span class="line">    // Authentication setting</span><br><span class="line">    NSArray *authSettings = @[];</span><br><span class="line"></span><br><span class="line">    id bodyParam = nil;</span><br><span class="line">    NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];</span><br><span class="line">    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];</span><br><span class="line"></span><br><span class="line">    return [self.apiClient requestWithPath: resourcePath</span><br><span class="line">                                    method: @&quot;POST&quot;</span><br><span class="line">                                pathParams: pathParams</span><br><span class="line">                               queryParams: queryParams</span><br><span class="line">                                formParams: formParams</span><br><span class="line">                                     files: localVarFiles</span><br><span class="line">                                      body: bodyParam</span><br><span class="line">                              headerParams: headerParams</span><br><span class="line">                              authSettings: authSettings</span><br><span class="line">                        requestContentType: requestContentType</span><br><span class="line">                       responseContentType: responseContentType</span><br><span class="line">                              responseType: @&quot;SWGPayResp*&quot;</span><br><span class="line">                           completionBlock: ^(id data, NSError *error) &#123;</span><br><span class="line">                                if(handler) &#123;</span><br><span class="line">                                    handler((SWGPayResp*)data, error);</span><br><span class="line">                                &#125;</span><br><span class="line">                           &#125;</span><br><span class="line">          ];</span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ul>
+<li><a href="https://github.com/swagger-api" target="_blank" rel="noopener">Swagger 项目</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/swagger/" rel="tag"># swagger</a>
+          
+            <a href="/tags/api/" rel="tag"># api</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/27/2016-8-27-Cocoapods搭建OC私repo/" rel="next" title="Cocoapods搭建OC私repo">
+                <i class="fa fa-chevron-left"></i> Cocoapods搭建OC私repo
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/11/27/语音视频信息的app应用初步涉猎/" rel="prev" title="语音视频信息的app应用初步涉猎">
+                语音视频信息的app应用初步涉猎 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="karl">
+            
+              <p class="site-author-name" itemprop="name">karl</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">97</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">83</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/likenow" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:fmslikai@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://yujiangshui.com/" title="yujiangshui" target="_blank">yujiangshui</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Swagger-简述"><span class="nav-number">1.</span> <span class="nav-text">Swagger 简述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Swagger-在-iOS工程中的应用"><span class="nav-number">2.</span> <span class="nav-text">Swagger 在 iOS工程中的应用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-number">3.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2013 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">karl</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

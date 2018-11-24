@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next gemini" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="javascript,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="本篇文章将介绍锚点在网页中的那些个事儿，包括通过锚点跳转的实现方法，锚点的跳转机制以及jQuery下锚点跳转的巧妙应用。">
+<meta name="keywords" content="javascript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="锚点那些事儿">
+<meta property="og:url" content="http://yoursite.com/2014/01/21/anchor/index.html">
+<meta property="og:site_name" content="Karl&#39;s Blog">
+<meta property="og:description" content="本篇文章将介绍锚点在网页中的那些个事儿，包括通过锚点跳转的实现方法，锚点的跳转机制以及jQuery下锚点跳转的巧妙应用。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://klpicture.b0.upaiyun.com/2013/bushuaxinyemian1.jpg">
+<meta property="og:image" content="http://klpicture.b0.upaiyun.com/2013/bushuaxinyemian2.jpg">
+<meta property="og:image" content="http://klpicture.b0.upaiyun.com/2013/maodianchufa.jpg">
+<meta property="og:image" content="http://klpicture.b0.upaiyun.com/2013/scrolltomenu.jpg">
+<meta property="og:updated_time" content="2018-11-05T14:59:30.537Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="锚点那些事儿">
+<meta name="twitter:description" content="本篇文章将介绍锚点在网页中的那些个事儿，包括通过锚点跳转的实现方法，锚点的跳转机制以及jQuery下锚点跳转的巧妙应用。">
+<meta name="twitter:image" content="http://klpicture.b0.upaiyun.com/2013/bushuaxinyemian1.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2014/01/21/anchor/">
+
+
+
+
+
+  <title>锚点那些事儿 | Karl's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Karl's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2014/01/21/anchor/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="karl">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Karl's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">锚点那些事儿</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-01-21T20:08:11+08:00">
+                2014-01-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本篇文章将介绍锚点在网页中的那些个事儿，包括通过锚点跳转的实现方法，锚点的跳转机制以及jQuery下锚点跳转的巧妙应用。</p>
+<a id="more"></a>
+<h2 id="实现锚点跳转的方法"><a href="#实现锚点跳转的方法" class="headerlink" title="实现锚点跳转的方法"></a>实现锚点跳转的方法</h2><p>实现锚点跳转要为网页指定位置设置标识符然后创建到这些标示符的链接。有两种方式（通常我们会用第二种方式）</p>
+<h3 id="1-是-lt-a-gt-标签加上name属性；"><a href="#1-是-lt-a-gt-标签加上name属性；" class="headerlink" title="1 是&lt;a&gt;标签加上name属性；"></a>1 是<code>&lt;a&gt;</code>标签加上name属性；</h3><pre><code>&lt;li&gt;&lt;a href=&quot;#menu4&quot;&gt;第四部分&lt;/a&gt;&lt;/li&gt;
+&lt;section&gt;
+    &lt;h2 id=&quot;menu4&quot;&gt;第四部分&lt;/h2&gt;
+&lt;/section&gt; 
+</code></pre><h3 id="2-是使用，id属性。"><a href="#2-是使用，id属性。" class="headerlink" title="2 是使用，id属性。"></a>2 是使用，id属性。</h3><pre><code>&lt;li&gt;&lt;a href=&quot;#menu4&quot;&gt;第四部分&lt;/a&gt;&lt;/li&gt;
+&lt;section&gt;
+    &lt;h2&gt;&lt;a name=&quot;menu4&quot;&gt;第四部分&lt;/&gt;&lt;/h2&gt;
+&lt;/section&gt;
+</code></pre><h2 id="锚点跳转机制"><a href="#锚点跳转机制" class="headerlink" title="锚点跳转机制"></a>锚点跳转机制</h2><p>在介绍锚点的跳转机制之前，首先有必要了解一下URL的#，通过它我们可以看到锚点的更深入的一些东西。</p>
+<h3 id="搞明白-的含义，它代表网页中的一个位置，其右面的字符就是该位置的标示符。"><a href="#搞明白-的含义，它代表网页中的一个位置，其右面的字符就是该位置的标示符。" class="headerlink" title="搞明白#的含义，它代表网页中的一个位置，其右面的字符就是该位置的标示符。"></a>搞明白#的含义，它代表网页中的一个位置，其右面的字符就是该位置的标示符。</h3><pre><code>http://www.example.com/scrollto.html#menu
+</code></pre><p>就代表网页 <code>scrollto.html</code> 的 menu 位置。浏览器读取这个URL后，会自动将 menu 位置滚动至可视区域。   </p>
+<h3 id="是用来指导浏览器动作的，对服务器端完全无用。所以，HTTP请求中不包括-。"><a href="#是用来指导浏览器动作的，对服务器端完全无用。所以，HTTP请求中不包括-。" class="headerlink" title="#是用来指导浏览器动作的，对服务器端完全无用。所以，HTTP请求中不包括#。"></a>#是用来指导浏览器动作的，对服务器端完全无用。所以，HTTP请求中不包括#。</h3><pre><code>访问下面的网址:
+http://www.example.com/scrollto.html#menu
+浏览器实际发出的请求：
+GET /scrollto.html HTTP/1.1
+Host: www.example.com
+只请求scrollto.html，并没有#menu部分
+</code></pre><p>如果，单单改变#后面的部分，浏览器只会滚动到相应位置，不会重新加载网页。</p>
+<pre><code>比如，从
+　　http://www.example.com/scrollto.html#menu1
+改成
+　　http://www.example.com/scrollto.html#menu2
+浏览器不会重新向服务器请求scrollto.html
+</code></pre><ol>
+<li><img src="http://klpicture.b0.upaiyun.com/2013/bushuaxinyemian1.jpg" alt=""></li>
+<li><img src="http://klpicture.b0.upaiyun.com/2013/bushuaxinyemian2.jpg" alt=""></li>
+</ol>
+<p>虽然改变#后面的部分不会导致页面重载，但是会改变#会改变浏览器的访问历史。每一次改变#后的部分，都会在浏览器的访问历史中增加一个记录，使用”后退”按钮，就可以回到上一个位置。这对于<strong>ajax应用程序</strong>特别有用，可以用不同的#值，表示不同的访问状态，然后向用户给出可以访问某个状态的链接。值得注意的是，上述规则对IE 6和IE 7不成立，它们不会因为#的改变而增加历史记录。ps:由于本篇重点在于锚点，这方面的知识不做剖析。<br>从上述分析，不难看出锚点的触发正是通过浏览器URL地址的#触发的而不是点击a触发。如下图解：<br><img src="http://klpicture.b0.upaiyun.com/2013/maodianchufa.jpg" alt=""></p>
+<h2 id="锚点跳转的条件"><a href="#锚点跳转的条件" class="headerlink" title="锚点跳转的条件"></a>锚点跳转的条件</h2><p>锚点的跳转要想工作起来必须满足的条件有二：</p>
+<ol>
+<li>元素可滚动；</li>
+<li>锚点元素在滚动父容器的内部。<ul>
+<li>试想，如果父容器本身就不滚动，锚点也就只好自挂东南枝了。</li>
+<li>另一个需要考虑点是：如果锚点是空锚，则页面不会跳转，唯一变化的就是URL地址；如果是从其他页面跳转过来，则页面顶部显示。</li>
+</ul>
+</li>
+</ol>
+<h2 id="锚点跳转的实际应用实例"><a href="#锚点跳转的实际应用实例" class="headerlink" title="锚点跳转的实际应用实例"></a>锚点跳转的实际应用实例</h2><p>如果要实现这样一个效果：页面滚动时，滚动到相应区域的时候相应的导航栏目高亮显示。要实现这个效果你会怎么做？第一反应是在HTML结构中用到锚点，然后通过一点jQuery实现比较平稳的过渡效果。好吧，现在让我们拉里一起实现。</p>
+<h3 id="HTML-结构"><a href="#HTML-结构" class="headerlink" title="HTML 结构"></a>HTML 结构</h3><pre><code>&lt;body&gt;
+    &lt;header&gt;
+        &lt;div id=&quot;nav&quot;&gt;            
+            &lt;ul class=&quot;nav&quot;&gt;
+                &lt;li class=&quot;current&quot;&gt;&lt;a href=&quot;#menu1&quot;&gt;导航1&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;#menu2&quot;&gt;导航2&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;#menu3&quot;&gt;导航3&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;#menu&quot;&gt;空锚点&lt;/a&gt;&lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/div&gt;
+    &lt;/header&gt;
+    &lt;article&gt;
+        &lt;section&gt;
+            &lt;h2 id=&quot;menu1&quot;&gt;第一部分&lt;/h2&gt;
+            &lt;div&gt;
+                &lt;img src=&quot;stars.jpg&quot;&gt;
+            &lt;/div&gt;
+            &lt;div&gt;
+                &lt;img src=&quot;stars.jpg&quot;&gt;
+            &lt;/div&gt;
+            &lt;div&gt;
+                &lt;img src=&quot;stars.jpg&quot;&gt;
+            &lt;/div&gt;
+        &lt;/section&gt;
+        &lt;section&gt;
+            &lt;h2 id=&quot;menu2&quot;&gt;第二部分&lt;/h2&gt;
+            &lt;div&gt;
+                &lt;img src=&quot;stars.jpg&quot;&gt;
+            &lt;/div&gt;
+            &lt;div&gt;
+                &lt;img src=&quot;stars.jpg&quot;&gt;
+            &lt;/div&gt;
+            &lt;div&gt;
+                &lt;img src=&quot;stars.jpg&quot;&gt;
+            &lt;/div&gt;
+        &lt;/section&gt;
+        &lt;section&gt;
+            &lt;h2 id=&quot;menu3&quot;&gt;第三部分&lt;/h2&gt;
+            &lt;div&gt;
+                &lt;img src=&quot;stars.jpg&quot;&gt;
+            &lt;/div&gt;
+            &lt;div&gt;
+                &lt;img src=&quot;stars.jpg&quot;&gt;
+            &lt;/div&gt;
+            &lt;div&gt;
+                &lt;img src=&quot;stars.jpg&quot;&gt;
+            &lt;/div&gt;
+        &lt;/section&gt;
+        &lt;section&gt;
+            &lt;h2 id=&quot;menu4&quot;&gt;第四部分&lt;/h2&gt;
+            &lt;div&gt;
+                &lt;img src=&quot;stars.jpg&quot;&gt;
+            &lt;/div&gt;
+            &lt;div&gt;
+                &lt;img src=&quot;stars.jpg&quot;&gt;
+            &lt;/div&gt;
+            &lt;div&gt;
+                &lt;img src=&quot;stars.jpg&quot;&gt;
+            &lt;/div&gt;
+            &lt;div&gt;
+                &lt;img src=&quot;stars.jpg&quot;&gt;
+            &lt;/div&gt;
+        &lt;/section&gt;
+    &lt;/article&gt;
+&lt;/body&gt;
+</code></pre><h3 id="效果展示"><a href="#效果展示" class="headerlink" title="效果展示"></a>效果展示</h3><p><img src="http://klpicture.b0.upaiyun.com/2013/scrolltomenu.jpg" alt=""></p>
+<h3 id="jQ-实现跳转功能"><a href="#jQ-实现跳转功能" class="headerlink" title="jQ 实现跳转功能"></a>jQ 实现跳转功能</h3><pre><code>$(document).ready(function() {
+    /*滚动、导航高亮*/
+    var offset_top = new Array();
+    //创建一个数组用来存取每个目标位置的相对偏移量
+
+    $(window).load(function(){
+    //等到全部都加载完了（包括图片）
+        $(&apos;#nav .nav li&apos;).each(function(){
+            var goTarget = $(this).find(&apos;a&apos;).attr(&apos;href&apos;).substring($(this).find(&apos;a&apos;).attr(&apos;href&apos;).indexOf(&quot;#&quot;));
+            offset_top.push( $(goTarget).offset().top - 50 );
+            //用push把获取的偏移量压进数组
+        });
+    });
+
+    $(window).scroll(function(){        
+        var scrollT = document.documentElement.scrollTop + document.body.scrollTop;    
+        //判断滚动主要注意的是临界值    
+        for( var i = 0; i &lt; offset_top.length; i++ ){
+            var j = i + 1;
+            if( j &lt; offset_top.length ){
+                if( scrollT &gt;= offset_top[i] &amp;&amp; scrollT &lt; offset_top[j] ){
+                    $(&apos;#nav .nav li&apos;).removeClass(&apos;current&apos;);
+                    $(&apos;#nav .nav li:eq(&apos; + i + &apos;)&apos;).addClass(&apos;current&apos;);
+                }
+            }else{
+                if( scrollT &gt;= offset_top[i] ){
+                    $(&apos;#nav .nav li&apos;).removeClass(&apos;current&apos;);
+                    $(&apos;#nav .nav li:eq(&apos; + i + &apos;)&apos;).addClass(&apos;current&apos;);
+                }
+            }
+        }
+    });
+
+
+    var url;//给导航菜单项目添加单击平滑滚动
+    $(&apos;#nav .nav  li  a&apos;).click(function(event) {
+        url = $(this).attr(&apos;href&apos;).substring($(this).attr(&apos;href&apos;).indexOf(&quot;#&quot;));
+        var gotoposition = $(url).offset().top - 50;
+        $(&apos;html,body&apos;).animate({scrollTop:gotoposition}, 400);
+        return false;
+    });
+});
+</code></pre><p>这样就算是把功能实现出来来了。jQuery代码中值得注意的几点：首先，jQuery禁用了锚点的默认跳转；其次，这里通过push方法把数获取的高度值压进数组；通过<code>$(window).load()</code>方法等到所用文件都加载完毕，这样计算的高度比较合理；在获取滚动条高度scrollT的时候，Chrome浏览器只识别<code>document.body.scrollTop</code>而其他现代浏览器支持<code>document.documentElement.scrollTop</code>，因为<code>document.body.scrollTop</code>与<code>document.documentElement.scrollTop</code>两者有个特点，就是同时只会有一个值生效。所以，我们这样用了<code>var scrollT = document.documentElement.scrollTop + document.body.scrollTop;</code>；判断滚动区域的时候，要注意临界值（根据具体情况）。</p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ul>
+<li><a href="http://blog.httpwatch.com/2011/03/01/6-things-you-should-know-about-fragment-urls/" target="_blank" rel="noopener">6 Things You Should Know About Fragment URLs</a></li>
+<li><a href="http://www.zhangxinxu.com/wordpress/?p=3591" target="_blank" rel="noopener">URL锚点HTML定位技术机制、应用与问题</a></li>
+</ul>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>本篇文章对锚点是什么、锚点工作机理以及锚点怎么用做了分析。由于自己水平有限，语言也比较肤浅。所以，文中的错误之处感谢您您能够指出。我本人对锚点的使用场景了解的还不多，如果希望您能够指点一二（评论、邮件均可）。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/javascript/" rel="tag"># javascript</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/01/21/skin-change/" rel="next" title="换肤功能">
+                <i class="fa fa-chevron-left"></i> 换肤功能
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/01/23/image-preload/" rel="prev" title="图片预加载">
+                图片预加载 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="karl">
+            
+              <p class="site-author-name" itemprop="name">karl</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">97</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">83</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/likenow" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:fmslikai@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://yujiangshui.com/" title="yujiangshui" target="_blank">yujiangshui</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#实现锚点跳转的方法"><span class="nav-number">1.</span> <span class="nav-text">实现锚点跳转的方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-是-lt-a-gt-标签加上name属性；"><span class="nav-number">1.1.</span> <span class="nav-text">1 是&lt;a&gt;标签加上name属性；</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-是使用，id属性。"><span class="nav-number">1.2.</span> <span class="nav-text">2 是使用，id属性。</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#锚点跳转机制"><span class="nav-number">2.</span> <span class="nav-text">锚点跳转机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#搞明白-的含义，它代表网页中的一个位置，其右面的字符就是该位置的标示符。"><span class="nav-number">2.1.</span> <span class="nav-text">搞明白#的含义，它代表网页中的一个位置，其右面的字符就是该位置的标示符。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#是用来指导浏览器动作的，对服务器端完全无用。所以，HTTP请求中不包括-。"><span class="nav-number">2.2.</span> <span class="nav-text">#是用来指导浏览器动作的，对服务器端完全无用。所以，HTTP请求中不包括#。</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#锚点跳转的条件"><span class="nav-number">3.</span> <span class="nav-text">锚点跳转的条件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#锚点跳转的实际应用实例"><span class="nav-number">4.</span> <span class="nav-text">锚点跳转的实际应用实例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#HTML-结构"><span class="nav-number">4.1.</span> <span class="nav-text">HTML 结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#效果展示"><span class="nav-number">4.2.</span> <span class="nav-text">效果展示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jQ-实现跳转功能"><span class="nav-number">4.3.</span> <span class="nav-text">jQ 实现跳转功能</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-number">5.</span> <span class="nav-text">参考文献</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结语"><span class="nav-number">6.</span> <span class="nav-text">结语</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2013 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">karl</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

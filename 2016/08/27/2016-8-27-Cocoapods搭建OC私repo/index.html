@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next gemini" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Cocoapods,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="简单说下背景默认所有的Podspec文件都放在了https://github.com/CocoaPods/Specs地址上，所以第一次pod setup时如果你的项目依赖很多Cocoapods管理的库，将会耗费许多时间。所以，对于公司级别的开发，需要搭建许多私有的类库，这就需要我们创建一个私有的repo。">
+<meta name="keywords" content="Cocoapods">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Cocoapods搭建OC私repo">
+<meta property="og:url" content="http://yoursite.com/2016/08/27/2016-8-27-Cocoapods搭建OC私repo/index.html">
+<meta property="og:site_name" content="Karl&#39;s Blog">
+<meta property="og:description" content="简单说下背景默认所有的Podspec文件都放在了https://github.com/CocoaPods/Specs地址上，所以第一次pod setup时如果你的项目依赖很多Cocoapods管理的库，将会耗费许多时间。所以，对于公司级别的开发，需要搭建许多私有的类库，这就需要我们创建一个私有的repo。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://kailee.b0.upaiyun.com/cocoapodsprivaterepo2016.png">
+<meta property="og:updated_time" content="2018-10-28T08:42:05.080Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Cocoapods搭建OC私repo">
+<meta name="twitter:description" content="简单说下背景默认所有的Podspec文件都放在了https://github.com/CocoaPods/Specs地址上，所以第一次pod setup时如果你的项目依赖很多Cocoapods管理的库，将会耗费许多时间。所以，对于公司级别的开发，需要搭建许多私有的类库，这就需要我们创建一个私有的repo。">
+<meta name="twitter:image" content="http://kailee.b0.upaiyun.com/cocoapodsprivaterepo2016.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/08/27/2016-8-27-Cocoapods搭建OC私repo/">
+
+
+
+
+
+  <title>Cocoapods搭建OC私repo | Karl's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Karl's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/08/27/2016-8-27-Cocoapods搭建OC私repo/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="karl">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Karl's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Cocoapods搭建OC私repo</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-08-27T22:29:14+08:00">
+                2016-08-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/工具/" itemprop="url" rel="index">
+                    <span itemprop="name">工具</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="简单说下背景"><a href="#简单说下背景" class="headerlink" title="简单说下背景"></a>简单说下背景</h2><p>默认所有的<code>Podspec</code>文件都放在了<code>https://github.com/CocoaPods/Specs</code>地址上，所以第一次<code>pod setup</code>时如果你的项目依赖很多Cocoapods管理的库，将会耗费许多时间。所以，对于公司级别的开发，需要搭建许多私有的类库，这就需要我们创建一个私有的<code>repo</code>。</p>
+<p><img src="http://kailee.b0.upaiyun.com/cocoapodsprivaterepo2016.png" alt=""></p>
+<a id="more"></a>
+<h2 id="大体流程"><a href="#大体流程" class="headerlink" title="大体流程"></a>大体流程</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1. git push / git push --tags</span><br><span class="line">2. pod trunk push / pod repo add </span><br><span class="line">4. pod search</span><br><span class="line">5. pod install</span><br></pre></td></tr></table></figure>
+<h2 id="创建一个私有库"><a href="#创建一个私有库" class="headerlink" title="创建一个私有库 :"></a>创建一个私有库 :</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> cd /opt/git</span><br><span class="line"><span class="meta">$</span> mkdir Specs.git</span><br><span class="line"><span class="meta">$</span> cd Specs.git</span><br><span class="line"><span class="meta">$</span> git init --bare </span><br><span class="line">// 要使用git传输协议,需要创建git-export-daemon-ok文件,然后</span><br><span class="line">touch git-daemon-export-ok</span><br></pre></td></tr></table></figure>
+<h2 id="在设置中添加这个远程库-远程库名称定义为-myTest-specs"><a href="#在设置中添加这个远程库-远程库名称定义为-myTest-specs" class="headerlink" title="在设置中添加这个远程库,远程库名称定义为 myTest-specs"></a>在设置中添加这个远程库,远程库名称定义为 myTest-specs</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> pod repo add myTest-specs git@github:artsy/Specs.git</span><br><span class="line"><span class="meta">$</span> cd ~/.cocoapods/repos/artsy-specs</span><br><span class="line"><span class="meta">$</span> pod repo lint .</span><br></pre></td></tr></table></figure>
+<h2 id="添加自己的私有库"><a href="#添加自己的私有库" class="headerlink" title="添加自己的私有库"></a>添加自己的私有库</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pod repo push myTest-specs hello-world.podspec --verbose --allow-warnings</span><br><span class="line">// 任何一丁点的警告都会导致提交失败,所以要允许所有警告.</span><br></pre></td></tr></table></figure>
+<h2 id="最后在使用私有库时-在Podfile上写上这句"><a href="#最后在使用私有库时-在Podfile上写上这句" class="headerlink" title="最后在使用私有库时,在Podfile上写上这句:"></a>最后在使用私有库时,在Podfile上写上这句:</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">source 'git://10.5.121.119/Specs.git'	</span><br><span class="line">source 'https://github.com/CocoaPods/Specs.git'</span><br></pre></td></tr></table></figure>
+<h2 id="pods的repo仓库的目录结构是"><a href="#pods的repo仓库的目录结构是" class="headerlink" title="pods的repo仓库的目录结构是:"></a>pods的repo仓库的目录结构是:</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">├── Specs</span><br><span class="line">	└── [SPEC_NAME]</span><br><span class="line">   		└── [VERSION]</span><br><span class="line">       	 		└── [SPEC_NAME].podspec</span><br></pre></td></tr></table></figure>
+<h2 id="删除spec的某个版本"><a href="#删除spec的某个版本" class="headerlink" title="删除spec的某个版本:"></a>删除spec的某个版本:</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod repo xxx delete PodName VERSION</span><br></pre></td></tr></table></figure>
+<h2 id="私有库podspec文件的编写"><a href="#私有库podspec文件的编写" class="headerlink" title="私有库podspec文件的编写"></a>私有库podspec文件的编写</h2><p>官方文档对于podspec文件的编写进行了<a href="https://guides.cocoapods.org/syntax/podspec.html" target="_blank" rel="noopener">比较详细的说明</a>简单的介绍。如下：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">    </span><br><span class="line">/<span class="regexp">/ 源文件,我们使用git的管理库的源文件,用当前版本号作为tag</span></span><br><span class="line"><span class="regexp">spec.source = &#123; :git =&gt; 'https:/</span><span class="regexp">/github.com/</span>AFNetworking/AFNetworking.git<span class="string">',</span></span><br><span class="line"><span class="string">            :tag =&gt; spec.version &#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    </span></span><br><span class="line"><span class="string">// 安装前准备的命令脚本</span></span><br><span class="line"><span class="string">spec.prepare_command = &lt;&lt;-CMD</span></span><br><span class="line"><span class="string">                    sed -i '</span>s/MyNameSpacedHeader/Header/g<span class="string">' ./**/*.h</span></span><br><span class="line"><span class="string">                    sed -i '</span>s/MyNameOtherSpacedHeader/OtherHeader/g<span class="string">' ./**/*.h</span></span><br><span class="line"><span class="string">               CMD</span></span><br><span class="line"><span class="string">// 要求版本</span></span><br><span class="line"><span class="string">spec.ios.deployment_target = '</span><span class="number">8.0</span><span class="string">'</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">// 依赖 版本简单介绍一下,如果不写版本,表示使用最新版本, ~&gt;表示大于多少版本 '</span><span class="number">1.0</span><span class="string">'表示使用1.0版本</span></span><br><span class="line"><span class="string">spec.dependency '</span>AFNetworking<span class="string">', '</span>~&gt; <span class="number">1.0</span><span class="string">'</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">// 是否使用arc,默认使用</span></span><br><span class="line"><span class="string">spec.requires_arc = true</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">// 也可以这样来指定文件使用ARC,但是不使用ARC的文件,就必须用`-fno-objc-arc` compiler flag来设置了</span></span><br><span class="line"><span class="string">spec.requires_arc = ['</span>Classes/*ARC.m<span class="string">', '</span>Classes/ARC.mm<span class="string">']</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">// 依赖的framework, Foundation和 UIKit可以忽略</span></span><br><span class="line"><span class="string">spec.frameworks = '</span>QuartzCore<span class="string">', '</span>CoreData<span class="string">'</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">// 系统库的连接,这里是 libxml2.tbd的东西.</span></span><br><span class="line"><span class="string">spec.libraries = '</span>xml2<span class="string">', '</span>z<span class="string">'</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">// compiler flag</span></span><br><span class="line"><span class="string">spec.compiler_flags = '</span>-DOS_OBJECT_USE_OBJC=<span class="number">0</span><span class="string">', '</span>-Wno-format<span class="string">'</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">// 源文件</span></span><br><span class="line"><span class="string">spec.source_files = '</span>Classes/**<span class="regexp">/*.&#123;h,m&#125;', 'More_Classes/</span>**<span class="regexp">/*.&#123;h,m&#125;'</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">/</span><span class="regexp">/ 公开头文件,如果不设置,那所有的头文件都是公开的.</span></span><br><span class="line"><span class="regexp">spec.public_header_files = 'Headers/</span>Public/*.h<span class="string">'</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">// 如果要导入一个第三方或者自己的framework文件,需要使用--use-libraries</span></span><br><span class="line"><span class="string">spec.vendored_frameworks = '</span>MyFramework.framework<span class="string">', '</span>YourFramework.framework<span class="string">'</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">// 需要导入的.a库.</span></span><br><span class="line"><span class="string">spec.vendored_libraries = '</span>libProj4.a<span class="string">', '</span>libJavaScriptCore.a<span class="string">'</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">// 需要导入的资源文件,注意,不能嵌套文件夹,简单来说,Sounds/*下面所有的文件都被导入到Pod中,包括文件夹,如Test下有个文件夹/test1/123.png,也会被导入,但是最后的123.png文件却不会被正确加载到项目中.如果要正常文件夹形式,只能通过 subspec即子库的方式来实现.</span></span><br><span class="line"><span class="string">spec.resources = ['</span>Images/*.png<span class="string">', '</span>Sounds/*<span class="string">']</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">// 子库,只有子库才能创建文件夹....</span></span><br><span class="line"><span class="string">subspec '</span>Pinboard<span class="string">' do |sp|</span></span><br><span class="line"><span class="string">  sp.source_files = '</span>Classes/Pinboard<span class="string">'</span></span><br><span class="line"><span class="string">end</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">// 指定一个默认子库,这个子库却是加载全部...而如果不设置默认子库,也会默认加载全部</span></span><br><span class="line"><span class="string">s.default_subspec = '</span>All<span class="string">'</span></span><br></pre></td></tr></table></figure>
+<h2 id="编写好之后-上传podspec文件"><a href="#编写好之后-上传podspec文件" class="headerlink" title="编写好之后,上传podspec文件"></a>编写好之后,上传podspec文件</h2><p>在git仓库确定打好<code>tag</code>,修改好正确<code>podspec</code>文件后，就可以提交了。首先，现在本地连接上可以修改版本的<code>pod repo</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod repo add myTest-specs xxx@10.5.121.119:/usr/local/cocoaPodsRepo/Specs.git</span><br></pre></td></tr></table></figure>
+<p>关于<code>pod repo</code>常用的命令有 :</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 查看当前的repo库列表 ,默认会有一个master,是连接到github上的公有库</span><br><span class="line">pod repo list</span><br><span class="line">// 更新 ,默认 pod install update时,都会进行pod repo update操作来加载主干库,所以使用参数--no-repo-update.</span><br><span class="line">pod repo update</span><br><span class="line">// 删除一个</span><br><span class="line">pod repo remove abc-specs</span><br></pre></td></tr></table></figure>
+<p>然后 提交 :</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod repo push myTest-specs TestFunc.podspec --verbose  --allow-warnings</span><br></pre></td></tr></table></figure>
+<p><code>verbose</code>打印出过程，<code>--allow-warnings</code>允许警告，默认情况下，任何警告都会导致提交失败。如果使用了<code>vendored_frameworks</code>，还要加上参数<code>--use-libraries</code>。由于<code>pod</code>提交时比较麻烦，必须先构建一遍，且不能只提供指定架构版本，所以我们常常直接操作<code>pod</code>仓库，而不是通过命令<code>pod repo push</code>去提交。</p>
+<h2 id="需要注意的地方"><a href="#需要注意的地方" class="headerlink" title="需要注意的地方:"></a>需要注意的地方:</h2><ul>
+<li><p>podspec中依赖<code>framework</code>,使用<code>vendored_library</code> 和<code>vendored_frameworks</code>属性时,提交podspec时,会报错:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">The 'Pods' target has transitive dependencies that include static binaries:xxx.framework`</span><br></pre></td></tr></table></figure>
+<p>解决方法是，<code>pod repo push</code>时添加参数<code>--use-libraries</code>.</p>
+</li>
+<li><p>podspec中设置<code>other link flag</code> :</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">s.xconfig = &#123;</span><br><span class="line">        'OTHER_LDFLAGS' =&gt; '$(inherited) -lstdc++',</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>podspec设置资源文件，关于资源文件的话，资源文件只能传递一层，所以不应该使用嵌套的文件夹来存放资源文件，事实上，如源代码一样，想要分包装代码或者资源文件，就必须建立<code>subspec</code>了。可以使用<code>imagesets</code>来保存图片.</p>
+</li>
+<li><p>本地的缓存路径在 <code>~/Library/Caches/CocoaPods/Pods</code></p>
+</li>
+<li><p>删除库时，执行完了<code>update</code>后,但是项目中设置的<code>other link flags</code>还在，所以需要再执行一次<code>pod install</code>来删除配置.</p>
+</li>
+<li><p>所有的静态库都要以<code>lib</code>开头，如使用<code>vendored_library</code>加载<code>libABC.a</code>时，会在<code>other link flag</code>上设置<code>-l &quot;ABC&quot;</code></p>
+</li>
+<li><p><code>pod repo</code>是有缓存的，如果你成功上传一个podspec，但是版本没有改变的话，然后在本地通过 <code>pod update</code>想要下载这一份最新的库时,得到的只是本地的缓存而已。所以如果不改动版本，必须删除本地的缓存。</p>
+</li>
+<li><p>关于ARC的设置，可以考虑使用<code>subspec</code>来设置子库一部分支持ARC，一部分不支持ARC.</p>
+</li>
+<li><p>会出现<code>ArgumentError - invalid byte sequence in US-ASCII</code>编码集错误，主要因为编译机器不是UTF-8编码的，进行编码声明<code>export LC_ALL=en_US.UTF-8</code></p>
+</li>
+</ul>
+<h2 id="CocoaPods-在主干上发布pods"><a href="#CocoaPods-在主干上发布pods" class="headerlink" title="CocoaPods 在主干上发布pods"></a>CocoaPods 在主干上发布pods</h2><p><code>CocoaPods Trunk</code> 是一个基于授权的<code>CocoaPodsAPI</code>服务。 要在主干上发布或者更新库，需要注册，并获得一个 验证了的主干<code>Session</code>在当前的设备上。0.33版本开始支持。</p>
+<p>以邮箱注册账号，同时会根据当前设备，生成一个会话。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod trunk register fmslikai@gmail.com 'karl' --description='karl,macpro'</span><br></pre></td></tr></table></figure>
+<p>后面的<code>--description</code>是附加的，给用户自己看的当前session描述，因为会话是绑定设备的，所以描述一下设备，还是有必要的。</p>
+<p>然后去邮箱验证，验证后，可以通过命令 <code>pod trunk me</code>来查看账号所有<code>Session</code></p>
+<p>然后通过命令<code>pod trunk push</code>来发布pod。</p>
+<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><p>如果你之前提交过Pod，那么<code>trunk</code>之后你需要去<a href="https://link.jianshu.com/?t=https://trunk.cocoapods.org/claims/new" target="_blank" rel="noopener">Claim your Pod</a>认领下，收工。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Cocoapods/" rel="tag"># Cocoapods</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/07/2016-8-7-作为移动应用开发者应该了解APP测试/" rel="next" title="作为移动应用开发者应该了解APP测试">
+                <i class="fa fa-chevron-left"></i> 作为移动应用开发者应该了解APP测试
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/09/17/2016-9-17-Swagger在我们项目开发中的应用/" rel="prev" title="Swagger在我们项目开发中的应用">
+                Swagger在我们项目开发中的应用 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="karl">
+            
+              <p class="site-author-name" itemprop="name">karl</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">97</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">83</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/likenow" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:fmslikai@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://yujiangshui.com/" title="yujiangshui" target="_blank">yujiangshui</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简单说下背景"><span class="nav-number">1.</span> <span class="nav-text">简单说下背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#大体流程"><span class="nav-number">2.</span> <span class="nav-text">大体流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建一个私有库"><span class="nav-number">3.</span> <span class="nav-text">创建一个私有库 :</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在设置中添加这个远程库-远程库名称定义为-myTest-specs"><span class="nav-number">4.</span> <span class="nav-text">在设置中添加这个远程库,远程库名称定义为 myTest-specs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#添加自己的私有库"><span class="nav-number">5.</span> <span class="nav-text">添加自己的私有库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后在使用私有库时-在Podfile上写上这句"><span class="nav-number">6.</span> <span class="nav-text">最后在使用私有库时,在Podfile上写上这句:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pods的repo仓库的目录结构是"><span class="nav-number">7.</span> <span class="nav-text">pods的repo仓库的目录结构是:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除spec的某个版本"><span class="nav-number">8.</span> <span class="nav-text">删除spec的某个版本:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#私有库podspec文件的编写"><span class="nav-number">9.</span> <span class="nav-text">私有库podspec文件的编写</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编写好之后-上传podspec文件"><span class="nav-number">10.</span> <span class="nav-text">编写好之后,上传podspec文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#需要注意的地方"><span class="nav-number">11.</span> <span class="nav-text">需要注意的地方:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CocoaPods-在主干上发布pods"><span class="nav-number">12.</span> <span class="nav-text">CocoaPods 在主干上发布pods</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#注意"><span class="nav-number">12.1.</span> <span class="nav-text">注意</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2013 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">karl</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

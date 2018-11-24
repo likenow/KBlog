@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next gemini" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="PhoneGap,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言发现自己好长时间不写博客了，今天介绍点儿新东西–PhoneGap。这个新，可能仅仅对我而言，如果你是老鸟，轻喷。 PhoneGap 给我的直观感受是，我可以做更多事情了。过去一年的时间里，我也就是码一点儿页面，写点儿js的交互。虽然很直观的能看到自己的成果，但是总感觉是个外行程序员。看人家后台工程师看人家正火的移动开发工程师，牛的一批！但是，现在通过 PhoneGap 我也可以做出移动手机软件">
+<meta name="keywords" content="PhoneGap">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PhoneGap尝鲜">
+<meta property="og:url" content="http://yoursite.com/2014/12/10/PhoneGap尝鲜/index.html">
+<meta property="og:site_name" content="Karl&#39;s Blog">
+<meta property="og:description" content="前言发现自己好长时间不写博客了，今天介绍点儿新东西–PhoneGap。这个新，可能仅仅对我而言，如果你是老鸟，轻喷。 PhoneGap 给我的直观感受是，我可以做更多事情了。过去一年的时间里，我也就是码一点儿页面，写点儿js的交互。虽然很直观的能看到自己的成果，但是总感觉是个外行程序员。看人家后台工程师看人家正火的移动开发工程师，牛的一批！但是，现在通过 PhoneGap 我也可以做出移动手机软件">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://build.phonegap.com/images/marketing/build-diagram.png">
+<meta property="og:image" content="http://kailee.b0.upaiyun.com/PhoneGap201412.png">
+<meta property="og:updated_time" content="2018-11-10T05:05:14.240Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="PhoneGap尝鲜">
+<meta name="twitter:description" content="前言发现自己好长时间不写博客了，今天介绍点儿新东西–PhoneGap。这个新，可能仅仅对我而言，如果你是老鸟，轻喷。 PhoneGap 给我的直观感受是，我可以做更多事情了。过去一年的时间里，我也就是码一点儿页面，写点儿js的交互。虽然很直观的能看到自己的成果，但是总感觉是个外行程序员。看人家后台工程师看人家正火的移动开发工程师，牛的一批！但是，现在通过 PhoneGap 我也可以做出移动手机软件">
+<meta name="twitter:image" content="https://build.phonegap.com/images/marketing/build-diagram.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2014/12/10/PhoneGap尝鲜/">
+
+
+
+
+
+  <title>PhoneGap尝鲜 | Karl's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Karl's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2014/12/10/PhoneGap尝鲜/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="karl">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Karl's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">PhoneGap尝鲜</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-12-10T10:46:58+08:00">
+                2014-12-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>发现自己好长时间不写博客了，今天介绍点儿新东西–<strong>PhoneGap</strong>。这个新，可能仅仅对我而言，如果你是老鸟，轻喷。</p>
+<p>PhoneGap 给我的直观感受是，我可以做更多事情了。过去一年的时间里，我也就是码一点儿页面，写点儿<code>js</code>的交互。虽然很直观的能看到自己的成果，但是总感觉是个外行程序员。看人家后台工程师看人家正火的移动开发工程师，牛的一批！但是，现在通过 PhoneGap 我也可以做出移动手机软件了！欧耶</p>
+<p><img src="https://build.phonegap.com/images/marketing/build-diagram.png" alt=""></p>
+<a id="more"></a>
+<h2 id="PhoneGap-简介"><a href="#PhoneGap-简介" class="headerlink" title="PhoneGap 简介"></a>PhoneGap 简介</h2><h3 id="它被视为HTML5移动应用平台，它包括："><a href="#它被视为HTML5移动应用平台，它包括：" class="headerlink" title="它被视为HTML5移动应用平台，它包括："></a>它被视为HTML5移动应用平台，它包括：</h3><ul>
+<li>移动应用框架：采用<code>Web/HTML5</code>技术编写应用，支持设备能力（如<code>GPS</code>、重力感应等）调用；支持能力插件灵活扩展。</li>
+<li>手机应用创建工具：将遵循 PhoneGap 应用框架编写的程序转换/封装生成各平台支持的手机应用。如上图生产车间的感觉。</li>
+</ul>
+<h3 id="PhoneGAP基本技术原理："><a href="#PhoneGAP基本技术原理：" class="headerlink" title="PhoneGAP基本技术原理："></a><strong>PhoneGAP基本技术原理：</strong></h3><p>基于PhoneGap应用框架实现的手机应用相当于展示某个网页应用的特别浏览器。PhoneGap将Web程序打包成系统支持的手机应用格式（方便应用的分发、使用），通过调用系统的浏览器功能实现应用的运行及交互操作。</p>
+<ul>
+<li><p>开发语言选择：<code>web</code> 浏览器几乎是各手机智能平台共同支持，开发技术<code>html/css/js</code></p>
+</li>
+<li><p>应用呈现：各个智能平台都具备并开放了浏览器功能，因此，PhoneGap通过调用<code>WebView</code>（浏览视图，具有浏览器基本功能的组件）实现应用<code>UI</code>的呈现及业务逻辑处理</p>
+</li>
+<li><p><code>JS API</code>扩展：PhoneGap针对不同平台的<code>WebView</code>做了扩展和封装，使得应用可以通过 <code>js</code>访问各种本地设备<code>API</code></p>
+</li>
+<li><p><strong>插件</strong>扩展：实现了一套灵活的插件扩展框架，允许开发者自行扩展插件。</p>
+</li>
+</ul>
+<p><img src="http://kailee.b0.upaiyun.com/PhoneGap201412.png" alt=""></p>
+<h2 id="使用-PhoneGap-打包一个Android-应用"><a href="#使用-PhoneGap-打包一个Android-应用" class="headerlink" title="使用 PhoneGap 打包一个Android 应用"></a>使用 PhoneGap 打包一个Android 应用</h2><p>使用PhoneGap搭建Android开发的项目整体步骤如下：</p>
+<ol>
+<li>安装<code>java</code>环境。</li>
+<li>安装<code>ant</code>构建工具。</li>
+<li>安装<code>android</code>的开发环境并配置环境变量。</li>
+<li>安装<code>Node.js</code>环境并配置环境变量。</li>
+<li>安装<code>git</code></li>
+<li>使用<code>npm</code>安装<code>PhoneGap</code>全局环境。</li>
+<li>使用<code>PhoneGap</code>命令创建<code>PhoneGap</code>项目。</li>
+<li>将<code>PhoneGap</code>编译为<code>android</code>项目。</li>
+<li>将上述项目导入<code>ADT</code>进行后续开发。</li>
+<li>安装<code>.apk</code>文件</li>
+</ol>
+<p>以上步骤，就不一一讲解了。我只说几点，我遇到的几个问题：</p>
+<ul>
+<li>Java 环境变量的配置，小心别遗漏<code>.;</code></li>
+<li>ant  是一个构建工具，没有深究</li>
+<li>Android 开发环境的搭建，也是参考了一些资料。准备抽时间单拎出来写一篇博客</li>
+</ul>
+<p>希望，看完这篇博客，你也手痒痒想去试试。Just do it！</p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ul>
+<li><a href="https://phonegap.com/getstarted/" target="_blank" rel="noopener">PhoneGap</a></li>
+<li><a href="http://docs.phonegap.com/en/4.0.0/index.html" target="_blank" rel="noopener">PhoneGap DOC</a></li>
+<li><a href="http://docs.phonegap.com/en/2.1.0/guide_getting-started_android_index.md.html#Getting%20Started%20with%20Android" target="_blank" rel="noopener">PhoneGap docs for android</a></li>
+<li><a href="https://github.com/phonegap/phonegap" target="_blank" rel="noopener">PhoneGap GitHub Repo</a></li>
+<li><a href="https://github.com/phonegap" target="_blank" rel="noopener">PhoneGap GitHub</a></li>
+<li><a href="https://github.com/phonegap/phonegap-docs" target="_blank" rel="noopener">PhoneGap GitHub DOCS</a></li>
+<li><a href="http://www.zixuephp.com/html/html5/201411073970.html" target="_blank" rel="noopener">HTML5漫谈（4）–HTML5应用平台:PhoneGAP</a></li>
+<li><a href="https://yanhaijing.com/mobile/2014/06/24/12-how-use-phonegap-package-web-app/" target="_blank" rel="noopener">如何使用PhoneGap打包Web App</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/PhoneGap/" rel="tag"># PhoneGap</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/09/01/2014-9-01-暑假过完，大四学生了/" rel="next" title="暑假过完，大四学生了">
+                <i class="fa fa-chevron-left"></i> 暑假过完，大四学生了
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/12/16/Node-WebKit开发HTML5本地桌面应用/" rel="prev" title="Node-WebKit开发HTML5本地桌面应用">
+                Node-WebKit开发HTML5本地桌面应用 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="karl">
+            
+              <p class="site-author-name" itemprop="name">karl</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">97</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">83</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/likenow" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:fmslikai@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://yujiangshui.com/" title="yujiangshui" target="_blank">yujiangshui</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PhoneGap-简介"><span class="nav-number">2.</span> <span class="nav-text">PhoneGap 简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#它被视为HTML5移动应用平台，它包括："><span class="nav-number">2.1.</span> <span class="nav-text">它被视为HTML5移动应用平台，它包括：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PhoneGAP基本技术原理："><span class="nav-number">2.2.</span> <span class="nav-text">PhoneGAP基本技术原理：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-PhoneGap-打包一个Android-应用"><span class="nav-number">3.</span> <span class="nav-text">使用 PhoneGap 打包一个Android 应用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-number">4.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2013 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">karl</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next gemini" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Phaser,游戏,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="背景到目前为止，我的毕业设计已经有了初稿。实际搞了个什么东西呢？没有去搞什么图书管理系统、仓库管理系统、服装管理系统。。。。我搞了一个网页小游戏。为什么呢？毕竟有四年的计算机专业素养，临到毕业了总不能老正以前的那一套。但是我发现上课学的那点儿东西像C、Java以及SQL Server等等貌似做不出啥项目来。赶时髦看的那点儿OC根本开发不了项目。倒是在前端开发方面，平时倒是能够干点儿小活。Javas">
+<meta name="keywords" content="Phaser,游戏">
+<meta property="og:type" content="article">
+<meta property="og:title" content="用Phaser来制作一个html5游戏">
+<meta property="og:url" content="http://yoursite.com/2015/06/06/2015-6-6-用Phaser来制作一个html5游戏/index.html">
+<meta property="og:site_name" content="Karl&#39;s Blog">
+<meta property="og:description" content="背景到目前为止，我的毕业设计已经有了初稿。实际搞了个什么东西呢？没有去搞什么图书管理系统、仓库管理系统、服装管理系统。。。。我搞了一个网页小游戏。为什么呢？毕竟有四年的计算机专业素养，临到毕业了总不能老正以前的那一套。但是我发现上课学的那点儿东西像C、Java以及SQL Server等等貌似做不出啥项目来。赶时髦看的那点儿OC根本开发不了项目。倒是在前端开发方面，平时倒是能够干点儿小活。Javas">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-11-10T13:34:28.565Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="用Phaser来制作一个html5游戏">
+<meta name="twitter:description" content="背景到目前为止，我的毕业设计已经有了初稿。实际搞了个什么东西呢？没有去搞什么图书管理系统、仓库管理系统、服装管理系统。。。。我搞了一个网页小游戏。为什么呢？毕竟有四年的计算机专业素养，临到毕业了总不能老正以前的那一套。但是我发现上课学的那点儿东西像C、Java以及SQL Server等等貌似做不出啥项目来。赶时髦看的那点儿OC根本开发不了项目。倒是在前端开发方面，平时倒是能够干点儿小活。Javas">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2015/06/06/2015-6-6-用Phaser来制作一个html5游戏/">
+
+
+
+
+
+  <title>用Phaser来制作一个html5游戏 | Karl's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Karl's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/06/06/2015-6-6-用Phaser来制作一个html5游戏/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="karl">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Karl's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">用Phaser来制作一个html5游戏</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-06-06T19:52:53+08:00">
+                2015-06-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>到目前为止，我的毕业设计已经有了初稿。实际搞了个什么东西呢？没有去搞什么图书管理系统、仓库管理系统、服装管理系统。。。。我搞了一个网页小游戏。为什么呢？毕竟有四年的计算机专业素养，临到毕业了总不能老正以前的那一套。但是我发现上课学的那点儿东西像<code>C</code>、<code>Java</code>以及<code>SQL Server</code>等等貌似做不出啥项目来。赶时髦看的那点儿<code>OC</code>根本开发不了项目。倒是在前端开发方面，平时倒是能够干点儿小活。<code>Javascript</code>/<code>jQuery</code>、<code>HTML</code>、<code>CSS</code>这些知识也能够运用到开发上。然后恰好看到了老外的一个开源的游戏开发框架<strong>Phaser</strong>，所以就动手搞起来。</p>
+<p>搞起来发现，<strong>Phaser</strong> 这个框架真的比较容易使用，封装度比较高，即使没接触过游戏开发，通过官方的文档和一些优秀的Demo作品，也可以快速的做一个小游戏。好了，闲话不多说，咱们直接开始。</p>
+<a id="more"></a>
+<h2 id="使用Phaser-制作一款简易的-Flappy-Bird"><a href="#使用Phaser-制作一款简易的-Flappy-Bird" class="headerlink" title="使用Phaser 制作一款简易的 Flappy Bird"></a>使用Phaser 制作一款简易的 Flappy Bird</h2><ul>
+<li><p><a href="http://www.lessmilk.com/tutorial/flappy-bird-phaser-1" target="_blank" rel="noopener">How to Make Flappy Bird in HTML5 With Phaser - Part 1</a></p>
+</li>
+<li><p><a href="http://www.lessmilk.com/tutorial/flappy-bird-phaser-2" target="_blank" rel="noopener">How to Make Flappy Bird in HTML5 With Phaser - Part 2</a></p>
+</li>
+</ul>
+<p>完全参考上述两篇文章。</p>
+<h3 id="素材准备"><a href="#素材准备" class="headerlink" title="素材准备"></a>素材准备</h3><ul>
+<li>图片</li>
+<li>音效</li>
+</ul>
+<h3 id="框架和知识储备"><a href="#框架和知识储备" class="headerlink" title="框架和知识储备"></a>框架和知识储备</h3><ul>
+<li>Phaser</li>
+<li>Javascript</li>
+<li>HTML/CSS</li>
+<li>PhotoShop</li>
+</ul>
+<h3 id="开始写代码"><a href="#开始写代码" class="headerlink" title="开始写代码"></a>开始写代码</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--index.html--&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span>  </span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">head</span>&gt;</span>  </span><br><span class="line">        <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">title</span>&gt;</span> Flappy Bird Clone <span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span> <span class="attr">src</span>=<span class="string">"phaser.min.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span> <span class="attr">src</span>=<span class="string">"main.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;/<span class="name">body</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// main.js</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Create our 'main' state that will contain the game</span></span><br><span class="line"><span class="keyword">var</span> mainState = &#123;</span><br><span class="line">    preload: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; </span><br><span class="line">        <span class="comment">// This function will be executed at the beginning     </span></span><br><span class="line">        <span class="comment">// That's where we load the images and sounds </span></span><br><span class="line">    &#125;,</span><br><span class="line"></span><br><span class="line">    create: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; </span><br><span class="line">        <span class="comment">// This function is called after the preload function     </span></span><br><span class="line">        <span class="comment">// Here we set up the game, display sprites, etc.  </span></span><br><span class="line">    &#125;,</span><br><span class="line"></span><br><span class="line">    update: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="comment">// This function is called 60 times per second    </span></span><br><span class="line">        <span class="comment">// It contains the game's logic   </span></span><br><span class="line">    &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Initialize Phaser, and create a 400px by 490px game</span></span><br><span class="line"><span class="keyword">var</span> game = <span class="keyword">new</span> Phaser.Game(<span class="number">400</span>, <span class="number">490</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Add the 'mainState' and call it 'main'</span></span><br><span class="line">game.state.add(<span class="string">'main'</span>, mainState); </span><br><span class="line"></span><br><span class="line"><span class="comment">// Start the state to actually start the game</span></span><br><span class="line">game.state.start(<span class="string">'main'</span>);</span><br></pre></td></tr></table></figure>
+<p>上述，Phaser 提供的 API</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">preload: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; </span><br><span class="line">       <span class="comment">// This function will be executed at the beginning     </span></span><br><span class="line">       <span class="comment">// That's where we load the images and sounds </span></span><br><span class="line">   &#125;,</span><br><span class="line"></span><br><span class="line">   create: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; </span><br><span class="line">       <span class="comment">// This function is called after the preload function     </span></span><br><span class="line">       <span class="comment">// Here we set up the game, display sprites, etc.  </span></span><br><span class="line">   &#125;,</span><br><span class="line"></span><br><span class="line">   update: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">       <span class="comment">// This function is called 60 times per second    </span></span><br><span class="line">       <span class="comment">// It contains the game's logic   </span></span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<h4 id="把我们的主角加进去"><a href="#把我们的主角加进去" class="headerlink" title="把我们的主角加进去"></a>把我们的主角加进去</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">preload: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; </span><br><span class="line">    <span class="comment">// Load the bird sprite</span></span><br><span class="line">    game.load.image(<span class="string">'bird'</span>, <span class="string">'assets/bird.png'</span>); </span><br><span class="line">&#125;,</span><br><span class="line"></span><br><span class="line">create: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; </span><br><span class="line">    <span class="comment">// Change the background color of the game to blue</span></span><br><span class="line">    game.stage.backgroundColor = <span class="string">'#71c5cf'</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Set the physics system</span></span><br><span class="line">    game.physics.startSystem(Phaser.Physics.ARCADE);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Display the bird at the position x=100 and y=245</span></span><br><span class="line">    <span class="keyword">this</span>.bird = game.add.sprite(<span class="number">100</span>, <span class="number">245</span>, <span class="string">'bird'</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Add physics to the bird</span></span><br><span class="line">    <span class="comment">// Needed for: movements, gravity, collisions, etc.</span></span><br><span class="line">    game.physics.arcade.enable(<span class="keyword">this</span>.bird);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Add gravity to the bird to make it fall</span></span><br><span class="line">    <span class="keyword">this</span>.bird.body.gravity.y = <span class="number">1000</span>;  </span><br><span class="line"></span><br><span class="line">    <span class="comment">// Call the 'jump' function when the spacekey is hit</span></span><br><span class="line">    <span class="keyword">var</span> spaceKey = game.input.keyboard.addKey(</span><br><span class="line">                    Phaser.Keyboard.SPACEBAR);</span><br><span class="line">    spaceKey.onDown.add(<span class="keyword">this</span>.jump, <span class="keyword">this</span>);     </span><br><span class="line">&#125;,</span><br><span class="line"></span><br><span class="line">update: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// If the bird is out of the screen (too high or too low)</span></span><br><span class="line">    <span class="comment">// Call the 'restartGame' function</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.bird.y &lt; <span class="number">0</span> || <span class="keyword">this</span>.bird.y &gt; <span class="number">490</span>)</span><br><span class="line">        <span class="keyword">this</span>.restartGame();</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<h4 id="提供两个函数"><a href="#提供两个函数" class="headerlink" title="提供两个函数"></a>提供两个函数</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Make the bird jump </span></span><br><span class="line">jump: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// Add a vertical velocity to the bird</span></span><br><span class="line">    <span class="keyword">this</span>.bird.body.velocity.y = <span class="number">-350</span>;</span><br><span class="line">&#125;,</span><br><span class="line"></span><br><span class="line"><span class="comment">// Restart the game</span></span><br><span class="line">restartGame: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// Start the 'main' state, which restarts the game</span></span><br><span class="line">    game.state.start(<span class="string">'main'</span>);</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<h4 id="把障碍物，即管道加进去"><a href="#把障碍物，即管道加进去" class="headerlink" title="把障碍物，即管道加进去"></a>把障碍物，即管道加进去</h4><p>在 <code>preload</code>方法中加入如下代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">game.load.image(<span class="string">'pipe'</span>, <span class="string">'assets/pipe.png'</span>);</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">addOnePipe: <span class="function"><span class="keyword">function</span>(<span class="params">x, y</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// Create a pipe at the position x and y</span></span><br><span class="line">    <span class="keyword">var</span> pipe = game.add.sprite(x, y, <span class="string">'pipe'</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Add the pipe to our previously created group</span></span><br><span class="line">    <span class="keyword">this</span>.pipes.add(pipe);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Enable physics on the pipe </span></span><br><span class="line">    game.physics.arcade.enable(pipe);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Add velocity to the pipe to make it move left</span></span><br><span class="line">    pipe.body.velocity.x = <span class="number">-200</span>; </span><br><span class="line"></span><br><span class="line">    <span class="comment">// Automatically kill the pipe when it's no longer visible </span></span><br><span class="line">    pipe.checkWorldBounds = <span class="literal">true</span>;</span><br><span class="line">    pipe.outOfBoundsKill = <span class="literal">true</span>;</span><br><span class="line">&#125;,</span><br><span class="line">addRowOfPipes: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// Randomly pick a number between 1 and 5</span></span><br><span class="line">    <span class="comment">// This will be the hole position</span></span><br><span class="line">    <span class="keyword">var</span> hole = <span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.random() * <span class="number">5</span>) + <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Add the 6 pipes </span></span><br><span class="line">    <span class="comment">// With one big hole at position 'hole' and 'hole + 1'</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">8</span>; i++)</span><br><span class="line">        <span class="keyword">if</span> (i != hole &amp;&amp; i != hole + <span class="number">1</span>) </span><br><span class="line">            <span class="keyword">this</span>.addOnePipe(<span class="number">400</span>, i * <span class="number">60</span> + <span class="number">10</span>);   </span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<p>实际游戏中，加障碍管道是随机的，而且伴随着小鸟的前行，不断变化，所以：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">this</span>.timer = game.time.events.loop(<span class="number">1500</span>, <span class="keyword">this</span>.addRowOfPipes, <span class="keyword">this</span>);</span><br></pre></td></tr></table></figure>
+<p>我们通过时钟，每1.5秒就调用一次 <code>addRowOfPipes</code>方法。</p>
+<h4 id="计分达到规定值通关和处理碰撞到障碍物游戏结束"><a href="#计分达到规定值通关和处理碰撞到障碍物游戏结束" class="headerlink" title="计分达到规定值通关和处理碰撞到障碍物游戏结束"></a>计分达到规定值通关和处理碰撞到障碍物游戏结束</h4><p>在<code>creat()</code>方法中加入如下代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">this</span>.score = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">this</span>.labelScore = game.add.text(<span class="number">20</span>, <span class="number">20</span>, <span class="string">"0"</span>, </span><br><span class="line">    &#123; <span class="attr">font</span>: <span class="string">"30px Arial"</span>, <span class="attr">fill</span>: <span class="string">"#ffffff"</span> &#125;);</span><br></pre></td></tr></table></figure>
+<p>在  <code>addRowOfPipes</code>方法中加入如下代码，表示，没创建一个障碍物就加一分：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">this</span>.score += <span class="number">1</span>;</span><br><span class="line"><span class="keyword">this</span>.labelScore.text = <span class="keyword">this</span>.score;</span><br></pre></td></tr></table></figure>
+<p>在 <code>update</code>方法中，加入如下代码，以在主角碰到障碍物时结束游戏，重新开始</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">game.physics.arcade.overlap(</span><br><span class="line">    <span class="keyword">this</span>.bird, <span class="keyword">this</span>.pipes, <span class="keyword">this</span>.restartGame, <span class="literal">null</span>, <span class="keyword">this</span>);</span><br></pre></td></tr></table></figure>
+<p>到目前为止，我们已经实现了一个简单的，不加修饰的 Flappy Bird 游戏。然而，这显然不能够满足我的要求。</p>
+<h4 id="添加飞行动画效果"><a href="#添加飞行动画效果" class="headerlink" title="添加飞行动画效果"></a>添加飞行动画效果</h4><p> 参考原作，我们发现：</p>
+<ol>
+<li><p>鸟慢慢向下旋转，直到某一点</p>
+</li>
+<li><p>当鸟跳跃时，它会向上旋转</p>
+</li>
+</ol>
+<p>第一点，我们可以通过以下代码实现：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="keyword">this</span>.bird.angle &lt; <span class="number">20</span>)</span><br><span class="line">    <span class="keyword">this</span>.bird.angle += <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+<p>第二点，我们可以如下试下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">game.add.tween(<span class="keyword">this</span>.bird).to(&#123;<span class="attr">angle</span>: <span class="number">-20</span>&#125;, <span class="number">100</span>).start();</span><br></pre></td></tr></table></figure>
+<p>或者如下三行代码</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Create an animation on the bird</span></span><br><span class="line"><span class="keyword">var</span> animation = game.add.tween(<span class="keyword">this</span>.bird);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Change the angle of the bird to -20° in 100 milliseconds</span></span><br><span class="line">animation.to(&#123;<span class="attr">angle</span>: <span class="number">-20</span>&#125;, <span class="number">100</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// And start the animation</span></span><br><span class="line">animation.start();</span><br></pre></td></tr></table></figure>
+<p>我们需要做是改变鸟的旋转中心，称为“锚”。 所以我们在<code>create</code>方法中添加这行：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">// Move the anchor to the left and downward</span></span><br><span class="line"><span class="keyword">this</span>.bird.anchor.setTo(<span class="number">-0.2</span>, <span class="number">0.5</span>);</span><br></pre></td></tr></table></figure>
+<h4 id="添加鸟碰到障碍物挂掉的动画"><a href="#添加鸟碰到障碍物挂掉的动画" class="headerlink" title="添加鸟碰到障碍物挂掉的动画"></a>添加鸟碰到障碍物挂掉的动画</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">hitPipe: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// If the bird has already hit a pipe, do nothing</span></span><br><span class="line">    <span class="comment">// It means the bird is already falling off the screen</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.bird.alive == <span class="literal">false</span>)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Set the alive property of the bird to false</span></span><br><span class="line">    <span class="keyword">this</span>.bird.alive = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Prevent new pipes from appearing</span></span><br><span class="line">    game.time.events.remove(<span class="keyword">this</span>.timer);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Go through all the pipes, and stop their movement</span></span><br><span class="line">    <span class="keyword">this</span>.pipes.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">p</span>)</span>&#123;</span><br><span class="line">        p.body.velocity.x = <span class="number">0</span>;</span><br><span class="line">    &#125;, <span class="keyword">this</span>);</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<p>如果，鸟碰到障碍物就会从空中掉落，所以在<code>update</code>方法中修改代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">game.physics.arcade.overlap(</span><br><span class="line">    <span class="keyword">this</span>.bird, <span class="keyword">this</span>.pipes, <span class="keyword">this</span>.hitPipe, <span class="literal">null</span>, <span class="keyword">this</span>);</span><br></pre></td></tr></table></figure>
+<p>然后，在<code>jump</code>方法中加上如下代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="keyword">this</span>.bird.alive == <span class="literal">false</span>)</span><br><span class="line">    <span class="keyword">return</span>;</span><br></pre></td></tr></table></figure>
+<h4 id="别忘了我我们一开始准备的音效"><a href="#别忘了我我们一开始准备的音效" class="headerlink" title="别忘了我我们一开始准备的音效"></a>别忘了我我们一开始准备的音效</h4><p>在 <code>preload()</code> 方法中加入如下代码，载入音效</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">game.load.audio(<span class="string">'jump'</span>, <span class="string">'assets/jump.wav'</span>);</span><br></pre></td></tr></table></figure>
+<p>在 <code>create()</code> 方法加入如下代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">this</span>.jumpSound = game.add.audio(<span class="string">'jump'</span>);</span><br></pre></td></tr></table></figure>
+<p>最后在 <code>jump()</code> 方法中加入这行，播放音效的代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">this</span>.jumpSound.play();</span><br></pre></td></tr></table></figure>
+<p>到目前为止，我们已经完成了练手项目。效果见<a href="https://github.com/likenow/gp" target="_blank" rel="noopener">Phaser Demo</a></p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ul>
+<li><p><a href="http://www.lessmilk.com/tutorial/flappy-bird-phaser-1" target="_blank" rel="noopener">How to Make Flappy Bird in HTML5 With Phaser - Part 1</a></p>
+</li>
+<li><p><a href="http://www.lessmilk.com/tutorial/flappy-bird-phaser-2" target="_blank" rel="noopener">How to Make Flappy Bird in HTML5 With Phaser - Part 2</a></p>
+</li>
+<li><p><a href="http://www.lessmilk.com/" target="_blank" rel="noopener">Game Development Tutorials</a></p>
+</li>
+<li><p><a href="http://phaser.io/" target="_blank" rel="noopener">Phaser</a></p>
+</li>
+<li><p><a href="http://phaser.io/docs" target="_blank" rel="noopener">Phaser Docs</a></p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Phaser/" rel="tag"># Phaser</a>
+          
+            <a href="/tags/游戏/" rel="tag"># 游戏</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/05/02/OC中给类扩充方法/" rel="next" title="OC 中给类扩充方法">
+                <i class="fa fa-chevron-left"></i> OC 中给类扩充方法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/07/19/2015-7-19-OC协议与代理设计模式/" rel="prev" title="OC协议与代理设计模式">
+                OC协议与代理设计模式 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="karl">
+            
+              <p class="site-author-name" itemprop="name">karl</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">97</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">83</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/likenow" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:fmslikai@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://yujiangshui.com/" title="yujiangshui" target="_blank">yujiangshui</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用Phaser-制作一款简易的-Flappy-Bird"><span class="nav-number">2.</span> <span class="nav-text">使用Phaser 制作一款简易的 Flappy Bird</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#素材准备"><span class="nav-number">2.1.</span> <span class="nav-text">素材准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#框架和知识储备"><span class="nav-number">2.2.</span> <span class="nav-text">框架和知识储备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#开始写代码"><span class="nav-number">2.3.</span> <span class="nav-text">开始写代码</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#把我们的主角加进去"><span class="nav-number">2.3.1.</span> <span class="nav-text">把我们的主角加进去</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#提供两个函数"><span class="nav-number">2.3.2.</span> <span class="nav-text">提供两个函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#把障碍物，即管道加进去"><span class="nav-number">2.3.3.</span> <span class="nav-text">把障碍物，即管道加进去</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#计分达到规定值通关和处理碰撞到障碍物游戏结束"><span class="nav-number">2.3.4.</span> <span class="nav-text">计分达到规定值通关和处理碰撞到障碍物游戏结束</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#添加飞行动画效果"><span class="nav-number">2.3.5.</span> <span class="nav-text">添加飞行动画效果</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#添加鸟碰到障碍物挂掉的动画"><span class="nav-number">2.3.6.</span> <span class="nav-text">添加鸟碰到障碍物挂掉的动画</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#别忘了我我们一开始准备的音效"><span class="nav-number">2.3.7.</span> <span class="nav-text">别忘了我我们一开始准备的音效</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-number">3.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2013 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">karl</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

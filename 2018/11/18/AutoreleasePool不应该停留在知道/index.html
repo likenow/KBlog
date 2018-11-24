@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next gemini" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="iOS,autorelease pool,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="背景 老大：咱们的手势页面有卡顿问题，查一下原因吧！ 我：好的，收到。  问题解决了，但是涉及到的知识点 Autorelease Pool 往大了说，就是内存管理这块知识。是时候花时间梳理一番。">
+<meta name="keywords" content="iOS,autorelease pool">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Autorelease Pool不应该停留在知道">
+<meta property="og:url" content="http://yoursite.com/2018/11/18/AutoreleasePool不应该停留在知道/index.html">
+<meta property="og:site_name" content="Karl&#39;s Blog">
+<meta property="og:description" content="背景 老大：咱们的手势页面有卡顿问题，查一下原因吧！ 我：好的，收到。  问题解决了，但是涉及到的知识点 Autorelease Pool 往大了说，就是内存管理这块知识。是时候花时间梳理一番。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://kailee.b0.upaiyun.com/autoreleasepool2018.png">
+<meta property="og:updated_time" content="2018-11-20T15:35:30.810Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Autorelease Pool不应该停留在知道">
+<meta name="twitter:description" content="背景 老大：咱们的手势页面有卡顿问题，查一下原因吧！ 我：好的，收到。  问题解决了，但是涉及到的知识点 Autorelease Pool 往大了说，就是内存管理这块知识。是时候花时间梳理一番。">
+<meta name="twitter:image" content="http://kailee.b0.upaiyun.com/autoreleasepool2018.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/11/18/AutoreleasePool不应该停留在知道/">
+
+
+
+
+
+  <title>Autorelease Pool不应该停留在知道 | Karl's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Karl's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/18/AutoreleasePool不应该停留在知道/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="karl">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Karl's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Autorelease Pool不应该停留在知道</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-18T22:39:16+08:00">
+                2018-11-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><blockquote>
+<p>老大：咱们的手势页面有卡顿问题，查一下原因吧！</p>
+<p>我：好的，收到。</p>
+</blockquote>
+<p>问题解决了，但是涉及到的知识点 <code>Autorelease Pool</code> 往大了说，就是内存管理这块知识。是时候花时间梳理一番。</p>
+<a id="more"></a>
+<p>贴一下问题代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">- (UIImage *)imageWithColor:(UIColor *)color size:(CGSize)size&#123;</span><br><span class="line">    CGRect rect = CGRectMake(0.0f, 0.0f, size.width, size.height);</span><br><span class="line">    UIGraphicsBeginImageContext(rect.size);</span><br><span class="line">    CGContextRef context = UIGraphicsGetCurrentContext();</span><br><span class="line"></span><br><span class="line">    CGContextSetFillColorWithColor(context, [color CGColor]);</span><br><span class="line">    CGContextFillRect(context, rect);</span><br><span class="line"></span><br><span class="line">    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();</span><br><span class="line">    UIGraphicsEndImageContext();</span><br><span class="line"></span><br><span class="line">    return image;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>有问题吗？单拎出来代码实则没问题，我只加了两行代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">- (UIImage *)imageWithColor:(UIColor *)color size:(CGSize)size&#123;</span><br><span class="line">    @autoreleasepool &#123;</span><br><span class="line">        // ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>问题解决了，我们先来分析一下 <strong>Autorelease Pool</strong></p>
+<hr>
+<hr>
+<h2 id="Autorelease-Pool"><a href="#Autorelease-Pool" class="headerlink" title="Autorelease Pool"></a>Autorelease Pool</h2><blockquote>
+<p>An autorelease pool stores objects that are sent a <code>release</code> message when the pool itself is drained.</p>
+</blockquote>
+<h3 id="autoreleasepool"><a href="#autoreleasepool" class="headerlink" title="@autoreleasepool"></a>@autoreleasepool</h3><p>下面，请看这块代码你一定不陌生，而且我们清楚地看到了<code>@autoreleasepool{}</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * main.m</span><br><span class="line"> */</span><br><span class="line">#import &lt;UIKit/UIKit.h&gt;</span><br><span class="line">#import &quot;AppDelegate.h&quot;</span><br><span class="line"></span><br><span class="line">int main(int argc, char * argv[]) &#123;</span><br><span class="line">    @autoreleasepool &#123;</span><br><span class="line">        return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们对<code>main.m</code>执行如下</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ clang -rewrite-objc</span><br></pre></td></tr></table></figure>
+<p>结果:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">xxx/main.m</span><br><span class="line">warning: include path for stdlibc++ headers not found; pass '-std=libc++' on the command line to use the</span><br><span class="line">      libc++ standard library instead [-Wstdlibcxx-not-found]</span><br><span class="line">xxx/main.m:9:9: fatal error:</span><br><span class="line">      'UIKit/UIKit.h' file not found</span><br><span class="line"><span class="meta">#</span>import &lt;UIKit/UIKit.h&gt;</span><br><span class="line">        ^~~~~~~~~~~~~~~</span><br><span class="line">1 warning and 1 error generated.</span><br></pre></td></tr></table></figure>
+<p>警告暂且不管他，错误就必须处理了。首先确保你的Xcode 装了命令行开发工具，没装的话执行：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜  xxx git:(xxx) ✗ xcode-select --install</span><br><span class="line">xcode-select: note: install requested for command line developer tools</span><br></pre></td></tr></table></figure>
+<p>然后</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">➜  xxx git:(xxx) ✗ xcrun -sdk iphonesimulator clang -rewrite-objc main.m</span><br><span class="line">warning: include path for stdlibc++ headers not found; pass '-std=libc++' on the command line to use the libc++ standard library instead [-Wstdlibcxx-not-found]</span><br><span class="line">1 warning generated.</span><br><span class="line">warning: include path for stdlibc++ headers not found; pass '-std=libc++' on the command line to use the libc++ standard library instead [-Wstdlibcxx-not-found]</span><br><span class="line">/var/folders/kw/y2lcj6g90xn8_6xpmh0v87rr0000gn/T/main-8e06ea.mi:35843:9: warning: 'EAGLContext' is deprecated: first deprecated in iOS 12.0 - OpenGLES API deprecated. (Define</span><br><span class="line">      GLES_SILENCE_DEPRECATION to silence these warnings) [-Wdeprecated-declarations]</span><br><span class="line">typedef EAGLContext *CVEAGLContext;</span><br><span class="line">        ^</span><br><span class="line">/var/folders/kw/y2lcj6g90xn8_6xpmh0v87rr0000gn/T/main-8e06ea.mi:33777:12: note: 'EAGLContext' has been explicitly marked deprecated here</span><br><span class="line">@interface EAGLContext : NSObject</span><br><span class="line">           ^</span><br><span class="line">2 warnings generated.</span><br></pre></td></tr></table></figure>
+<p>生成了一大堆警告之后，当前目录下多了一个 <code>main.cpp</code> 文件，摘录部分如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">    <span class="comment">/* @autoreleasepool */</span> &#123; __AtAutoreleasePool __autoreleasepool; </span><br><span class="line">        <span class="keyword">return</span> UIApplicationMain(argc, argv, __null, NSStringFromClass(((Class (*)(id, SEL))(<span class="keyword">void</span> *)objc_msgSend)((id)objc_getClass(<span class="string">"AppDelegate"</span>), sel_registerName(<span class="string">"class"</span>))));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">static</span> <span class="class"><span class="keyword">struct</span> <span class="title">IMAGE_INFO</span> &#123;</span> <span class="keyword">unsigned</span> version; <span class="keyword">unsigned</span> flag; &#125; _OBJC_IMAGE_INFO = &#123; <span class="number">0</span>, <span class="number">2</span> &#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extern</span> <span class="string">"C"</span> __declspec(dllimport) <span class="function"><span class="keyword">void</span> * <span class="title">objc_autoreleasePoolPush</span><span class="params">(<span class="keyword">void</span>)</span></span>;</span><br><span class="line"><span class="keyword">extern</span> <span class="string">"C"</span> __declspec(dllimport) <span class="function"><span class="keyword">void</span> <span class="title">objc_autoreleasePoolPop</span><span class="params">(<span class="keyword">void</span> *)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> __<span class="title">AtAutoreleasePool</span> &#123;</span></span><br><span class="line">  __AtAutoreleasePool() &#123;atautoreleasepoolobj = objc_autoreleasePoolPush();&#125;</span><br><span class="line">  ~__AtAutoreleasePool() &#123;objc_autoreleasePoolPop(atautoreleasepoolobj);&#125;</span><br><span class="line">  <span class="keyword">void</span> * atautoreleasepoolobj;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>到目前为止，我们可以写出如下 <code>main.m</code>伪代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">int main(int argc, const char * argv[]) &#123;</span><br><span class="line">    &#123;</span><br><span class="line">        void * atautoreleasepoolobj = objc_autoreleasePoolPush();</span><br><span class="line"></span><br><span class="line">        // code block</span><br><span class="line"></span><br><span class="line">        objc_autoreleasePoolPop(atautoreleasepoolobj);</span><br><span class="line">    &#125;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Autorelease-Pool-原理分析"><a href="#Autorelease-Pool-原理分析" class="headerlink" title="Autorelease Pool 原理分析"></a>Autorelease Pool 原理分析</h3><ul>
+<li>自动释放池是由 <code>AutoreleasePoolPage</code> 以<strong>双向链</strong>表的方式实现的</li>
+<li>当对象调用 <code>autorelease</code> 方法时，会将对象加入 <code>AutoreleasePoolPage</code> 的栈中</li>
+<li>调用 <code>AutoreleasePoolPage::pop</code> 方法会向栈中的对象发送释放消息</li>
+</ul>
+<p><img src="http://kailee.b0.upaiyun.com/autoreleasepool2018.png" alt=""></p>
+<h4 id="AutoreleasePoolPage"><a href="#AutoreleasePoolPage" class="headerlink" title="AutoreleasePoolPage"></a>AutoreleasePoolPage</h4><p><a href="https://opensource.apple.com/tarballs/objc4/" target="_blank" rel="noopener">objc4-723</a>/runtime/NSObject.mm</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AutoreleasePoolPage</span> </span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="comment">// EMPTY_POOL_PLACEHOLDER is stored in TLS when exactly one pool is </span></span><br><span class="line">    <span class="comment">// pushed and it has never contained any objects. This saves memory </span></span><br><span class="line">    <span class="comment">// when the top level (i.e. libdispatch) pushes and pops pools but </span></span><br><span class="line">    <span class="comment">// never uses them.</span></span><br><span class="line"><span class="meta">#   <span class="meta-keyword">define</span> EMPTY_POOL_PLACEHOLDER ((id*)1)</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#   <span class="meta-keyword">define</span> POOL_BOUNDARY nil</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">pthread_key_t</span> <span class="keyword">const</span> key = AUTORELEASE_POOL_KEY;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">uint8_t</span> <span class="keyword">const</span> SCRIBBLE = <span class="number">0xA3</span>;  <span class="comment">// 0xA3A3A3A3 after releasing</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">size_t</span> <span class="keyword">const</span> SIZE = </span><br><span class="line">#<span class="keyword">if</span> PROTECT_AUTORELEASEPOOL</span><br><span class="line">        PAGE_MAX_SIZE;  <span class="comment">// must be multiple of vm page size</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">else</span></span></span><br><span class="line">        PAGE_MAX_SIZE;  <span class="comment">// size and alignment, power of 2</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">size_t</span> <span class="keyword">const</span> COUNT = SIZE / <span class="keyword">sizeof</span>(id);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">magic_t</span> <span class="keyword">const</span> magic;</span><br><span class="line">    id *next;</span><br><span class="line">    <span class="keyword">pthread_t</span> <span class="keyword">const</span> thread;</span><br><span class="line">    AutoreleasePoolPage * <span class="keyword">const</span> parent;</span><br><span class="line">    AutoreleasePoolPage *child;</span><br><span class="line">    <span class="keyword">uint32_t</span> <span class="keyword">const</span> depth;</span><br><span class="line">    <span class="keyword">uint32_t</span> hiwat;</span><br><span class="line">    <span class="comment">// ...</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>magic</code> 用于对当前 <code>AutoreleasePoolPage</code> <strong>完整性</strong>的校验</li>
+<li><code>thread</code> 保存了当前页所在的线程</li>
+<li>上面的<code>id *next</code>指针作为游标指向栈顶最新<code>add</code>进来的<code>autorelease</code>对象的下一个位置</li>
+<li><code>thread</code> 指向当前线程</li>
+<li><code>parent</code>指向父结点，第一个结点的 parent 值为<code>nil</code></li>
+<li><code>child</code>指向子结点，最后一个结点的 child 值为 <code>nil</code></li>
+<li><code>depth</code>代表深度，从 0 开始，往后递增 1</li>
+<li>当 <code>next == begin()</code> 时，表示 AutoreleasePoolPage 为空；当 <code>next == end()</code> 时，表示 AutoreleasePoolPage 已满。</li>
+<li>一个<code>AutoreleasePoolPage</code>的空间被占满时，会新建一个<code>AutoreleasePoolPage</code>对象，连接链表，后来的<code>autorelease</code>对象在新的<code>page</code>加入</li>
+<li>每一个<code>AutoreleasePoolPage</code> 的大小都是 <code>4096</code> 字节（16 进制 0x1000）</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> I386_PGBYTES		4096		<span class="comment">/* bytes per 80386 page */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> PAGE_SIZE I386_PGBYTES</span></span><br></pre></td></tr></table></figure>
+<p>这一部分，可以移步看下这篇文章<a href="http://blog.sunnyxx.com/2014/10/15/behind-autorelease/" target="_blank" rel="noopener">黑幕背后的Autorelease</a> 我在这里不再赘述。</p>
+<h2 id="Autorelease-Pool-中的对象何时释放"><a href="#Autorelease-Pool-中的对象何时释放" class="headerlink" title="Autorelease Pool 中的对象何时释放"></a>Autorelease Pool 中的对象何时释放</h2><blockquote>
+<p>The Application Kit creates an autorelease pool on the main thread at the beginning of every cycle of the event loop, and drains it at the end, thereby releasing any autoreleased objects generated while processing an event</p>
+</blockquote>
+<p>这里又涉及到了 <code>runLoop</code>的知识，因为篇幅问题暂且不做展开。</p>
+<p>苹果文档中说，在开始每一个事件循环之前系统会在主线程创建一个自动释放池, 并且在事件循环结束的时候把前面创建的释放池释放, 回收内存。</p>
+<h3 id="Autorelease-对象延迟释放"><a href="#Autorelease-对象延迟释放" class="headerlink" title="Autorelease 对象延迟释放"></a>Autorelease 对象延迟释放</h3><p>正因为自动释放池中的对象是在一个事件运行循环结束的时候才释放，所以可以达到延迟释放对象的效果。这样一来，有利的方面是，可以<strong>降低内存峰值</strong>。尤其是写循环，循环里面包含了大量临时创建的对象时体现的尤为明显。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">NSArray *urls = &lt;# An array of file URLs #&gt;;</span><br><span class="line">for (NSURL *url in urls) &#123;</span><br><span class="line"> </span><br><span class="line">    @autoreleasepool &#123;</span><br><span class="line">        NSError *error;</span><br><span class="line">        NSString *fileContents = [NSString stringWithContentsOfURL:url</span><br><span class="line">                                         encoding:NSUTF8StringEncoding error:&amp;error];</span><br><span class="line">        /* Process the string, creating and autoreleasing more objects. */</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Autorelease-对象提前释放"><a href="#Autorelease-对象提前释放" class="headerlink" title="Autorelease 对象提前释放"></a>Autorelease 对象提前释放</h3><p>自己创建<code>Pool</code>并进行释放</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];</span><br><span class="line">NSArray *array = [[[NSArray alloc] init] autorelease];</span><br><span class="line">[pool drain];</span><br></pre></td></tr></table></figure>
+<p>上面的<code>array</code>就会在<code>[pool drain]</code>执行时被释放。</p>
+<h2 id="Autorelease-Pool-怎么用起来"><a href="#Autorelease-Pool-怎么用起来" class="headerlink" title="Autorelease Pool 怎么用起来"></a>Autorelease Pool 怎么用起来</h2><p>以下内容参考文档<a href="https://developer.apple.com/documentation/foundation/nsautoreleasepool#//apple_ref/occ/cl/NSAutoreleasePool" target="_blank" rel="noopener">NSAutoreleasePool</a>和<a href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/MemoryMgmt/Articles/mmAutoreleasePools.html" target="_blank" rel="noopener">Using Autorelease Pool Blocks</a>大家也可以直接阅读文档。</p>
+<h3 id="1-NSAutoReleasePool-MRC"><a href="#1-NSAutoReleasePool-MRC" class="headerlink" title="1. NSAutoReleasePool(MRC)"></a>1. NSAutoReleasePool(MRC)</h3><h4 id="管理自动释放池"><a href="#管理自动释放池" class="headerlink" title="管理自动释放池"></a>管理自动释放池</h4><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- release <span class="comment">// Releases and pops the receiver.</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">In a reference-counted environment, releases and pops the receiver; in a garbage-collected environment, triggers garbage collection if the memory allocated since the last collection is greater than the current threshold.</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">- drain</span><br></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- autorelease <span class="comment">// Raises an exception.</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- <span class="keyword">retain</span> <span class="comment">// Raises an exception.</span></span><br></pre></td></tr></table></figure>
+<h4 id="往自动释放池添加对象"><a href="#往自动释放池添加对象" class="headerlink" title="往自动释放池添加对象"></a>往自动释放池添加对象</h4><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">+ addObject: <span class="comment">// Adds a given object to the active autorelease pool in the current thread.</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- addObject: <span class="comment">// Adds a given object to the receiver</span></span><br></pre></td></tr></table></figure>
+<h4 id="调试"><a href="#调试" class="headerlink" title="调试"></a>调试</h4><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">+ showPools <span class="comment">// Displays the state of the current thread's autorelease pool stack to stderr.</span></span><br></pre></td></tr></table></figure>
+<h3 id="2-使用Autorelease-Pool-Blocks-MRC和ARC"><a href="#2-使用Autorelease-Pool-Blocks-MRC和ARC" class="headerlink" title="2. 使用Autorelease Pool Blocks(MRC和ARC)"></a>2. 使用Autorelease Pool Blocks(MRC和ARC)</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@autoreleasepool &#123;</span><br><span class="line">    // Code that creates autoreleased objects.</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以嵌套：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@autoreleasepool &#123;</span><br><span class="line">    // . . .</span><br><span class="line">    @autoreleasepool &#123;</span><br><span class="line">        // . . .</span><br><span class="line">    &#125;</span><br><span class="line">    . . .</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用场景：</p>
+<blockquote>
+<p>There are, however, three occasions when you might use your own autorelease pool blocks:</p>
+<ul>
+<li><p>If you are writing a program that is not based on a UI framework, such as a command-line tool.</p>
+</li>
+<li><p>If you write a loop that creates many temporary objects.</p>
+<p>You may use an autorelease pool block inside the loop to dispose of those objects before the next iteration. Using an autorelease pool block in the loop helps to reduce the maximum memory footprint of the application.</p>
+</li>
+<li><p>If you spawn a secondary thread.</p>
+<p>You must create your own autorelease pool block as soon as the thread begins executing; otherwise, your application will leak objects. (See <a href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/MemoryMgmt/Articles/mmAutoreleasePools.html#//apple_ref/doc/uid/20000047-1041876" target="_blank" rel="noopener">Autorelease Pool Blocks and Threads</a>for details.)</p>
+</li>
+</ul>
+</blockquote>
+<ul>
+<li>写基于命令行的的程序时，就是没有<code>UI</code>框架，如<code>AppKit</code>等<code>Cocoa</code>框架时。</li>
+<li>写循环，循环里面包含了大量临时创建的对象。（本文的例子）</li>
+<li>创建了新的线程。（非<code>Cocoa</code>程序创建线程时才需要）</li>
+<li>长时间在后台运行的任务。</li>
+</ul>
+<h2 id="Autorelease-Pool-与-线程"><a href="#Autorelease-Pool-与-线程" class="headerlink" title="Autorelease Pool 与 线程"></a>Autorelease Pool 与 线程</h2><p>每一个线程(包括主线程)都有一个<code>NSAutoreleasePool Stack</code>。 当一个新的<code>pool</code>被创建的时候，<code>push</code>进栈。当<code>pool</code>被释放内存时， <code>pop</code>出栈。 对象调用<code>autorelease</code>方法进入栈顶的<code>pool</code>中。当线程结束的时候，它会自动地销毁掉所有跟它有关联的<code>pool</code>。</p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ul>
+<li><p><a href="http://blog.sunnyxx.com/2014/10/15/behind-autorelease/" target="_blank" rel="noopener">黑幕背后的Autorelease</a></p>
+</li>
+<li><p><a href="http://blog.leichunfeng.com/blog/2015/05/31/objective-c-autorelease-pool-implementation-principle/" target="_blank" rel="noopener">Objective-C Autorelease Pool 的实现原理</a></p>
+</li>
+<li><p><a href="https://developer.apple.com/documentation/foundation/nsautoreleasepool#//apple_ref/occ/cl/NSAutoreleasePool" target="_blank" rel="noopener">NSAutoreleasePool</a></p>
+</li>
+<li><p><a href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/MemoryMgmt/Articles/mmAutoreleasePools.html" target="_blank" rel="noopener">Using Autorelease Pool Blocks</a></p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+            <a href="/tags/autorelease-pool/" rel="tag"># autorelease pool</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/01/Objective-C真假值小结/" rel="next" title="Objective-C真假值小结">
+                <i class="fa fa-chevron-left"></i> Objective-C真假值小结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="karl">
+            
+              <p class="site-author-name" itemprop="name">karl</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">97</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">83</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/likenow" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:fmslikai@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://yujiangshui.com/" title="yujiangshui" target="_blank">yujiangshui</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Autorelease-Pool"><span class="nav-number">2.</span> <span class="nav-text">Autorelease Pool</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#autoreleasepool"><span class="nav-number">2.1.</span> <span class="nav-text">@autoreleasepool</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Autorelease-Pool-原理分析"><span class="nav-number">2.2.</span> <span class="nav-text">Autorelease Pool 原理分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#AutoreleasePoolPage"><span class="nav-number">2.2.1.</span> <span class="nav-text">AutoreleasePoolPage</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Autorelease-Pool-中的对象何时释放"><span class="nav-number">3.</span> <span class="nav-text">Autorelease Pool 中的对象何时释放</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Autorelease-对象延迟释放"><span class="nav-number">3.1.</span> <span class="nav-text">Autorelease 对象延迟释放</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Autorelease-对象提前释放"><span class="nav-number">3.2.</span> <span class="nav-text">Autorelease 对象提前释放</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Autorelease-Pool-怎么用起来"><span class="nav-number">4.</span> <span class="nav-text">Autorelease Pool 怎么用起来</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-NSAutoReleasePool-MRC"><span class="nav-number">4.1.</span> <span class="nav-text">1. NSAutoReleasePool(MRC)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#管理自动释放池"><span class="nav-number">4.1.1.</span> <span class="nav-text">管理自动释放池</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#往自动释放池添加对象"><span class="nav-number">4.1.2.</span> <span class="nav-text">往自动释放池添加对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#调试"><span class="nav-number">4.1.3.</span> <span class="nav-text">调试</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-使用Autorelease-Pool-Blocks-MRC和ARC"><span class="nav-number">4.2.</span> <span class="nav-text">2. 使用Autorelease Pool Blocks(MRC和ARC)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Autorelease-Pool-与-线程"><span class="nav-number">5.</span> <span class="nav-text">Autorelease Pool 与 线程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-number">6.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2013 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">karl</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

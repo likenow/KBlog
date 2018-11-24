@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next gemini" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="iOS,rn,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="iOS React Native 初探关注点： 业务接入的便捷性;   开发效率与业务需求。">
+<meta name="keywords" content="iOS,rn">
+<meta property="og:type" content="article">
+<meta property="og:title" content="React Native--iOS视角">
+<meta property="og:url" content="http://yoursite.com/2016/12/03/2016-12-3-React-Native-iOS视角/index.html">
+<meta property="og:site_name" content="Karl&#39;s Blog">
+<meta property="og:description" content="iOS React Native 初探关注点： 业务接入的便捷性;   开发效率与业务需求。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-10-28T08:43:23.705Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="React Native--iOS视角">
+<meta name="twitter:description" content="iOS React Native 初探关注点： 业务接入的便捷性;   开发效率与业务需求。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/12/03/2016-12-3-React-Native-iOS视角/">
+
+
+
+
+
+  <title>React Native--iOS视角 | Karl's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Karl's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/12/03/2016-12-3-React-Native-iOS视角/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="karl">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Karl's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">React Native--iOS视角</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-12-03T20:56:25+08:00">
+                2016-12-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/React-Native/" itemprop="url" rel="index">
+                    <span itemprop="name">React Native</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="iOS-React-Native-初探"><a href="#iOS-React-Native-初探" class="headerlink" title="iOS React Native 初探"></a>iOS React Native 初探</h2><h3 id="关注点："><a href="#关注点：" class="headerlink" title="关注点："></a>关注点：</h3><ol>
+<li><p>业务接入的便捷性; </p>
+</li>
+<li><p>开发效率与业务需求。</p>
+</li>
+</ol>
+<a id="more"></a>
+<h4 id="哪些业务-native-方式更好"><a href="#哪些业务-native-方式更好" class="headerlink" title="哪些业务 native 方式更好"></a>哪些业务 native 方式更好</h4><ul>
+<li>低频变更，高频使用（业务层面，需具体分析）</li>
+<li>多线程处理任务，比如：下载任务</li>
+<li>数据库操作，比如：本地数据存储</li>
+<li>设备硬件的调用，比如：摄像头、播放器</li>
+</ul>
+<h4 id="RN开发效率"><a href="#RN开发效率" class="headerlink" title="RN开发效率"></a>RN开发效率</h4><h4 id="RN优点"><a href="#RN优点" class="headerlink" title="RN优点"></a>RN优点</h4><ul>
+<li><strong>跨平台开发</strong>，同一段 Javascript 代码可以被用于 <code>iOS</code> 和 <code>Android</code> 两个平台。</li>
+<li>快速迭代，符合业务方的迫切需求</li>
+<li>性能上看 <code>Native &gt;= React Native &gt; Hybrid</code></li>
+</ul>
+<h4 id="RN缺点"><a href="#RN缺点" class="headerlink" title="RN缺点"></a>RN缺点</h4><ul>
+<li>联调鸡肋，<em>红屏了解一下</em> ~：</li>
+<li>依赖于 第三方，目前看来势头正旺</li>
+<li>额外的学习成本，当然对于一部分人来说，可能不是问题</li>
+</ul>
+<h2 id="原生项目集成-React-Native"><a href="#原生项目集成-React-Native" class="headerlink" title="原生项目集成 React Native"></a>原生项目集成 React Native</h2><p>问题：</p>
+<ol>
+<li><code>iOS</code> 如何将<code>React Native</code>集成到当前项目中？</li>
+<li>如何用 <code>React Native</code> 提供的原生组件实现界面？</li>
+<li>如何实现符合自己业务的原生组件？</li>
+<li>写完的 <code>JS</code> 如何打包给 <code>Native</code> 使用？</li>
+<li>集成到原生项目，如何处理项目中的统一导航和 <code>React Native</code> 提供的导航？</li>
+</ol>
+<p>带着以上几个问题，可以更快的开始一个Demo。以后的文章里，我也会对以上问题进行解答。</p>
+<h2 id="APP版本管理和发布调研"><a href="#APP版本管理和发布调研" class="headerlink" title="APP版本管理和发布调研"></a>APP版本管理和发布调研</h2><p>版本管理和发布是非常重要的基础功能模块，主要功能是将 <code>JS</code> 业务层及其引用的代码编译<code>link</code>好的 <code>JSBundle</code> 下载到<code>Native App</code>中。在此过程中，需要控制更新文件的大小以及失败情况的处理。</p>
+<p>版本管理和发布负责：</p>
+<ul>
+<li><p><code>JSBundle</code> 资源管理（服务端）</p>
+</li>
+<li><p><code>JSBundle</code> 数据接口层（服务端）</p>
+</li>
+<li><p><code>JSBundle</code> <code>Native</code> 更新及管理层（<code>Native</code>）</p>
+<p><code>JSBundle</code> 资源管理系统负责将相关 JS 业务层代码编译<code>link</code> 成 <code>JSBundle</code> 文件，并将相关更新写到一个数据缓存中心（例如 <code>Redis</code>）。当 <code>Native</code> 通过 <code>JSBundle</code> 数据接口层提供的接口获取对应的<code>JSBundle</code> 的信息时，数据接口层将从数据缓存中心查询数据并返回给<code>Native</code> 端。<code>Native</code>端为了提高用户体验，会对 <code>JSBundle</code> 进行缓存，用户访问相关页面的时候，先展示缓存，再访问接口，看是否有更新。</p>
+<p><code>启动</code>–&gt;<code>载入</code>–&gt;<code>展示RN页面</code>–&gt;<code>网络请求页面</code>–&gt;<code>非/强制更新</code>–&gt;<code>结束</code></p>
+</li>
+</ul>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ul>
+<li><p><a href="https://reactnative.cn/" target="_blank" rel="noopener">React Native中文网</a></p>
+</li>
+<li><p><a href="https://juejin.im/post/5a1249f56fb9a0451b0425cd" target="_blank" rel="noopener">iOS 开发是否要采用 React Native?</a></p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+            <a href="/tags/rn/" rel="tag"># rn</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/11/27/语音视频信息的app应用初步涉猎/" rel="next" title="语音视频信息的app应用初步涉猎">
+                <i class="fa fa-chevron-left"></i> 语音视频信息的app应用初步涉猎
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/12/24/WEEX-iOS视角/" rel="prev" title="WEEX--iOS视角">
+                WEEX--iOS视角 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="karl">
+            
+              <p class="site-author-name" itemprop="name">karl</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">97</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">83</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/likenow" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:fmslikai@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://yujiangshui.com/" title="yujiangshui" target="_blank">yujiangshui</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#iOS-React-Native-初探"><span class="nav-number">1.</span> <span class="nav-text">iOS React Native 初探</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#关注点："><span class="nav-number">1.1.</span> <span class="nav-text">关注点：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#哪些业务-native-方式更好"><span class="nav-number">1.1.1.</span> <span class="nav-text">哪些业务 native 方式更好</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#RN开发效率"><span class="nav-number">1.1.2.</span> <span class="nav-text">RN开发效率</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#RN优点"><span class="nav-number">1.1.3.</span> <span class="nav-text">RN优点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#RN缺点"><span class="nav-number">1.1.4.</span> <span class="nav-text">RN缺点</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#原生项目集成-React-Native"><span class="nav-number">2.</span> <span class="nav-text">原生项目集成 React Native</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#APP版本管理和发布调研"><span class="nav-number">3.</span> <span class="nav-text">APP版本管理和发布调研</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-number">4.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2013 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">karl</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

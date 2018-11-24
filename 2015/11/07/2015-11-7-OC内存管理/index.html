@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next gemini" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="oc,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="基本了解在学校里，学过  java 的童鞋都知道，它是支持垃圾回收的，很多初级开发者并不需要花很多时间管理内存。然而 iOS 并不支持垃圾回收，它是的内存管理基于引用计数的。而且经历了从  MRC  到  ARC 的进化。我现在的开发中已经是ARC 的时代了。可以说是幸福的，但是MRC还是要了解的。下面我会尽量都聊到，聊明白。">
+<meta name="keywords" content="oc">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OC内存管理">
+<meta property="og:url" content="http://yoursite.com/2015/11/07/2015-11-7-OC内存管理/index.html">
+<meta property="og:site_name" content="Karl&#39;s Blog">
+<meta property="og:description" content="基本了解在学校里，学过  java 的童鞋都知道，它是支持垃圾回收的，很多初级开发者并不需要花很多时间管理内存。然而 iOS 并不支持垃圾回收，它是的内存管理基于引用计数的。而且经历了从  MRC  到  ARC 的进化。我现在的开发中已经是ARC 的时代了。可以说是幸福的，但是MRC还是要了解的。下面我会尽量都聊到，聊明白。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-10-28T08:50:32.857Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="OC内存管理">
+<meta name="twitter:description" content="基本了解在学校里，学过  java 的童鞋都知道，它是支持垃圾回收的，很多初级开发者并不需要花很多时间管理内存。然而 iOS 并不支持垃圾回收，它是的内存管理基于引用计数的。而且经历了从  MRC  到  ARC 的进化。我现在的开发中已经是ARC 的时代了。可以说是幸福的，但是MRC还是要了解的。下面我会尽量都聊到，聊明白。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2015/11/07/2015-11-7-OC内存管理/">
+
+
+
+
+
+  <title>OC内存管理 | Karl's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Karl's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/11/07/2015-11-7-OC内存管理/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="karl">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Karl's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">OC内存管理</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-11-07T15:58:45+08:00">
+                2015-11-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/oc/" itemprop="url" rel="index">
+                    <span itemprop="name">oc</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="基本了解"><a href="#基本了解" class="headerlink" title="基本了解"></a>基本了解</h2><p>在学校里，学过  <code>java</code> 的童鞋都知道，它是支持垃圾回收的，很多初级开发者并不需要花很多时间管理内存。然而 <code>iOS</code> 并不支持垃圾回收，它是的内存管理基于引用计数的。而且经历了从  <code>MRC</code>  到  <code>ARC</code> 的进化。我现在的开发中已经是<code>ARC</code> 的时代了。可以说是幸福的，但是<code>MRC</code>还是要了解的。下面我会尽量都聊到，聊明白。</p>
+<a id="more"></a>
+<h3 id="内存管理什么“鬼”"><a href="#内存管理什么“鬼”" class="headerlink" title="内存管理什么“鬼”"></a>内存管理什么“鬼”</h3><ul>
+<li>移动设备内存有限，每个 APP 所能够占用的内存是有限的</li>
+<li>当 APP 所占有的内存较多时，系统会发出内存警告，这时候必须回收一些不再使用的内存空间。比如回收不需要的对象、变量等</li>
+<li>管理范围：任何继承了<code>NSObjective</code>的对象，对其他基本数据类型（<code>int/char/float/double/struct/enum等</code>）无效。</li>
+</ul>
+<h3 id="引用计数器什么“鬼”"><a href="#引用计数器什么“鬼”" class="headerlink" title="引用计数器什么“鬼”"></a>引用计数器什么“鬼”</h3><ul>
+<li>每个OC对象都有自己的引用计数器，是一个整数，表示“对象被引用的次数”，即有多少对象持有这个OC对象</li>
+<li>每个OC对象，内部有<strong>4个字节</strong>的存储空间，供存引用计数器使用</li>
+</ul>
+<h4 id="引用计数器的原理"><a href="#引用计数器的原理" class="headerlink" title="引用计数器的原理"></a>引用计数器的原理</h4><ul>
+<li>当使用 <code>alloc</code>、<code>new</code> 或者 <code>copy</code> 创建一个新对象时，新对象的<strong>引用计数器</strong>默认就是1</li>
+<li>当一个对象的引用计数器值为0时，对象占用的内存就会被系统回收。</li>
+</ul>
+<h4 id="引用计数器具体操作"><a href="#引用计数器具体操作" class="headerlink" title="引用计数器具体操作"></a>引用计数器具体操作</h4><ul>
+<li>给对象发送一条<code>retain</code>消息,可以使引用计数器值<strong>+1</strong>（<code>retain</code><strong>方法返回对象本身</strong>）</li>
+<li>给对象发送一条<code>release</code>消息,可以使引用计数器值<strong>-1</strong></li>
+<li>可以给对象发送<code>retainCount</code>消息获得当前的引用计数器值</li>
+</ul>
+<h3 id="对象的销毁"><a href="#对象的销毁" class="headerlink" title="对象的销毁"></a>对象的销毁</h3><ul>
+<li>当一个对象的引用计数器值为0时，那么它将被销毁，其占用的内存被系统回收</li>
+<li>当一个对象被销毁时，系统会自动向对象发送一条<code>dealloc</code>消息</li>
+<li>一般会重写<code>dealloc</code>方法，在这里释放相关资源</li>
+<li>一旦重写了<code>dealloc</code>方法，就必须调用<code>[super dealloc]</code>，并且放在<strong>最后面调用</strong></li>
+<li><strong>不要直接调用</strong> <code>dealloc</code> <strong>方法</strong></li>
+<li>一旦对象被回收了，它占用的内存就不再可用，坚持使用会导致程序崩溃（<strong>野指针错误</strong>）</li>
+</ul>
+<h2 id="内存管理原则"><a href="#内存管理原则" class="headerlink" title="内存管理原则"></a>内存管理原则</h2><ul>
+<li>谁创建，谁释放<ul>
+<li>如果通过<code>alloc</code>、<code>new</code>或<code>(mutable)copy</code>来创建一个对象，那么你必须调用<code>release</code>或<code>autorelease</code></li>
+</ul>
+</li>
+<li>谁持有，谁释放<ul>
+<li>只要调用了<code>retain</code>，无论这个对象是如何生成的，你都要调用<code>release</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="MRC"><a href="#MRC" class="headerlink" title="MRC"></a>MRC</h3><ul>
+<li>自己生成的对象自己持有（<code>alloc/ allocWithZone/copy/copyWithZone/mutableCopy/ mutableCopyWIthZone</code>）</li>
+<li>不是自己生成的对象，自己可以持有</li>
+<li>不再需要自己持有对象时，必须释放它（<code>release/autorelease</code>），否则会造成内存泄漏</li>
+<li>不是自己持有的对象，不能释放</li>
+</ul>
+<h3 id="ARC"><a href="#ARC" class="headerlink" title="ARC"></a>ARC</h3><h4 id="ARC-是-OC-编译器特性"><a href="#ARC-是-OC-编译器特性" class="headerlink" title="ARC 是 OC 编译器特性"></a>ARC 是 OC 编译器特性</h4><ul>
+<li>而不是运行时或者垃圾回收机制，ARC 所做的只不过是自动在合适的位置插入（<code>retain/release或autorelease</code>）。</li>
+</ul>
+<h4 id="ARC的几个原则"><a href="#ARC的几个原则" class="headerlink" title="ARC的几个原则"></a>ARC的几个原则</h4><ul>
+<li>打开ARC：<code>-fobjc-arc</code></li>
+<li>关闭ARC：<code>-fno-objc-arc</code></li>
+<li>不能显式使用 <code>retain/release/retainCount/autorelease</code></li>
+<li>不能使用 <code>NSAllocateObject/NSDeallocateObject</code></li>
+<li>需要遵守内存管理的方法命名规则。在 ARC 模式和 MRC 模式下，以<code>alloc/new/copy/mutableCopy</code> 开头的方法在返回对象时都必须返回给调用方所应当持有的对象。在 ARC 模式下，追加一条：以 init 开头的方法必须是实例方法并且必须要返回对象。返回的对象应为 id 类型或声明该方法的类的对象类型，或是该类的超类型或子类型。该返回的对象并不注册到 <code>Autorelease Pool</code> 中，基本上只是对<code>alloc</code> 方法返回值的对象进行初始化处理并返回该对象。需要注意的是：<code>- (void)initialize;</code> 方法虽然是以 init 开头但是并不包含在上述规则中。</li>
+<li>不要显式调用 <code>dealloc</code></li>
+<li>使用 <code>@autoreleasepool</code> 块替代 <code>NSAutoreleasePool</code></li>
+<li>不能使用区域（<code>NSZone</code>）</li>
+<li>对象型变量不能作为 C 语言结构体（<code>struct/union</code>）的成员</li>
+<li>显式转换 <code>id</code> 和 <code>void *</code>。</li>
+</ul>
+<h4 id="ARC-修饰符"><a href="#ARC-修饰符" class="headerlink" title="ARC 修饰符"></a>ARC 修饰符</h4><ul>
+<li><code>__strong</code>，强引用</li>
+<li><code>__weak</code>，不持有对象，当对象没有强引用的时候自动置为<code>nil</code></li>
+<li><code>_unsafe_unretained</code>，不持有对象，当对象没有强引用的时候不置为<code>nil</code><ul>
+<li>使用场景1：不能用强引用的实例变量</li>
+<li>场景2：在C结构体里边，使用到OC对象</li>
+</ul>
+</li>
+<li><code>_autoreleasing</code><ul>
+<li>表明传参引用的参数<code>（id*）</code>在返回时是<code>autorelease</code> 的</li>
+<li>效果同MRC 下调用 <code>autorelease</code>方法</li>
+</ul>
+</li>
+</ul>
+<h3 id="Core-Foundation"><a href="#Core-Foundation" class="headerlink" title="Core Foundation"></a>Core Foundation</h3><p>以下两种规则的方法，这两种方法的<code>retainCount</code>自己持有，自己调用<code>CFRelease</code>释放（<strong>Create rule</strong>）</p>
+<ul>
+<li>名字里边有<code>create</code>的对象创建方法</li>
+<li>名字里有<code>copy</code>的对象复制方法</li>
+</ul>
+<p><code>CFRetain</code><br><code>CFRelease</code><br><code>CFAutorelease</code><br><code>CFGetRetainCount</code></p>
+<p>除了以上的其他返回<code>CF</code>对象的方法，都是不需要自己调用<code>CFRelease</code> 自己释放的（<strong>Get rule</strong>）</p>
+<h3 id="Toll-Free-Briding"><a href="#Toll-Free-Briding" class="headerlink" title="Toll-Free Briding"></a>Toll-Free Briding</h3><ul>
+<li><code>__bridge</code> 只是声明类型转变，不做内存管理规则的转变</li>
+<li><code>__bridge_retained</code> 内存管理职责由 <code>OC—&gt; Core Foundation</code> 来处理，<code>ARC—&gt; MRC</code></li>
+<li><code>__bridge_transfer Core Foundation—&gt; OC</code> 来处理，<code>MRC—&gt; ARC</code></li>
+</ul>
+<h3 id="autorelease"><a href="#autorelease" class="headerlink" title="autorelease"></a>autorelease</h3><ul>
+<li>给某个对象发送一条<code>autorelease</code>消息时，就会将这个对象加到一个自动释放池中</li>
+<li>当自动释放池销毁时，会给池子里面的所有对象发送一条<code>release</code>消息</li>
+<li>调用<code>autorelease</code>方法时并不会改变对象的计数器，并且会返回对象本身</li>
+<li>autorelease 实际上只是把对<code>release</code> 的调用延迟了，对于每一次<code>autorelease</code>,系统只是把该对象放入了当前的<code>autorelease pool</code> 中，当该<code>pool</code> 被释放时，该<code>pool</code> 中的所有对象会被调用<code>Release</code></li>
+</ul>
+<h2 id="Autorelease-Pool"><a href="#Autorelease-Pool" class="headerlink" title="Autorelease Pool"></a>Autorelease Pool</h2><p>关于 <code>AutoRelease Pool</code> 将单独拿出来写一篇博客。敬请期待。</p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ul>
+<li><a href="https://blog.csdn.net/tyforfreedom/article/details/49384367" target="_blank" rel="noopener">iOS ARC 内存管理要点</a></li>
+<li><a href="http://www.cocoachina.com/ios/20150625/12234.html" target="_blank" rel="noopener">说说iOS与内存管理（上）</a></li>
+<li><a href="http://clang.llvm.org/docs/AutomaticReferenceCounting.html" target="_blank" rel="noopener">Objective-C Automatic Reference Counting (ARC)</a></li>
+<li><a href="https://developer.apple.com/library/ios/releasenotes/ObjectiveC/RN-TransitioningToARC/Introduction/Introduction.html" target="_blank" rel="noopener">Transitioning to ARC Release Notes</a></li>
+<li><a href="http://www.cnblogs.com/flyFreeZn/p/4264220.html" target="_blank" rel="noopener">iOS开发ARC内存管理技术要点</a></li>
+<li><a href="http://www.informit.com/articles/article.aspx?p=1765122&amp;seqNum=7" target="_blank" rel="noopener">Objective-C Boot Camp</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/oc/" rel="tag"># oc</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/10/22/iOS单例设计模式/" rel="next" title="iOS单例设计模式">
+                <i class="fa fa-chevron-left"></i> iOS单例设计模式
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/12/06/2015-12-6-iOS蓝牙知识小结/" rel="prev" title="iOS蓝牙知识小结">
+                iOS蓝牙知识小结 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="karl">
+            
+              <p class="site-author-name" itemprop="name">karl</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">97</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">83</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/likenow" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:fmslikai@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://yujiangshui.com/" title="yujiangshui" target="_blank">yujiangshui</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本了解"><span class="nav-number">1.</span> <span class="nav-text">基本了解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#内存管理什么“鬼”"><span class="nav-number">1.1.</span> <span class="nav-text">内存管理什么“鬼”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引用计数器什么“鬼”"><span class="nav-number">1.2.</span> <span class="nav-text">引用计数器什么“鬼”</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#引用计数器的原理"><span class="nav-number">1.2.1.</span> <span class="nav-text">引用计数器的原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#引用计数器具体操作"><span class="nav-number">1.2.2.</span> <span class="nav-text">引用计数器具体操作</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对象的销毁"><span class="nav-number">1.3.</span> <span class="nav-text">对象的销毁</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内存管理原则"><span class="nav-number">2.</span> <span class="nav-text">内存管理原则</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MRC"><span class="nav-number">2.1.</span> <span class="nav-text">MRC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ARC"><span class="nav-number">2.2.</span> <span class="nav-text">ARC</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ARC-是-OC-编译器特性"><span class="nav-number">2.2.1.</span> <span class="nav-text">ARC 是 OC 编译器特性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ARC的几个原则"><span class="nav-number">2.2.2.</span> <span class="nav-text">ARC的几个原则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ARC-修饰符"><span class="nav-number">2.2.3.</span> <span class="nav-text">ARC 修饰符</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Core-Foundation"><span class="nav-number">2.3.</span> <span class="nav-text">Core Foundation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Toll-Free-Briding"><span class="nav-number">2.4.</span> <span class="nav-text">Toll-Free Briding</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#autorelease"><span class="nav-number">2.5.</span> <span class="nav-text">autorelease</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Autorelease-Pool"><span class="nav-number">3.</span> <span class="nav-text">Autorelease Pool</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-number">4.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2013 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">karl</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

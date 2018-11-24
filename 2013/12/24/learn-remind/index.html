@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next gemini" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="css,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="CSS这门语言很容易上手所以很容易的认为他很简单。其实，要想学好CSS是一个非常棘手的问题。大多数同行都清楚，自己还有很多东西要学。毕竟，泛泛的CSS学习只能停留在CSS水平的底层。">
+<meta name="keywords" content="css">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSS学习反思">
+<meta property="og:url" content="http://yoursite.com/2013/12/24/learn-remind/index.html">
+<meta property="og:site_name" content="Karl&#39;s Blog">
+<meta property="og:description" content="CSS这门语言很容易上手所以很容易的认为他很简单。其实，要想学好CSS是一个非常棘手的问题。大多数同行都清楚，自己还有很多东西要学。毕竟，泛泛的CSS学习只能停留在CSS水平的底层。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-11-05T14:58:12.103Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CSS学习反思">
+<meta name="twitter:description" content="CSS这门语言很容易上手所以很容易的认为他很简单。其实，要想学好CSS是一个非常棘手的问题。大多数同行都清楚，自己还有很多东西要学。毕竟，泛泛的CSS学习只能停留在CSS水平的底层。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2013/12/24/learn-remind/">
+
+
+
+
+
+  <title>CSS学习反思 | Karl's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Karl's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2013/12/24/learn-remind/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="karl">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Karl's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">CSS学习反思</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2013-12-24T14:15:00+08:00">
+                2013-12-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/CSS/" itemprop="url" rel="index">
+                    <span itemprop="name">CSS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>CSS这门语言很容易上手所以很容易的认为他很简单。其实，要想学好CSS是一个非常棘手的问题。大多数同行都清楚，自己还有很多东西要学。毕竟，泛泛的CSS学习只能停留在CSS水平的底层。</p>
+<a id="more"></a>
+<h2 id="CSS难在哪里？"><a href="#CSS难在哪里？" class="headerlink" title="CSS难在哪里？"></a>CSS难在哪里？</h2><h3 id="没有错误报告"><a href="#没有错误报告" class="headerlink" title="没有错误报告"></a>没有错误报告</h3><p>一些WEB语言都遵从严格的的代码书写规则，否则返回错误。但是CSS不输出错误，不像在PHP中一样，哪里出了什么错误，可以迅速定位错误并改正。</p>
+<h3 id="浏览器兼容性"><a href="#浏览器兼容性" class="headerlink" title="浏览器兼容性"></a>浏览器兼容性</h3><p>浏览器兼容性对于学习CSS来说可以称得上是一个“拦路虎”。（关于浏览器之间的斗争不是本问讨论的话题）这也是诸如<a href="http://caniuse.com/" target="_blank" rel="noopener">CanIUse.com</a>这样的网站存的原因。而且，当客户要求兼容到比较老的浏览器诸如（IE6/7）时，CSSER们不得不写一大堆HACK使网站在这些浏览器上表现的和现代浏览器一样。</p>
+<h3 id="CSS-VS-客户"><a href="#CSS-VS-客户" class="headerlink" title="CSS VS 客户"></a>CSS VS 客户</h3><p>CSS 定义了直接关乎网站外观的诸如布局、颜色和尺寸的要素。这就给你带来了更多的问题，尤其是当你做完了以后客户又觉得“某处不合适”，“某处要增加几像素”···这同样是一个噩梦。</p>
+<h2 id="学习CSS的一点思考"><a href="#学习CSS的一点思考" class="headerlink" title="学习CSS的一点思考"></a>学习CSS的一点思考</h2><p>上面说道CSS难学主要都集中于客观因素上，而学习CSS还主要是靠自己，即主观能动性。本人学习前端已经一年有余，看过张鑫旭写得<a href="http://www.zhangxinxu.com/wordpress/2012/07/bottleneck-css-study/comment-page-1/#comments" target="_blank" rel="noopener">说说CSS学习中的瓶颈</a>感觉不愧是前端方面的前辈啊，文中提到的感觉确实有些切切实实发生在自己身上了。所以，自己对如何学好CSS有了以下思考</p>
+<h3 id="戒骄戒躁"><a href="#戒骄戒躁" class="headerlink" title="戒骄戒躁"></a>戒骄戒躁</h3><p>骄和躁这两种品性很容易在一个人的内心滋生。如何知道自己有没有骄傲、浮躁呢？假设有一天你在做跟随滚动时发生了内容塌陷，产生了回流这样一个BUG。</p>
+<h4 id="你的第一反应是？"><a href="#你的第一反应是？" class="headerlink" title="你的第一反应是？"></a>你的第一反应是？</h4><p>A. 我擦，内容怎么突然跑到上面去了？我得查查解决办法<br>B. 切，大惊小怪，我早就知道塌陷这个问题了<br>C. 啊，什么，我刚扫视了，没注意到~~<br>D. 嗯，我要自己试验下新建个HTML页面，做个简单demo看看问题出在哪里~~<br>E. 首先把问题解决了，思考一下写个跟随滚动插件</p>
+<h4 id="我的分析如下："><a href="#我的分析如下：" class="headerlink" title="我的分析如下："></a>我的分析如下：</h4><p>A. 快餐式的接受正确的观点，这次他可能会了下次遇到还是会再查查的——有点儿浮躁<br>B. 自以为是的半吊子——浮躁<br>C. 这都pass掉了，那要学点啥？——相当浮躁<br>D. 动手验证，费时费力，得到的东西印象深刻——不浮躁<br>E. 潜心研究，开发创新——钻研型</p>
+<p>总结上述，感觉做学问最好还是要做一个钻研型的人，浮躁骄傲的人永远都只能游走在最底层。对于这个问题我把代码粘上说一下：</p>
+<h4 id="jQ-代码"><a href="#jQ-代码" class="headerlink" title="jQ 代码"></a>jQ 代码</h4><pre><code>$(window).scroll(function(){
+    if ($(window).scrollTop()&gt;128){
+        $(&quot;#menu&quot;).css({position:&quot;fixed&quot;,left:&quot;0px&quot;,top:&quot;0px&quot;});
+    }else{
+        $(&quot;#menu&quot;).css({position: &quot;relative&quot;}); 
+    }
+});
+</code></pre><p>这里，对 window 对象使用 jQuery 的 scroll 方法，用来监控滚动事件。当页面滚动的时候，就会触发定义的函数。函数的功能也比较简单，使用 scrollTop 方法来获取当前网页滚动的位置距离页面顶部多高（单位 px），然后用 if 语句判断，当滚动距离页面顶端超过128像素之后，就对<code>#menu</code>的模块修改 CSS 样式，让它跟随页面滚动。当小于这个高度的时候，再修改回去。原理很简单，但是会发生内容塌陷，产生回流是因为遗漏了一点问题，即原本在文档流里的块突然消失必定导致，页面的塌陷。所以，设置合理的结构式放置这类问题的最优解。<br>我仅仅做到了不浮躁，那些潜心研究的“大牛”们已经写出了插件:</p>
+<ul>
+<li><a href="http://www.neoease.com/sidebar-follow-scrolling-section/" target="_blank" rel="noopener">Sidebar Follow插件</a></li>
+<li><a href="http://kitchen.net-perspective.com/open-source/scroll-follow/" target="_blank" rel="noopener">Scroll Follow插件</a></li>
+</ul>
+<h2 id="细节决定成败"><a href="#细节决定成败" class="headerlink" title="细节决定成败"></a>细节决定成败</h2><p>从CSS这门语言的机制来讲，它本身就需要我们细心、细心、再细心。为什么？首先，CSS没有报错机制，如果平时不细心，到时候出了错误就是大海捞针大量的脑细胞会被淹死的！其次，由于浏览器对CSS的处理有差异，即存在兼容性问题。所以，细心留意各主流浏览器的某些特性也是有必要的。比如：<code>vertical-align</code>的表现为何在IE7, IE8, IE9下表现不尽相同？其中的渲染机制是？如果你是个细心的人，这根本就不是什么问题对吧？</p>
+<h2 id="开拓视野深入学习"><a href="#开拓视野深入学习" class="headerlink" title="开拓视野深入学习"></a>开拓视野深入学习</h2><p>我学习是很认真的，页面也是能写的，前端书籍也买了不少，技术博客也会逛，前端技术论坛也参加。但是最后的效果呢？在我个人看来还是那个层次，没有实质性的提高！为什么呢？我今天总结了一下，我只是泛泛的经验积累式学习，而且基础掌握的不稳固，目前还无法踩着它继续往上爬。我有事问自己：你对各个CSS属性熟悉吗？各个基本盒模型，各个声明在不同浏览器下的表现熟悉吗？兼容性问题如何修复熟悉吗？···<br>好吧，我还处在入门阶段啊！唯有深度才是我的核心竞争力。深入的细节掌握，深入的机制理解等，这些都是要下苦功才能掌握的啊！</p>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>首先我简单较少了一下CSS这门语言其实并不是看到的那么简单。然后，就自己的学习经历做了反思，这篇算是我个人学习CSS的心得吧。既然，总结了自己的学习思路，那么接下来就是付诸实践了。以上希望对同样学习CSS的你有所帮助，如果你有学习上的比较好的方法或者有困惑，欢迎与您交流。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/css/" rel="tag"># css</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2013/12/03/equal-high/" rel="next" title="实现两列等高">
+                <i class="fa fa-chevron-left"></i> 实现两列等高
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2013/12/28/gray/" rel="prev" title="三种方法开启网页图片灰度">
+                三种方法开启网页图片灰度 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="karl">
+            
+              <p class="site-author-name" itemprop="name">karl</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">97</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">83</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/likenow" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:fmslikai@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://yujiangshui.com/" title="yujiangshui" target="_blank">yujiangshui</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#CSS难在哪里？"><span class="nav-number">1.</span> <span class="nav-text">CSS难在哪里？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#没有错误报告"><span class="nav-number">1.1.</span> <span class="nav-text">没有错误报告</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#浏览器兼容性"><span class="nav-number">1.2.</span> <span class="nav-text">浏览器兼容性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CSS-VS-客户"><span class="nav-number">1.3.</span> <span class="nav-text">CSS VS 客户</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#学习CSS的一点思考"><span class="nav-number">2.</span> <span class="nav-text">学习CSS的一点思考</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#戒骄戒躁"><span class="nav-number">2.1.</span> <span class="nav-text">戒骄戒躁</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#你的第一反应是？"><span class="nav-number">2.1.1.</span> <span class="nav-text">你的第一反应是？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#我的分析如下："><span class="nav-number">2.1.2.</span> <span class="nav-text">我的分析如下：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#jQ-代码"><span class="nav-number">2.1.3.</span> <span class="nav-text">jQ 代码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#细节决定成败"><span class="nav-number">3.</span> <span class="nav-text">细节决定成败</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开拓视野深入学习"><span class="nav-number">4.</span> <span class="nav-text">开拓视野深入学习</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结语"><span class="nav-number">5.</span> <span class="nav-text">结语</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2013 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">karl</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

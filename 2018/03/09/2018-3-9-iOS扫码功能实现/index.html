@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next gemini" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="qrcode,摄像头,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="背景我们有一个识别学生证信息的需求，通过APP调用手机摄像头扫描证件上的信息。其实，主要是对条形码和二维码的识别。文章的内容就是实现扫码功能以及解决开发过程遇到的问题。">
+<meta name="keywords" content="qrcode,摄像头">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS扫码功能实现">
+<meta property="og:url" content="http://yoursite.com/2018/03/09/2018-3-9-iOS扫码功能实现/index.html">
+<meta property="og:site_name" content="Karl&#39;s Blog">
+<meta property="og:description" content="背景我们有一个识别学生证信息的需求，通过APP调用手机摄像头扫描证件上的信息。其实，主要是对条形码和二维码的识别。文章的内容就是实现扫码功能以及解决开发过程遇到的问题。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://developer.apple.com/library/archive/documentation/AudioVideo/Conceptual/AVFoundationPG/Art/frameworksBlockDiagram_2x.png">
+<meta property="og:updated_time" content="2018-10-28T08:44:56.544Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS扫码功能实现">
+<meta name="twitter:description" content="背景我们有一个识别学生证信息的需求，通过APP调用手机摄像头扫描证件上的信息。其实，主要是对条形码和二维码的识别。文章的内容就是实现扫码功能以及解决开发过程遇到的问题。">
+<meta name="twitter:image" content="https://developer.apple.com/library/archive/documentation/AudioVideo/Conceptual/AVFoundationPG/Art/frameworksBlockDiagram_2x.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/03/09/2018-3-9-iOS扫码功能实现/">
+
+
+
+
+
+  <title>iOS扫码功能实现 | Karl's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Karl's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/09/2018-3-9-iOS扫码功能实现/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="karl">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Karl's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">iOS扫码功能实现</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-09T23:38:02+08:00">
+                2018-03-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>我们有一个识别学生证信息的需求，通过APP调用手机摄像头扫描证件上的信息。其实，主要是对<strong>条形码</strong>和<strong>二维码</strong>的识别。文章的内容就是实现扫码功能以及解决开发过程遇到的问题。</p>
+<a id="more"></a>
+<h2 id="扫码功能实现方案一"><a href="#扫码功能实现方案一" class="headerlink" title="扫码功能实现方案一"></a>扫码功能实现方案一</h2><p><strong>iOS7之后</strong>，系统为我们提供了解析<strong>二维码</strong>和<strong>条形码</strong>的接口。于是，撸起袖子就是干</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 导入依赖库</span><br><span class="line">#import &lt;AVFoundation/AVFoundation.h&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="https://developer.apple.com/library/archive/documentation/AudioVideo/Conceptual/AVFoundationPG/Art/frameworksBlockDiagram_2x.png" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">// KLCodeScannerViewController.h</span><br><span class="line">@interface KLCodeScannerViewController ()&lt;AVCaptureMetadataOutputObjectsDelegate&gt; // 设置代理</span><br><span class="line">/*!</span><br><span class="line"> @class AVCaptureSession</span><br><span class="line"> @abstract</span><br><span class="line">    AVCaptureSession is the central hub of the AVFoundation capture classes.</span><br><span class="line"> </span><br><span class="line"> @discussion</span><br><span class="line">    To perform a real-time capture, a client may instantiate AVCaptureSession and add appropriate AVCaptureInputs, such as AVCaptureDeviceInput, and outputs, such as AVCaptureMovieFileOutput. [AVCaptureSession startRunning] starts the flow of data from the inputs to the outputs, and [AVCaptureSession stopRunning] stops the flow. A client may set the sessionPreset property to customize the quality level or bitrate of the output.</span><br><span class="line"> */</span><br><span class="line">@property (nonatomic, strong) AVCaptureSession *session;</span><br><span class="line">// 计时</span><br><span class="line">@property (nonatomic, strong) NSTimer *timer;</span><br><span class="line">// 判断是否在扫描中</span><br><span class="line">@property (nonatomic, assign) BOOL isReading;</span><br><span class="line"></span><br><span class="line">// ...</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">/*!</span><br><span class="line"> @protocol AVCaptureMetadataOutputObjectsDelegate</span><br><span class="line"> @abstract</span><br><span class="line">    Defines an interface for delegates of AVCaptureMetadataOutput to receive emitted objects.</span><br><span class="line"> */</span><br><span class="line">API_AVAILABLE(ios(6.0)) API_UNAVAILABLE(macos) __WATCHOS_PROHIBITED __TVOS_PROHIBITED</span><br><span class="line">@protocol AVCaptureMetadataOutputObjectsDelegate &lt;NSObject&gt;</span><br><span class="line"></span><br><span class="line">@optional</span><br><span class="line"></span><br><span class="line">/*!</span><br><span class="line"> @method captureOutput:didOutputMetadataObjects:fromConnection:</span><br><span class="line"> @abstract</span><br><span class="line">    Called whenever an AVCaptureMetadataOutput instance emits new objects through a connection.</span><br><span class="line"> </span><br><span class="line"> @param output</span><br><span class="line">    The AVCaptureMetadataOutput instance that emitted the objects.</span><br><span class="line"> @param metadataObjects</span><br><span class="line">    An array of AVMetadataObject subclasses (see AVMetadataObject.h).</span><br><span class="line"> @param connection</span><br><span class="line">    The AVCaptureConnection through which the objects were emitted.</span><br><span class="line"> </span><br><span class="line"> @discussion</span><br><span class="line">    Delegates receive this message whenever the output captures and emits new objects, as specified by its metadataObjectTypes property. Delegates can use the provided objects in conjunction with other APIs for further processing. This method will be called on the dispatch queue specified by the output&apos;s metadataObjectsCallbackQueue property. This method may be called frequently, so it must be efficient to prevent capture performance problems, including dropped metadata objects.</span><br><span class="line"> </span><br><span class="line">    Clients that need to reference metadata objects outside of the scope of this method must retain them and then release them when they are finished with them.</span><br><span class="line"> */</span><br><span class="line">- (void)captureOutput:(AVCaptureOutput *)output didOutputMetadataObjects:(NSArray&lt;__kindof AVMetadataObject *&gt; *)metadataObjects fromConnection:(AVCaptureConnection *)connection;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br></pre></td><td class="code"><pre><span class="line">// KLCodeScannerViewController.m</span><br><span class="line">@implementation KLCodeScannerViewController</span><br><span class="line"></span><br><span class="line">#pragma mark - lifeCycle</span><br><span class="line">- (void)dealloc &#123;</span><br><span class="line">    _session = nil;</span><br><span class="line">    if ([_timer isValid]) &#123;</span><br><span class="line">        [_timer invalidate];</span><br><span class="line">        _timer = nil ;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line">    </span><br><span class="line">    // ...</span><br><span class="line">    </span><br><span class="line">    // 判断权限</span><br><span class="line">    [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) &#123;</span><br><span class="line">        dispatch_async(dispatch_get_main_queue(), ^&#123;</span><br><span class="line">            if (granted) &#123;</span><br><span class="line">                [self loadScanView];</span><br><span class="line">                [self startRunning];</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                NSString *title = @&quot;请在iPhone的”设置-隐私-相机“选项中，允许App访问你的相机&quot;;</span><br><span class="line">                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title message:@&quot;&quot; delegate:nil cancelButtonTitle:@&quot;好&quot; otherButtonTitles:nil];</span><br><span class="line">                [alertView show];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)loadScanView &#123;</span><br><span class="line">    // 获取摄像设备</span><br><span class="line">    AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];</span><br><span class="line">    </span><br><span class="line">    // 创建输入流</span><br><span class="line">    AVCaptureDeviceInput *input = [AVCaptureDeviceInput deviceInputWithDevice:device error:nil];</span><br><span class="line">    </span><br><span class="line">    // 创建输出流</span><br><span class="line">    AVCaptureMetadataOutput *output = [[AVCaptureMetadataOutput alloc]init];</span><br><span class="line">    </span><br><span class="line">    // 设置代理在主线程里刷新</span><br><span class="line">    [output setMetadataObjectsDelegate:self queue:dispatch_get_main_queue()];</span><br><span class="line">    </span><br><span class="line">    // AVCaptureSession 对象</span><br><span class="line">    self.session = [[AVCaptureSession alloc] init];</span><br><span class="line">    </span><br><span class="line">    // 高质量采集率</span><br><span class="line">    [self.session setSessionPreset:AVCaptureSessionPresetHigh];</span><br><span class="line">    </span><br><span class="line">    [self.session addInput:input];</span><br><span class="line">    [self.session addOutput:output];</span><br><span class="line">    // 设置扫码支持的编码格式 ps.类型越多，扫描效率越低</span><br><span class="line">    switch (self.scanType) &#123;</span><br><span class="line">        case KLCodeScannerTypeAll:</span><br><span class="line">            output.metadataObjectTypes=@[AVMetadataObjectTypeQRCode,AVMetadataObjectTypeEAN13Code,</span><br><span class="line">                                         AVMetadataObjectTypeEAN8Code,</span><br><span class="line">                                         AVMetadataObjectTypeUPCECode,</span><br><span class="line">                                         AVMetadataObjectTypeCode39Code,</span><br><span class="line">                                         AVMetadataObjectTypeCode39Mod43Code,</span><br><span class="line">                                         AVMetadataObjectTypeCode93Code,</span><br><span class="line">                                         AVMetadataObjectTypeCode128Code,</span><br><span class="line">                                         AVMetadataObjectTypePDF417Code];</span><br><span class="line">            break;</span><br><span class="line">            </span><br><span class="line">        case KLCodeScannerTypeQRCode:</span><br><span class="line">            output.metadataObjectTypes=@[AVMetadataObjectTypeQRCode];</span><br><span class="line">            break;</span><br><span class="line">            </span><br><span class="line">        case KLCodeScannerTypeBarcode:</span><br><span class="line">            output.metadataObjectTypes=@[AVMetadataObjectTypeEAN13Code,</span><br><span class="line">                                         AVMetadataObjectTypeEAN8Code,</span><br><span class="line">                                         AVMetadataObjectTypeUPCECode,</span><br><span class="line">                                         AVMetadataObjectTypeCode39Code,</span><br><span class="line">                                         AVMetadataObjectTypeCode39Mod43Code,</span><br><span class="line">                                         AVMetadataObjectTypeCode93Code,</span><br><span class="line">                                         AVMetadataObjectTypeCode128Code,</span><br><span class="line">                                         AVMetadataObjectTypePDF417Code];</span><br><span class="line">            break;</span><br><span class="line">            </span><br><span class="line">        default:</span><br><span class="line">            break;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    AVCaptureVideoPreviewLayer *layer = [AVCaptureVideoPreviewLayer layerWithSession:self.session];</span><br><span class="line">    layer.videoGravity = AVLayerVideoGravityResizeAspectFill;</span><br><span class="line">    layer.frame = self.view.layer.bounds;</span><br><span class="line">    [self.view.layer insertSublayer:layer atIndex:0];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#pragma mark - private method</span><br><span class="line">// 开始扫描</span><br><span class="line">- (void)startRunning &#123;</span><br><span class="line">    if (self.session) &#123;</span><br><span class="line">        _isReading = YES;</span><br><span class="line">        </span><br><span class="line">        [self.session startRunning];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">// 停止扫描</span><br><span class="line">- (void)stopRunning &#123;</span><br><span class="line">    if ([_timer isValid]) &#123;</span><br><span class="line">        [_timer invalidate];</span><br><span class="line">        _timer = nil ;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    [self.session stopRunning];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#pragma mark - AVCaptureMetadataOutputObjectsDelegate</span><br><span class="line">- (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects fromConnection:(AVCaptureConnection *)connection &#123;</span><br><span class="line">    if (!_isReading) &#123;</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    if (metadataObjects.count &gt; 0) &#123;</span><br><span class="line">        _isReading = NO;</span><br><span class="line">        AVMetadataMachineReadableCodeObject *metadataObject = metadataObjects[0];</span><br><span class="line">        NSString *result = metadataObject.stringValue;</span><br><span class="line">        !self.scanResultBlock?NULL:self.scanResultBlock(result);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<h4 id="以上代码省略了部分细节比如："><a href="#以上代码省略了部分细节比如：" class="headerlink" title="以上代码省略了部分细节比如："></a>以上代码省略了部分细节比如：</h4><ul>
+<li>扫描区域</li>
+<li><code>info.plist</code> 文件中设置摄像机权限</li>
+<li>扫描动画 等</li>
+</ul>
+<p>流程已经比较清晰，细节大家自行补充。</p>
+<h4 id="正当我们宣告成功的时候，问题出现了：扫描条形码出来的是一堆乱码！！！我们明明吧一堆条形码的编码格式都给了呀："><a href="#正当我们宣告成功的时候，问题出现了：扫描条形码出来的是一堆乱码！！！我们明明吧一堆条形码的编码格式都给了呀：" class="headerlink" title="正当我们宣告成功的时候，问题出现了：扫描条形码出来的是一堆乱码！！！我们明明吧一堆条形码的编码格式都给了呀："></a>正当我们宣告成功的时候，问题出现了：扫描条形码出来的是一堆乱码！！！我们明明吧一堆条形码的编码格式都给了呀：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@[AVMetadataObjectTypeEAN13Code,</span><br><span class="line">AVMetadataObjectTypeEAN8Code,</span><br><span class="line">AVMetadataObjectTypeUPCECode,</span><br><span class="line">AVMetadataObjectTypeCode39Code,</span><br><span class="line">AVMetadataObjectTypeCode39Mod43Code,</span><br><span class="line">AVMetadataObjectTypeCode93Code,</span><br><span class="line">AVMetadataObjectTypeCode128Code,</span><br><span class="line">AVMetadataObjectTypePDF417Code];</span><br></pre></td></tr></table></figure>
+<h3 id="AVMetaDataObject-h"><a href="#AVMetaDataObject-h" class="headerlink" title="AVMetaDataObject.h"></a>AVMetaDataObject.h</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">#pragma mark - AVMetadataMachineReadableCodeObject</span><br><span class="line"></span><br><span class="line">@class AVMetadataMachineReadableCodeObjectInternal;</span><br><span class="line"></span><br><span class="line">/*!</span><br><span class="line"> @class AVMetadataMachineReadableCodeObject</span><br><span class="line"> @abstract</span><br><span class="line">    AVMetadataMachineReadableCodeObject is a concrete subclass of AVMetadataObject defining the features of a detected one-dimensional or two-dimensional barcode.</span><br><span class="line"> </span><br><span class="line"> @discussion</span><br><span class="line">    AVMetadataMachineReadableCodeObject represents a single detected machine readable code in a picture. It is an immutable object describing the features and payload of a barcode.</span><br><span class="line"> </span><br><span class="line">    On supported platforms, AVCaptureMetadataOutput outputs arrays of detected machine readable code objects. See AVCaptureMetadataOutput.h.</span><br><span class="line"> */</span><br><span class="line">API_AVAILABLE(ios(7.0)) API_UNAVAILABLE(macos) __WATCHOS_PROHIBITED __TVOS_PROHIBITED</span><br><span class="line">@interface AVMetadataMachineReadableCodeObject : AVMetadataObject</span><br><span class="line">&#123;</span><br><span class="line">@private</span><br><span class="line">    AVMetadataMachineReadableCodeObjectInternal *_internal;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/*!</span><br><span class="line"> @property corners</span><br><span class="line"> @abstract</span><br><span class="line">    The points defining the (X,Y) locations of the corners of the machine-readable code.</span><br><span class="line"> </span><br><span class="line"> @discussion</span><br><span class="line">    The value of this property is an NSArray of NSDictionaries, each of which has been created from a CGPoint using CGPointCreateDictionaryRepresentation(), representing the coordinates of the corners of the object with respect to the image in which it resides. If the metadata originates from video, the points may be expressed as scalar values from 0. - 1. The points in the corners differ from the bounds rectangle in that bounds is axis-aligned to orientation of the captured image, and the values of the corners reside within the bounds rectangle. The points are arranged in counter-clockwise order (clockwise if the code or image is mirrored), starting with the top-left of the code in its canonical orientation.</span><br><span class="line"> */</span><br><span class="line">@property(readonly) NSArray&lt;NSDictionary *&gt; *corners;</span><br><span class="line"></span><br><span class="line">/*!</span><br><span class="line"> @property stringValue</span><br><span class="line"> @abstract</span><br><span class="line">    Returns the receiver&apos;s errorCorrectedData decoded into a human-readable string.</span><br><span class="line"> </span><br><span class="line"> @discussion</span><br><span class="line">    The value of this property is an NSString created by decoding the binary payload according to the format of the machine readable code. Returns nil if a string representation cannot be created from the payload.</span><br><span class="line"> */</span><br><span class="line">@property(readonly, nullable) NSString *stringValue;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p><code>stringValue</code> 是乱码，搞得我都凌乱了！</p>
+<p>问题摆在面前，终究还是要处理，于是有了第一种方案的补充方案。</p>
+<h2 id="条形码扫码实现补充方案"><a href="#条形码扫码实现补充方案" class="headerlink" title="条形码扫码实现补充方案"></a>条形码扫码实现补充方案</h2><p>上网搜资料，我们发现了两个比较出名的第三方库：</p>
+<ul>
+<li><a href="http://zbar.sourceforge.net/" target="_blank" rel="noopener">ZBarSDKa</a></li>
+<li><a href="https://github.com/TheLevelUp/ZXingObjC" target="_blank" rel="noopener">ZXingObjC</a></li>
+</ul>
+<p>其实一开始基于我们对于iOS8一下用户已经不怎么care的前提下，我们果断选择iOS系统提供的接口实现需求。但是目前却又不得不集成第三方的框架。我们集成了<code>ZXingObjC</code></p>
+<p>我看了<a href="http://blog.devtang.com/about/" target="_blank" rel="noopener">巧哥</a>的<a href="http://blog.devtang.com/2012/12/23/use-zxing-library/" target="_blank" rel="noopener">在iOS中使用ZXing库</a>这篇文章，其实已经讲得比较细致了。我这里不再赘述。</p>
+<h3 id="BUT，还是出现了乱码问题！！！"><a href="#BUT，还是出现了乱码问题！！！" class="headerlink" title="BUT，还是出现了乱码问题！！！"></a>BUT，还是出现了乱码问题！！！</h3><p>在<code>ZXCaptureDelegate</code>扫描成功的回调方法里，我们拿到的<code>result.text</code>还是乱码！！！！</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#pragma mark - ZXCaptureDelegate Methods</span><br><span class="line"></span><br><span class="line">- (void)captureResult:(ZXCapture *)capture result:(ZXResult *)result &#123;</span><br><span class="line">    if (!result) return;</span><br><span class="line">    NSString *resultText = result.text; // 返回的扫描结果</span><br><span class="line">    // todo</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="既然乱码，肯定是哪里编码格式不对！！！"><a href="#既然乱码，肯定是哪里编码格式不对！！！" class="headerlink" title="既然乱码，肯定是哪里编码格式不对！！！"></a>既然乱码，肯定是哪里编码格式不对！！！</h3><p>于是我的思路是，通过 <code>- (void)captureResult:(ZXCapture *)capture result:(ZXResult *)result</code>回调方法，我们可以拿到扫描到的结果<code>ZXResult</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">@class ZXByteArray;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * Encapsulates the result of decoding a barcode within an image.</span><br><span class="line"> */</span><br><span class="line">@interface ZXResult : NSObject</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @return raw text encoded by the barcode</span><br><span class="line"> */</span><br><span class="line">@property (nonatomic, copy, readonly) NSString *text;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @return raw bytes encoded by the barcode, if applicable, otherwise nil</span><br><span class="line"> */</span><br><span class="line">@property (nonatomic, strong, readonly) ZXByteArray *rawBytes;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @return points related to the barcode in the image. These are typically points</span><br><span class="line"> *         identifying finder patterns or the corners of the barcode. The exact meaning is</span><br><span class="line"> *         specific to the type of barcode that was decoded.</span><br><span class="line"> */</span><br><span class="line">@property (nonatomic, strong, readonly) NSMutableArray *resultPoints;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @return ZXBarcodeFormat representing the format of the barcode that was decoded</span><br><span class="line"> */</span><br><span class="line">@property (nonatomic, assign, readonly) ZXBarcodeFormat barcodeFormat;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @return NSDictionary mapping ZXResultMetadataType keys to values. May be</span><br><span class="line"> *   nil. This contains optional metadata about what was detected about the barcode,</span><br><span class="line"> *   like orientation.</span><br><span class="line"> */</span><br><span class="line">@property (nonatomic, strong, readonly) NSMutableDictionary *resultMetadata;</span><br><span class="line"></span><br><span class="line">@property (nonatomic, assign, readonly) long timestamp;</span><br><span class="line"></span><br><span class="line">- (id)initWithText:(NSString *)text rawBytes:(ZXByteArray *)rawBytes resultPoints:(NSArray *)resultPoints format:(ZXBarcodeFormat)format;</span><br><span class="line">- (id)initWithText:(NSString *)text rawBytes:(ZXByteArray *)rawBytes resultPoints:(NSArray *)resultPoints format:(ZXBarcodeFormat)format timestamp:(long)timestamp;</span><br><span class="line">+ (id)resultWithText:(NSString *)text rawBytes:(ZXByteArray *)rawBytes resultPoints:(NSArray *)resultPoints format:(ZXBarcodeFormat)format;</span><br><span class="line">+ (id)resultWithText:(NSString *)text rawBytes:(ZXByteArray *)rawBytes resultPoints:(NSArray *)resultPoints format:(ZXBarcodeFormat)format timestamp:(long)timestamp;</span><br><span class="line">- (void)putMetadata:(ZXResultMetadataType)type value:(id)value;</span><br><span class="line">- (void)putAllMetadata:(NSMutableDictionary *)metadata;</span><br><span class="line">- (void)addResultPoints:(NSArray *)newPoints;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p>相信你也看到了，除了<code>text</code>我们可以拿到</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * @return NSDictionary mapping ZXResultMetadataType keys to values. May be</span><br><span class="line"> *   nil. This contains optional metadata about what was detected about the barcode,</span><br><span class="line"> *   like orientation.</span><br><span class="line"> */</span><br><span class="line">@property (nonatomic, strong, readonly) NSMutableDictionary *resultMetadata;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * @return raw bytes encoded by the barcode, if applicable, otherwise nil</span><br><span class="line"> */</span><br><span class="line">@property (nonatomic, strong, readonly) ZXByteArray *rawBytes;</span><br></pre></td></tr></table></figure>
+<p>于是，我们拿到原始数据，强制转码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">NSStringEncoding enc = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGB_18030_2000);</span><br><span class="line">NSData *resultData = [NSData dataWithBytes:resultBytes length:resultBytes.length];</span><br><span class="line">NSString *resultStr = [[NSString alloc] initWithData:resultData encoding:enc];</span><br></pre></td></tr></table></figure>
+<p>最终，借助第三方库<a href="https://github.com/TheLevelUp/ZXingObjC" target="_blank" rel="noopener">ZXingObjC</a>拿到了，扫描结果<code>resultStr</code>。</p>
+<p>以上希望对读者有所帮助，如果您有更好的方案，欢迎邮件交流！</p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ul>
+<li><a href="https://developer.apple.com/library/archive/documentation/AudioVideo/Conceptual/AVFoundationPG/Articles/00_Introduction.html#//apple_ref/doc/uid/TP40010188" target="_blank" rel="noopener">AVFoundation Programming Guide</a></li>
+<li><a href="https://www.appcoda.com/qr-code-ios-programming-tutorial/" target="_blank" rel="noopener">How To Scan QR Code Using AVFoundation Framework</a></li>
+<li><a href="https://yimouleng.com/2016/01/13/ios-qrcode/" target="_blank" rel="noopener">iOS开发-QRCode-二维码识别与生成</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/qrcode/" rel="tag"># qrcode</a>
+          
+            <a href="/tags/摄像头/" rel="tag"># 摄像头</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/29/老板讲互联网思维/" rel="next" title="老板讲互联网思维">
+                <i class="fa fa-chevron-left"></i> 老板讲互联网思维
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/06/23/APP拉起微信小程序/" rel="prev" title="APP拉起微信小程序">
+                APP拉起微信小程序 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="karl">
+            
+              <p class="site-author-name" itemprop="name">karl</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">97</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">83</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/likenow" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:fmslikai@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://yujiangshui.com/" title="yujiangshui" target="_blank">yujiangshui</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#扫码功能实现方案一"><span class="nav-number">2.</span> <span class="nav-text">扫码功能实现方案一</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#以上代码省略了部分细节比如："><span class="nav-number">2.0.1.</span> <span class="nav-text">以上代码省略了部分细节比如：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#正当我们宣告成功的时候，问题出现了：扫描条形码出来的是一堆乱码！！！我们明明吧一堆条形码的编码格式都给了呀："><span class="nav-number">2.0.2.</span> <span class="nav-text">正当我们宣告成功的时候，问题出现了：扫描条形码出来的是一堆乱码！！！我们明明吧一堆条形码的编码格式都给了呀：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AVMetaDataObject-h"><span class="nav-number">2.1.</span> <span class="nav-text">AVMetaDataObject.h</span></a></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#条形码扫码实现补充方案"><span class="nav-number">3.</span> <span class="nav-text">条形码扫码实现补充方案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#BUT，还是出现了乱码问题！！！"><span class="nav-number">3.1.</span> <span class="nav-text">BUT，还是出现了乱码问题！！！</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#既然乱码，肯定是哪里编码格式不对！！！"><span class="nav-number">3.2.</span> <span class="nav-text">既然乱码，肯定是哪里编码格式不对！！！</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-number">4.</span> <span class="nav-text">参考文献</span></a></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2013 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">karl</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

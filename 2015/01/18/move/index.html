@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next gemini" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="随笔,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="购买的主机到期又不太想续费了，而且看到同学的静态博客也很给力便不再使用 WordPress 系统，于是花了几天的时间用 Hexo 搭建了静态博客,搬到了 Github Pages 。下面就我在博客搬家的时候遇到的一些问题以及解决方案做一下总结。">
+<meta name="keywords" content="随笔">
+<meta property="og:type" content="article">
+<meta property="og:title" content="博客网站搬到 Github">
+<meta property="og:url" content="http://yoursite.com/2015/01/18/move/index.html">
+<meta property="og:site_name" content="Karl&#39;s Blog">
+<meta property="og:description" content="购买的主机到期又不太想续费了，而且看到同学的静态博客也很给力便不再使用 WordPress 系统，于是花了几天的时间用 Hexo 搭建了静态博客,搬到了 Github Pages 。下面就我在博客搬家的时候遇到的一些问题以及解决方案做一下总结。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://kailee.b0.upaiyun.com/dnsseting.png">
+<meta property="og:updated_time" content="2018-10-20T14:30:39.879Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="博客网站搬到 Github">
+<meta name="twitter:description" content="购买的主机到期又不太想续费了，而且看到同学的静态博客也很给力便不再使用 WordPress 系统，于是花了几天的时间用 Hexo 搭建了静态博客,搬到了 Github Pages 。下面就我在博客搬家的时候遇到的一些问题以及解决方案做一下总结。">
+<meta name="twitter:image" content="http://kailee.b0.upaiyun.com/dnsseting.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2015/01/18/move/">
+
+
+
+
+
+  <title>博客网站搬到 Github | Karl's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Karl's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/01/18/move/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="karl">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Karl's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">博客网站搬到 Github</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-01-18T20:02:13+08:00">
+                2015-01-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/日记/" itemprop="url" rel="index">
+                    <span itemprop="name">日记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>购买的主机到期又不太想续费了，而且看到同学的静态博客也很给力便不再使用 <a href="https://WordPress.org/download/" target="_blank" rel="noopener">WordPress</a> 系统，于是花了几天的时间用 <a href="http://hexo.io/" target="_blank" rel="noopener">Hexo</a> 搭建了静态博客,搬到了 <a href="https://pages.github.com/" target="_blank" rel="noopener">Github Pages</a> 。下面就我在博客搬家的时候遇到的一些问题以及解决方案做一下总结。<br><a id="more"></a></p>
+<h2 id="博客搬家要做哪些准备"><a href="#博客搬家要做哪些准备" class="headerlink" title="博客搬家要做哪些准备"></a>博客搬家要做哪些准备</h2><h3 id="思想准备"><a href="#思想准备" class="headerlink" title="思想准备"></a>思想准备</h3><p>有句古话：“麻雀虽小五脏俱全” 。博客搬迁和一般网站一样并不轻松甚至说有一定的风险，尤其是遇到一些 BUG 的时候后就更是闹心，所以在你搬家之前要有一定的思想觉悟。</p>
+<h3 id="资源准备"><a href="#资源准备" class="headerlink" title="资源准备"></a>资源准备</h3><p>所谓“资源准备”也就是：</p>
+<ul>
+<li>你原站上的文件</li>
+<li>新的空间</li>
+</ul>
+<h2 id="上传博客到新空间"><a href="#上传博客到新空间" class="headerlink" title="上传博客到新空间"></a>上传博客到新空间</h2><h3 id="本地导入博客文章"><a href="#本地导入博客文章" class="headerlink" title="本地导入博客文章"></a>本地导入博客文章</h3><p>我原来的博客是用的 WordPress 系统，现在用的是静态博客生成系统 Hexo 。现在要想把原来 WordPress 上写的文章导入到 Hexo 也很简单：</p>
+<ol>
+<li>从 WordPress 导出文章<ol>
+<li>登录 WordPress 管理控制台，选择工具-&gt;导出，再选择文章。点击下载导出的文件，就可以得到一个名称类似<code>WordPress.xml</code>的文件。</li>
+<li>将以上导出的文件放在本地 Hexo 博客的根目录下</li>
+</ol>
+</li>
+<li>把文章导入到 Hexo<ol>
+<li>要导入 WordPress 的文章要安装插件执行以下命令： <code>npm install hexo-migrator-WordPress</code></li>
+<li>导入文章执行以下命令：<code>hexo migrate WordPress WordPress.xml</code></li>
+</ol>
+</li>
+<li>执行完成后，在站点目录-&gt;source-&gt;_posts目录中，就可以看到导入的文章。    </li>
+<li>注：这里导出的文件不必放在本地 Hexo 博客的根目录下，但在2.2步下要相应改变<code>WordPress.xml</code>的文件路径</li>
+</ol>
+<h3 id="部署到-Github"><a href="#部署到-Github" class="headerlink" title="部署到 Github"></a>部署到 Github</h3><p>该部署环节默认你已经在本地搭建好了，并且在 Github Pages 建立了自己的 <strong>Repository</strong> 并完成了一系列的工作（这不是本文的重点在后续的文章中我会进一步分享经验）。你可以到<a href="https://pages.github.com/" target="_blank" rel="noopener">Github Pages</a>提前学习一下。<br>然后就是把本地博客上传到 Github Pages 具体请参考<a href="http://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a>即可完成部署这里不再赘述。</p>
+<h3 id="将独立域名与-GitHub-Pages-的空间绑定"><a href="#将独立域名与-GitHub-Pages-的空间绑定" class="headerlink" title="将独立域名与 GitHub Pages 的空间绑定"></a>将独立域名与 GitHub Pages 的空间绑定</h3><p>你完全可以参考：<a href="https://help.github.com/articles/setting-up-a-custom-domain-with-github-pages/" target="_blank" rel="noopener">Setting up a custom domain with GitHub Pages</a>完成独立域名的绑定工作，因为再花哨的语言在这里都显得相形见绌。我就自己出的错讲几点注意事项：</p>
+<ul>
+<li>DNS 设置<ul>
+<li>我开始用的是<a href="https://www.dnspod.cn/" target="_blank" rel="noopener">DNSPOD 中国版</a>当我添加一条 A 记录使其指向：<code>192.30.252.153</code> <code>192.30.252.154</code>中的一个时出现了莫名的错误，于是我转而使用<a href="https://www.dnspod.com/" target="_blank" rel="noopener">DNSPOD 国际版</a>算是解决了。</li>
+<li>关于 DNS 的参数设置在使用 DNSPOD 时都会有说明，这里不再浪费口舌，值得主义的一个小技巧是：Time To Live（TTL），缓存的生存时间。指地方dns缓存您域名记录信息的时间，缓存失效后会再次到DNSPod获取记录值。为了快速生效可置为：60s，待解析生效后再改回正常值：600s。</li>
+<li>最终效果：<img src="http://kailee.b0.upaiyun.com/dnsseting.png" alt=""></li>
+</ul>
+</li>
+<li>当然，到这里只是意味着,如果你的域名解析到了 DNSPod ，它会帮你转到 Github 但是它为什么回到 DNSPod 呢?这就需要我们在 Godaddy 那也做一些设置了<ul>
+<li>因为用了DNSPOD 国际版所以修改的时候也要参照对应的修改教程<a href="https://www.dnspod.com/support/index/fid/119" target="_blank" rel="noopener">How can the domain name registered in Godaddy use DNSPod?</a></li>
+</ul>
+</li>
+<li>最后，稍作等待然后就可以用你自己的域名访问你的博客了</li>
+</ul>
+<h2 id="自己挖的坑"><a href="#自己挖的坑" class="headerlink" title="自己挖的坑"></a>自己挖的坑</h2><h3 id="SEO-收录清空"><a href="#SEO-收录清空" class="headerlink" title="SEO 收录清空"></a>SEO 收录清空</h3><p>博客搬到 Github Pages 后，因为修改了部分文章的 URL 、内容、标题、描述、和关键字，结果搜索引擎把对之前收录的我的博客的收录都清掉了，之前积累的就都没了，搜索引擎又开始重新收录了。呜呜呜······</p>
+<h3 id="sitemap"><a href="#sitemap" class="headerlink" title="sitemap"></a>sitemap</h3><p>为了让搜索引擎的蜘蛛机器人(spider)对网站更好的进行爬行，我安装了 <a href="https://github.com/hexojs/hexo-generator-sitemap" target="_blank" rel="noopener">sitemap</a> 插件。为达到较好的收录效果我到 <a href="https://www.google.com/webmasters/" target="_blank" rel="noopener">google</a> 手动提交了 <code>sitemap.xml</code> 以及登陆<a href="http://zhanzhang.baidu.com/sitesubmit/index" target="_blank" rel="noopener">百度搜索引擎网站</a>提交我的网址。</p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ul>
+<li><a href="https://pages.github.com/" target="_blank" rel="noopener">Github Pages</a></li>
+<li><a href="http://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></li>
+<li><a href="http://bubbyroom.com/2013/08/11/migrate-my-blog-from-WordPress-to-hexo/" target="_blank" rel="noopener">Migrate My blog from WordPress to Hexo</a></li>
+<li><a href="https://help.github.com/articles/-setting-up-a-custom-domain-with-github-pages/" target="_blank" rel="noopener">Setting up a custom domain with GitHub Pages</a></li>
+<li><a href="https://www.dnspod.com/support/index/fid/119" target="_blank" rel="noopener">How can the domain name registered in Godaddy use DNSPod?</a></li>
+<li><a href="http://yanping.me/cn/blog/2011/12/04/github-pages-domain/" target="_blank" rel="noopener">浅谈github页面域名绑定</a></li>
+<li><a href="http://armsword.com/2014/11/22/move-from-WordPress-to-hexo/" target="_blank" rel="noopener">将WordPress迁移到hexo并同时托管到Github和Gitcafe上</a></li>
+<li><a href="http://zhaiyz.com/2014/04/12/migrator-blogs-from-WordPress-to-hexo/" target="_blank" rel="noopener">把博客从WordPress中迁移到hexo中</a></li>
+<li><a href="http://www.qianxingzhem.com/post-369.html" target="_blank" rel="noopener">网站搬家的一般步骤</a></li>
+<li><a href="http://www.afengseo.com/1594.html" target="_blank" rel="noopener">手把手教会WordPress博客网站robots.txt文件写法</a></li>
+<li><a href="http://www.qianxingzhem.com/post-1048.html" target="_blank" rel="noopener">在搬家的时候随时注意好你的robots</a></li>
+<li><a href="http://zh.wikipedia.org/wiki/Robots.txt#.E6.9B.BF.E4.BB.A3" target="_blank" rel="noopener">robots.txt</a></li>
+<li><a href="http://zh.wikipedia.org/wiki/%E7%B6%B2%E7%AB%99%E5%9C%B0%E5%9C%96" target="_blank" rel="noopener">网站地图</a></li>
+<li><a href="https://github.com/hexojs/hexo/wiki/Plugins" target="_blank" rel="noopener">Plugins</a></li>
+<li><a href="http://static.googleusercontent.com/media/www.google.com/zh-CN/us/intl/zh-CN/webmasters/docs/search-engine-optimization-starter-guide-zh-cn.pdf" target="_blank" rel="noopener">谷歌搜索引擎优化初学者指南</a></li>
+<li><a href="http://blog.sina.com.cn/s/blog_4a840cc50100wqmi.html" target="_blank" rel="noopener">网站如何登录搜索引擎、怎么提交sitemap（搜索引擎登录入口,网站收录入口）</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/随笔/" rel="tag"># 随笔</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/12/16/Node-WebKit开发HTML5本地桌面应用/" rel="next" title="Node-WebKit开发HTML5本地桌面应用">
+                <i class="fa fa-chevron-left"></i> Node-WebKit开发HTML5本地桌面应用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/01/19/set-use-github/" rel="prev" title="配置 Github 时遇到的问题">
+                配置 Github 时遇到的问题 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="karl">
+            
+              <p class="site-author-name" itemprop="name">karl</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">97</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">83</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/likenow" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:fmslikai@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://yujiangshui.com/" title="yujiangshui" target="_blank">yujiangshui</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#博客搬家要做哪些准备"><span class="nav-number">1.</span> <span class="nav-text">博客搬家要做哪些准备</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#思想准备"><span class="nav-number">1.1.</span> <span class="nav-text">思想准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#资源准备"><span class="nav-number">1.2.</span> <span class="nav-text">资源准备</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#上传博客到新空间"><span class="nav-number">2.</span> <span class="nav-text">上传博客到新空间</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#本地导入博客文章"><span class="nav-number">2.1.</span> <span class="nav-text">本地导入博客文章</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#部署到-Github"><span class="nav-number">2.2.</span> <span class="nav-text">部署到 Github</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#将独立域名与-GitHub-Pages-的空间绑定"><span class="nav-number">2.3.</span> <span class="nav-text">将独立域名与 GitHub Pages 的空间绑定</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自己挖的坑"><span class="nav-number">3.</span> <span class="nav-text">自己挖的坑</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SEO-收录清空"><span class="nav-number">3.1.</span> <span class="nav-text">SEO 收录清空</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sitemap"><span class="nav-number">3.2.</span> <span class="nav-text">sitemap</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-number">4.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2013 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">karl</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

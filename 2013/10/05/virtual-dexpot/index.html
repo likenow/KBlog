@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next gemini" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="virtual-dexpot,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="用过LINUX和Mac OS X的童鞋都知道虚拟桌面，每个桌面都运行不同的程序，可以随时切换，用起来也比较方便。而天朝呢，都知道用微软的WINDOWS系统的比较多。由于WINDOWS系统本身有些臃肿，所以一直到WIN7也没有加入这个功能，淡然这不是我们讨论的话题。如何让自己的WIN7拥有虚拟桌面功能呢？本篇文章将介绍一款第三方软件Dexpot，如果你还在为本本的屏幕太小而发愁，如果你在羡慕苹果本本">
+<meta name="keywords" content="virtual-dexpot">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WIN7下的虚拟桌面">
+<meta property="og:url" content="http://yoursite.com/2013/10/05/virtual-dexpot/index.html">
+<meta property="og:site_name" content="Karl&#39;s Blog">
+<meta property="og:description" content="用过LINUX和Mac OS X的童鞋都知道虚拟桌面，每个桌面都运行不同的程序，可以随时切换，用起来也比较方便。而天朝呢，都知道用微软的WINDOWS系统的比较多。由于WINDOWS系统本身有些臃肿，所以一直到WIN7也没有加入这个功能，淡然这不是我们讨论的话题。如何让自己的WIN7拥有虚拟桌面功能呢？本篇文章将介绍一款第三方软件Dexpot，如果你还在为本本的屏幕太小而发愁，如果你在羡慕苹果本本">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://klpicture.b0.upaiyun.com/2013/banben.png">
+<meta property="og:image" content="http://klpicture.b0.upaiyun.com/2013/yjdexpot.png">
+<meta property="og:image" content="http://klpicture.b0.upaiyun.com/2013/peizhi.png">
+<meta property="og:image" content="http://klpicture.b0.upaiyun.com/2013/mc.png">
+<meta property="og:image" content="http://klpicture.b0.upaiyun.com/2013/bj.png">
+<meta property="og:image" content="http://klpicture.b0.upaiyun.com/2013/gj.png">
+<meta property="og:image" content="http://klpicture.b0.upaiyun.com/2013/qd.png">
+<meta property="og:image" content="http://klpicture.b0.upaiyun.com/2013/sz.png">
+<meta property="og:image" content="http://klpicture.b0.upaiyun.com/2013/cg.png">
+<meta property="og:image" content="http://klpicture.b0.upaiyun.com/2013/wg.png">
+<meta property="og:image" content="http://klpicture.b0.upaiyun.com/2013/bujian.png">
+<meta property="og:image" content="http://klpicture.b0.upaiyun.com/2013/kz.png">
+<meta property="og:image" content="http://klpicture.b0.upaiyun.com/2013/qhzm.png">
+<meta property="og:image" content="http://klpicture.b0.upaiyun.com/2013/cjfj.png">
+<meta property="og:updated_time" content="2018-11-05T14:57:11.904Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="WIN7下的虚拟桌面">
+<meta name="twitter:description" content="用过LINUX和Mac OS X的童鞋都知道虚拟桌面，每个桌面都运行不同的程序，可以随时切换，用起来也比较方便。而天朝呢，都知道用微软的WINDOWS系统的比较多。由于WINDOWS系统本身有些臃肿，所以一直到WIN7也没有加入这个功能，淡然这不是我们讨论的话题。如何让自己的WIN7拥有虚拟桌面功能呢？本篇文章将介绍一款第三方软件Dexpot，如果你还在为本本的屏幕太小而发愁，如果你在羡慕苹果本本">
+<meta name="twitter:image" content="http://klpicture.b0.upaiyun.com/2013/banben.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2013/10/05/virtual-dexpot/">
+
+
+
+
+
+  <title>WIN7下的虚拟桌面 | Karl's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Karl's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2013/10/05/virtual-dexpot/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="karl">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Karl's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">WIN7下的虚拟桌面</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2013-10-05T19:58:10+08:00">
+                2013-10-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/效率-工具/" itemprop="url" rel="index">
+                    <span itemprop="name">效率/工具</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>用过LINUX和Mac OS X的童鞋都知道<strong>虚拟桌面</strong>，每个桌面都运行不同的程序，可以随时切换，用起来也比较方便。而天朝呢，都知道用微软的WINDOWS系统的比较多。由于WINDOWS系统本身有些臃肿，所以一直到WIN7也没有加入这个功能，淡然这不是我们讨论的话题。如何让自己的WIN7拥有虚拟桌面功能呢？本篇文章将介绍一款第三方软件Dexpot，如果你还在为本本的屏幕太小而发愁，如果你在羡慕苹果本本的虚拟桌面多么好用，这篇文章值得一读。</p>
+<a id="more"></a>
+<h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><p>首先，我们要下载Dexpot，这当然不用我说了吧。不过如果你觉得网上资源太杂乱我这里直接给您个官网链接吧<a href="http://dexpot.de/?id=download" target="_blank" rel="noopener">Dexpot官网下载</a>，这里您可以找到想要的资源。下载的时候有这样几个版本：<br><img src="http://klpicture.b0.upaiyun.com/2013/banben.png" alt=""><br>这里讲的是WIN7下的使用，自然是选择Dexpot 1.6版本。ps：有便携版（Portable），我这里选择的是安装版。安装比较简单，按照提示不到一分钟就可以装好,这里不再赘述。如果遇到问题可以留言。我会尽快帮助您解决问题。</p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>万事俱备只欠东风，现在开始使用。为了更好的使用，通常我们会根据自己的喜好配置一下。</p>
+<h3 id="使用前的设置"><a href="#使用前的设置" class="headerlink" title="使用前的设置"></a>使用前的设置</h3><ol>
+<li>鼠标右键单击Dexpot的系统托盘图标，会出现如图：<br><img src="http://klpicture.b0.upaiyun.com/2013/yjdexpot.png" alt=""></li>
+<li>当然该Dexpot托盘菜单中桌面名称都是有设置的，接下来就要将这一点。为了提高识别度我为每个桌面起了一个名字，你也可以来设置一下，还是右击，然后选择配置桌面，如下：<br><img src="http://klpicture.b0.upaiyun.com/2013/peizhi.png" alt=""></li>
+<li><img src="http://klpicture.b0.upaiyun.com/2013/mc.png" alt=""></li>
+<li>背景选项<br><img src="http://klpicture.b0.upaiyun.com/2013/bj.png" alt=""></li>
+<li>工具选项<br><img src="http://klpicture.b0.upaiyun.com/2013/gj.png" alt=""></li>
+<li>启动选项<br><img src="http://klpicture.b0.upaiyun.com/2013/qd.png" alt=""></li>
+<li>其次，让我们看一看设置选项。选择设置选项后，弹出如下窗口：<br><img src="http://klpicture.b0.upaiyun.com/2013/sz.png" alt=""></li>
+<li>其左侧是六个选项，分别为常规、外观、部件、控制、切换桌面以及插件和附件，常规如下：<br><img src="http://klpicture.b0.upaiyun.com/2013/cg.png" alt=""></li>
+<li>外观<br><img src="http://klpicture.b0.upaiyun.com/2013/wg.png" alt=""></li>
+<li>部件<br><img src="http://klpicture.b0.upaiyun.com/2013/bujian.png" alt=""></li>
+<li>控制<br><img src="http://klpicture.b0.upaiyun.com/2013/kz.png" alt=""></li>
+<li>切换桌面<br><img src="http://klpicture.b0.upaiyun.com/2013/qhzm.png" alt=""></li>
+<li>插件和附件<br><img src="http://klpicture.b0.upaiyun.com/2013/cjfj.png" alt=""></li>
+</ol>
+<p>以上六个选项，根据自己的喜好设置，自己舒服最好，像常规选项里面的桌面数、语言、启动；外观选项里面的图盘图标；切换桌面选项里面的桌面元素、桌面名称等根据自己的习惯来就好。值得注意的是：部件选项中的设置比桌面管理器、桌面预览还是比较有趣的；插件和附件中选择需要的效果就好，比如DexControl插件就是来控制虚拟桌面图标的。</p>
+<h2 id="开始使用"><a href="#开始使用" class="headerlink" title="开始使用"></a>开始使用</h2><p>使用之前我们已经根据自己的习惯设置好了，接下来就是使用了。这里介绍一下软件的几个快捷操作，提高我们的工作效率。</p>
+<ul>
+<li>切换桌面<ul>
+<li>ALT+第几个虚拟桌面比如：ALT+1将跳转到第一个虚拟桌面。</li>
+</ul>
+</li>
+<li>移动窗口<ul>
+<li>ALT+SHIFT+第几个虚拟桌面比如：ALT+SHIFT+1将当前操作窗口移动到第一个虚拟桌面</li>
+</ul>
+</li>
+<li>复制窗口<ul>
+<li>ALT+CTRL+第几个虚拟桌面例如：ALT+CTRL+1将当前操作窗口复制到到第一个虚拟桌面</li>
+</ul>
+</li>
+<li>透明度<ul>
+<li>ALT+CTRL+Num+/-例如：ALT+CTRL+Num+增加透明度</li>
+</ul>
+</li>
+<li>窗口菜单<ul>
+<li>WINDOWS+它将显示对当前窗口的操作，卷起？移动？复制？等</li>
+</ul>
+</li>
+<li>关闭窗口<ul>
+<li>ALT+SHIFT+F4它将关闭操作窗口</li>
+<li>Dexpot组件快捷操作</li>
+<li>WINDOWS+F2操作将显示该虚拟桌面的窗口目录</li>
+<li>WINDOWS+F3是全屏预览操作</li>
+<li>WINDOWS+Q是任务切换操作</li>
+<li>WINDOWS+W是虚拟桌面切换操作</li>
+</ul>
+</li>
+</ul>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>未提及的功能还要靠自己体验，本篇是推荐一款实用软件，兴许可以帮助你提高些工作效率。十一小长假即将结束，带上顺手的工具再出发！</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/virtual-dexpot/" rel="tag"># virtual-dexpot</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2013/10/04/z-index/" rel="next" title="学习&使用 Z-INDEX">
+                <i class="fa fa-chevron-left"></i> 学习&使用 Z-INDEX
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2013/10/06/max-width-ie6/" rel="prev" title="解决IE6下MAX-WIDTH嗝屁">
+                解决IE6下MAX-WIDTH嗝屁 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="karl">
+            
+              <p class="site-author-name" itemprop="name">karl</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">97</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">83</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/likenow" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:fmslikai@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://yujiangshui.com/" title="yujiangshui" target="_blank">yujiangshui</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#准备"><span class="nav-number">1.</span> <span class="nav-text">准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用"><span class="nav-number">2.</span> <span class="nav-text">使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用前的设置"><span class="nav-number">2.1.</span> <span class="nav-text">使用前的设置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开始使用"><span class="nav-number">3.</span> <span class="nav-text">开始使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结语"><span class="nav-number">4.</span> <span class="nav-text">结语</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2013 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">karl</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

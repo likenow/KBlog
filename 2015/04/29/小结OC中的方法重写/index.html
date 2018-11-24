@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next gemini" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="oc,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="写在前面的话在学习 OC 的过程中，接触到了重写某些方法的知识点，而且了解到在实际的开发中，为了方便，经常会自定义某些方法，也就是说会重写某些方法。比如，在 OC 的继承中，子类可以重写其父类的方法，还有我们可以重写构造方法等。所以，我总结了一下学习过程中重写方法的知识点汇总成一篇文章，希望对读者有所帮助。">
+<meta name="keywords" content="oc">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OC 中的方法“重写”小结（一）">
+<meta property="og:url" content="http://yoursite.com/2015/04/29/小结OC中的方法重写/index.html">
+<meta property="og:site_name" content="Karl&#39;s Blog">
+<meta property="og:description" content="写在前面的话在学习 OC 的过程中，接触到了重写某些方法的知识点，而且了解到在实际的开发中，为了方便，经常会自定义某些方法，也就是说会重写某些方法。比如，在 OC 的继承中，子类可以重写其父类的方法，还有我们可以重写构造方法等。所以，我总结了一下学习过程中重写方法的知识点汇总成一篇文章，希望对读者有所帮助。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-10-28T08:50:32.834Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="OC 中的方法“重写”小结（一）">
+<meta name="twitter:description" content="写在前面的话在学习 OC 的过程中，接触到了重写某些方法的知识点，而且了解到在实际的开发中，为了方便，经常会自定义某些方法，也就是说会重写某些方法。比如，在 OC 的继承中，子类可以重写其父类的方法，还有我们可以重写构造方法等。所以，我总结了一下学习过程中重写方法的知识点汇总成一篇文章，希望对读者有所帮助。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2015/04/29/小结OC中的方法重写/">
+
+
+
+
+
+  <title>OC 中的方法“重写”小结（一） | Karl's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Karl's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/04/29/小结OC中的方法重写/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="karl">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Karl's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">OC 中的方法“重写”小结（一）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-04-29T18:01:51+08:00">
+                2015-04-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/oc/" itemprop="url" rel="index">
+                    <span itemprop="name">oc</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="写在前面的话"><a href="#写在前面的话" class="headerlink" title="写在前面的话"></a>写在前面的话</h2><p>在学习 OC 的过程中，接触到了重写某些方法的知识点，而且了解到在实际的开发中，为了方便，经常会自定义某些方法，也就是说会重写某些方法。比如，在 OC 的<strong>继承</strong>中，<strong>子类</strong>可以<strong>重写</strong>其<strong>父类</strong>的方法，还有我们可以重写<strong>构造方法</strong>等。所以，我总结了一下学习过程中重写方法的知识点汇总成一篇文章，希望对读者有所帮助。<br><a id="more"></a></p>
+<h2 id="子类重写父类的方法"><a href="#子类重写父类的方法" class="headerlink" title="子类重写父类的方法"></a>子类重写父类的方法</h2><p>就从子类重写父类的方法开始写起吧，这又不得不提一下面向对象的另一特性——<strong>继承</strong>（这里是<strong>单继承</strong>）。当两个类拥有相同属性和方法的时候，就可以将相同的东西抽取到一个父类中，当 A 类完全拥有 B 类中的部分属性和方法时，可以考虑让 B 类继承 A 类（有时候并不是符合语法的东西就可以大用特用，要考虑逻辑，这时候就要考虑继承与组合了，这里不是重点掠过）。子类会继承父类的所有实例变量和方法，但是父类中的某些方法远不能达到自身的需求的时候，子类有权利重写父类的方法。</p>
+<p>编程这东西如果只是讲来讲去，总觉得空口无凭啊，上代码：</p>
+<pre><code>#import &lt;Foundation/Foundation.h&gt;
+// 人这个类的声明
+@interface Person : NSObject
+
+@property int age;
+
+- (void)run;
+@end
+// 人这个类的实现
+@implementation Person
+
+- (void)run
+{
+    NSLog(@&quot;run run run&quot;);
+}
+@end
+// 学生类的声明
+@interface Student : Person
+
+@property int num;
+
+- (void)run;
+@end
+
+@implementation Student
+// 子类里面可以拥有与父类一样的方法，子类重写（重新实现）父类的方法
+// 另外，完全可以在父类声明方法，在子类实现
+- (void)run
+{
+    NSLog(@&quot;student run run run&quot;);
+}
+@end
+int main()
+{
+    Person *p = [[Person alloc] init];
+
+    Student *s = [[Student alloc] init];
+
+    [s run];        
+
+    return 0;
+}
+</code></pre><p>从代码我们可以看到，学生类继承了人这个类（学生当然是人），然后学生类中重写了父类的 run 方法。这与对象访问方法的机制有关系，因为对象调用方法是先从自己类的方法列表中找有没有 run 这个方法，如果有就直接调用了，就不再继续往下找了。毕竟，想想这也是满符合人的思维的嘛！</p>
+<p>如果，这个学生不仅要调用自己的 run 方法还要调用父类的 run 方法，那就要用到 <strong>super</strong> 关键字了。子类重写父类的方法时，想保留父类的方法即子类既有自己的实现，又有从父类继承下来的实现，相当于对父类的方法做了扩展。其中有一点大家要搞明白，就是 super 如果处在对象方法中调用的是对象方法，如果处在类方法中调用的是父类的类方法。</p>
+<h2 id="重写构造方法"><a href="#重写构造方法" class="headerlink" title="重写构造方法"></a>重写构造方法</h2><h3 id="重写初始化方法"><a href="#重写初始化方法" class="headerlink" title="重写初始化方法"></a>重写初始化方法</h3><p>构造方法用来初始化对象的方法，很明显它是一个对象方法。我们之所以要重写构造方法，是为了使创建出来的对象，其成员变量一开始就有我们希望的赋值。本着有简单到复杂的原则，先来看一下构造函数的基本使用：</p>
+<pre><code>#import &lt;Foundation/Foundation.h&gt;
+
+@interface Person : NSObject
+
+@property int age;
+
+@property int heihgt;
+
+@property NSString *name; 
+
+- (void)print;
+
+@end
+
+@implementation Person
+// 重写init 方法
+- (id)init
+{
+    // 一定要调用回super的init方法，
+    // 初始化父类中声明的一些成员变量和其他属性
+    // if条件判断只有初始化成功,才有必要进行接下来的初始化
+    if (self = [super init])
+    {
+        _age = 10;
+    }
+
+    // 返回一个初始化完毕的对象
+    return self;
+}
+
+- (void)print
+{
+    NSLog(@&quot;Age is %d&quot;, _age);
+}
+
+@end
+
+@interface Student : Person
+
+@property int num;
+
+- (void)print;
+
+@end
+
+@implementation Student
+// 重写init 方法
+- (id)init
+{
+    if (self = [super init])
+    {
+        _num = 110;
+    }
+    return self;
+}
+- (void)print
+{
+    NSLog(@&quot;Student number is %d&quot;, _num);
+    [super print];
+}
+@end
+
+int main()
+{
+
+    Person *p = [[Person alloc] init];
+
+    // 此时p对象创建出来初始化的age=10
+    [p print];
+
+    Student *s = [[Student alloc] init];
+
+    // 每个s对象创建出来初始化的num=110,age=10
+    [s print];
+
+    return 0;
+}
+</code></pre><p>先来解释一下，开发中一般不用 <em>new</em> 方法创建对象，因为它写死了分配空间（ alloc ）和初始化（ init ）这两个步骤，开发中我们可能要用其他的方法初始化，就像上面我们一开始给成员变量赋了值。其次，代码中的注释也提到了，一定要调用回父类（ super ）的 初始化方法（ init ），初始化父类中声明的一些成员变量和其他属性。if 判断中的条件意思是只有初始化成功才有必要进行接下来的初始化操作。而且我们的初始化方法最终返回一个初始化完毕的对象。</p>
+<h3 id="自定义构造方法"><a href="#自定义构造方法" class="headerlink" title="自定义构造方法"></a>自定义构造方法</h3><pre><code>#import &lt;Foundation/Foundation.h&gt;
+@interface Person : NSObject
+
+@property int age;
+@property int height;
+@property NSString *name;
+
+-(id)initWithAge:(int)age andHeight:(int)height andName:(NSString *)name;
+
+@end
+
+@implementation Person
+
+// 自定义构造方法
+-(id)initWithAge:(int)age andHeight:(int)height andName:(NSString *)name
+{
+    if (self = [super init])
+    {
+        _age = age;
+        _height = height;
+        _name = name;
+    }
+
+    return self;
+}
+
+@end
+@interface Student : Person
+
+@property int num;
+
+-(id)initWithAge:(int)age andHeight:(int)height andName:(NSString *)name andNum:(int)num;
+- (void)out;
+
+@end
+@implementation Student
+
+-(id)initWithAge:(int)age andHeight:(int)height andName:(NSString *)name andNum:(int)num
+{
+    // 将age/height/name传递到父类方法中去初始化
+
+    if (self = [super initWithAge:age andHeight:height andName:name])
+    {
+        _num = num;
+    }   
+
+    return self;
+
+}
+
+- (void)out
+{
+    NSLog(@&quot;The Student&apos;s age is %d, height is %d, name is %@, number is %d&quot;, _age, _height, _name, _num);
+}
+@end
+
+int main()
+{
+    Student *s = [[Student alloc] initWithAge:20 andHeight:166 andName:@&quot;jack&quot; andNum:120];
+
+    [s out];
+
+    return 0;
+}
+</code></pre><p>这里我要解释几个点：</p>
+<ul>
+<li>自定义构造方法一定是对象方法，一定以短横线（ - ）开头</li>
+<li>返回值一般是id类型，毕竟你不想一下子写死它吧！</li>
+<li>方法名以 init 开头，这是规范的写法，要不然写的乱七八糟，会被骂的吆！</li>
+<li>尽量做到父类的成员变量在父类初始化，子类的在子类</li>
+</ul>
+<h2 id="写在最后的话"><a href="#写在最后的话" class="headerlink" title="写在最后的话"></a>写在最后的话</h2><p>总结全文：首先是提到了，继承中子类重写父类的方法，还要注意其中的关键字 super ；另外总结了构造方法的初始化以及自定义构造函数，最后，希望我的博文可以给看到文章最后的您带来些许的帮助，谢谢！在接下来的博文中，我将进一步总结如何重写 <strong>dealloc</strong> 方法和 <strong>description</strong> 方法，敬请期待！</p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ul>
+<li><a href="http://zh.wikipedia.org/wiki/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1" target="_blank" rel="noopener">面向对象程序设计</a></li>
+<li><a href="http://www.cnblogs.com/mjios/archive/2013/04/19/3031412.html#label1" target="_blank" rel="noopener">07-自定义构造方法和description方法</a></li>
+<li><a href="http://www.csis.pace.edu/~bergin/patterns/ppoop.html" target="_blank" rel="noopener">Understanding Object Oriented Programming</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/oc/" rel="tag"># oc</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/04/28/set和get方法/" rel="next" title="Set 方法和 Get 方法">
+                <i class="fa fa-chevron-left"></i> Set 方法和 Get 方法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/04/30/小结OC中的方法重写2/" rel="prev" title="OC 中的方法“重写”小结（二）">
+                OC 中的方法“重写”小结（二） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="karl">
+            
+              <p class="site-author-name" itemprop="name">karl</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">97</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">83</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/likenow" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:fmslikai@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://yujiangshui.com/" title="yujiangshui" target="_blank">yujiangshui</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#写在前面的话"><span class="nav-number">1.</span> <span class="nav-text">写在前面的话</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#子类重写父类的方法"><span class="nav-number">2.</span> <span class="nav-text">子类重写父类的方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#重写构造方法"><span class="nav-number">3.</span> <span class="nav-text">重写构造方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#重写初始化方法"><span class="nav-number">3.1.</span> <span class="nav-text">重写初始化方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自定义构造方法"><span class="nav-number">3.2.</span> <span class="nav-text">自定义构造方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#写在最后的话"><span class="nav-number">4.</span> <span class="nav-text">写在最后的话</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-number">5.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2013 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">karl</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next gemini" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="z-index,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="你问我z-index属性水多深，对z-index了解有几分？其实我对它的了解也只是冰山一角，下面我将把我所了解记录下来。">
+<meta name="keywords" content="z-index">
+<meta property="og:type" content="article">
+<meta property="og:title" content="学习&amp;使用 Z-INDEX">
+<meta property="og:url" content="http://yoursite.com/2013/10/04/z-index/index.html">
+<meta property="og:site_name" content="Karl&#39;s Blog">
+<meta property="og:description" content="你问我z-index属性水多深，对z-index了解有几分？其实我对它的了解也只是冰山一角，下面我将把我所了解记录下来。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://klpicture.b0.upaiyun.com/2013/withoutz-index.png">
+<meta property="og:image" content="http://klpicture.b0.upaiyun.com/2013/withz-index.png">
+<meta property="og:image" content="http://klpicture.b0.upaiyun.com/2013/cover1.png">
+<meta property="og:image" content="http://klpicture.b0.upaiyun.com/2013/cover2.png">
+<meta property="og:image" content="http://klpicture.b0.upaiyun.com/2013/-z-indexs.jpg">
+<meta property="og:image" content="http://klpicture.b0.upaiyun.com/2013/yinyingxg.jpg">
+<meta property="og:image" content="http://klpicture.b0.upaiyun.com/2013/diejiatpxg.jpg">
+<meta property="og:updated_time" content="2018-11-05T14:56:49.682Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="学习&amp;使用 Z-INDEX">
+<meta name="twitter:description" content="你问我z-index属性水多深，对z-index了解有几分？其实我对它的了解也只是冰山一角，下面我将把我所了解记录下来。">
+<meta name="twitter:image" content="http://klpicture.b0.upaiyun.com/2013/withoutz-index.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2013/10/04/z-index/">
+
+
+
+
+
+  <title>学习&使用 Z-INDEX | Karl's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Karl's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2013/10/04/z-index/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="karl">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Karl's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">学习&使用 Z-INDEX</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2013-10-04T19:57:05+08:00">
+                2013-10-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/CSS/" itemprop="url" rel="index">
+                    <span itemprop="name">CSS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>你问我z-index属性水多深，对z-index了解有几分？其实我对它的了解也只是冰山一角，下面我将把我所了解记录下来。</p>
+<a id="more"></a>
+<p>Z-INDEX表示层级关系，其可能的值有：</p>
+<ul>
+<li>auto是默认值；</li>
+<li>number设置数字，数字越大层级越高（可为负数哦！！！）。<br>Z-INDEX属于那种给点儿阳光就灿烂的属性，在<code>position: relative;`</code>position: absolute;<code></code>position: fixed;`的普照下，终于得瑟坏了···</li>
+</ul>
+<h2 id="没有Z-INDEX时的自动层级"><a href="#没有Z-INDEX时的自动层级" class="headerlink" title="没有Z-INDEX时的自动层级"></a>没有Z-INDEX时的自动层级</h2><p>其实，元素应用了position属性之后，它们就会脱离普通文档流上升到另一个空间（position的值为非static），而且后面的会覆盖前面的即越后面层级越高。</p>
+<h3 id="用例代码-HTML部分"><a href="#用例代码-HTML部分" class="headerlink" title="用例代码-HTML部分"></a>用例代码-HTML部分</h3><pre><code>&lt;div class=&quot;container&quot;&gt;
+    &lt;div class=&quot;first&quot;&gt;1&lt;/div&gt;
+    &lt;div class=&quot;second&quot;&gt;2&lt;/div&gt;
+    &lt;div class=&quot;third&quot;&gt;3&lt;/div&gt;
+&lt;/div&gt;
+</code></pre><h3 id="用例代码-CSS部分"><a href="#用例代码-CSS部分" class="headerlink" title="用例代码-CSS部分"></a>用例代码-CSS部分</h3><pre><code>.container{
+    position: relative;
+    width: 400px;
+    height: 280px;
+    background-color: #f1f1f1;
+}
+.first,.second,.third{
+    position: absolute;
+    width: 100px;
+    height: 100px;
+}
+.first{
+    top: 0px;
+    left: 0px;
+    background-color: red;
+}
+.second{
+    top: 10px;
+    left: 10px;
+    background-color: blue;
+}
+.third{
+    top: 20px;
+    left: 20px;
+    background-color: yellow;
+}
+</code></pre><h3 id="分析如图。"><a href="#分析如图。" class="headerlink" title="分析如图。"></a>分析如图。</h3><p>在不使用Z-INDEX的情况下层级关系表达的也是不错的<br><img src="http://klpicture.b0.upaiyun.com/2013/withoutz-index.png" alt=""></p>
+<h2 id="使用Z-INDEX表达层级关系"><a href="#使用Z-INDEX表达层级关系" class="headerlink" title="使用Z-INDEX表达层级关系"></a>使用Z-INDEX表达层级关系</h2><p>使用Z-INDEX表达层级关系，为了使其在最上层，对于其数值的设置为：<code>z-index: 9999;</code>我表示反对。有必要把数字搞得这么大吗？真是逗啊！看一下我是怎么用的：</p>
+<h3 id="用例代码-HTML部分-1"><a href="#用例代码-HTML部分-1" class="headerlink" title="用例代码-HTML部分"></a>用例代码-HTML部分</h3><pre><code>&lt;div class=&quot;container&quot;&gt;
+    &lt;div class=&quot;first&quot;&gt;1&lt;/div&gt;
+    &lt;div class=&quot;second&quot;&gt;2&lt;/div&gt;
+    &lt;div class=&quot;third&quot;&gt;3&lt;/div&gt;
+&lt;/div&gt;
+</code></pre><h3 id="用例代码-CSS部分-1"><a href="#用例代码-CSS部分-1" class="headerlink" title="用例代码-CSS部分"></a>用例代码-CSS部分</h3><pre><code>.container{
+    position: relative;
+    width: 400px;
+    height: 280px;
+    background-color: #f1f1f1;
+}
+.first,.second,.third{
+    position: absolute;
+    width: 100px;
+    height: 100px;
+}
+.first{
+    top: 30px;
+    left: 10px;
+    z-index: 3;
+    background-color: red;
+}
+.second{
+    top: 10px;
+    left: 20px;
+    z-index: 2;
+    background-color: blue;
+}
+.third{
+    top: 0px;
+    left: 0px;
+    z-index: 1;
+    background-color: yellow;
+}
+</code></pre><h3 id="分析如图"><a href="#分析如图" class="headerlink" title="分析如图"></a>分析如图</h3><p>使用Z-INDEX之后，给<code>.first</code>赋值为3，然后他就展现在最前面了。这里我对它的值仅用到了1,2,3这样连幼儿园的小朋友都可以数的阿拉伯数字。在使用Z-INDEX的情况下层级关系表达的也是不错的。<br><img src="http://klpicture.b0.upaiyun.com/2013/withz-index.png" alt=""></p>
+<h2 id="复杂情况举例"><a href="#复杂情况举例" class="headerlink" title="复杂情况举例"></a>复杂情况举例</h2><p>上述讲述的都是中规中矩的应用，当然还有比较复杂的应用。这里主要提一下应用Z-INDEX上下文的层级优先关系，即其父元素的层级优先关系。有时候，不能光看z-index: 999999;值有多大，还要看父元素的层级。看下面的例子：</p>
+<h3 id="用例代码-HTML部分-2"><a href="#用例代码-HTML部分-2" class="headerlink" title="用例代码-HTML部分"></a>用例代码-HTML部分</h3><pre><code>&lt;div class=&quot;cover&quot;&gt;&lt;/div&gt;
+&lt;div class=&quot;container&quot;&gt;
+    &lt;div class=&quot;first&quot;&gt;1&lt;/div&gt;
+    &lt;div class=&quot;second&quot;&gt;2&lt;/div&gt;
+    &lt;div class=&quot;third&quot;&gt;3&lt;/div&gt;
+&lt;/div&gt;
+</code></pre><h3 id="用例代码-CSS部分-2"><a href="#用例代码-CSS部分-2" class="headerlink" title="用例代码-CSS部分"></a>用例代码-CSS部分</h3><pre><code>.cover{
+    position: absolute;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 500px;
+    height: 300px;
+    background: #666;    
+}
+.container{
+    position: relative;
+    z-index: 1;
+    width: 400px;
+    height: 280px;
+    background-color: #f1f1f1;
+}
+.first,.second,.third{
+    position: absolute;
+    width: 100px;
+    height: 100px;
+}
+.first{
+    top: 30px;
+    left: 10px;
+    z-index: 3;
+    background-color: red;
+}
+.second{
+    top: 10px;
+    left: 20px;
+    z-index: 2;
+    background-color: blue;
+}
+.third{
+    top: 0px;
+    left: 0px;
+    z-index: 1;
+    background-color: yellow;
+}
+</code></pre><h3 id="分析如图-1"><a href="#分析如图-1" class="headerlink" title="分析如图"></a>分析如图</h3><ol>
+<li>cover设置<code>z-index: 1;</code>效果如下：<br><img src="http://klpicture.b0.upaiyun.com/2013/cover1.png" alt=""></li>
+<li>cover设置<code>z-index: 2;</code>效果如下：<br><img src="http://klpicture.b0.upaiyun.com/2013/cover2.png" alt=""></li>
+</ol>
+<p>以上，我们清楚地看到，当<code>.cover</code>的层级比<code>.container</code>大的时候，<code>.container</code>整个就被<code>.cover</code>遮住，即使<code>.first</code>的z-index属性值为3也于事无补。看来韩信再牛，在项羽麾下是没有出头之日啊！</p>
+<h2 id="Z-INDEX负值工作原理"><a href="#Z-INDEX负值工作原理" class="headerlink" title="Z-INDEX负值工作原理"></a>Z-INDEX负值工作原理</h2><h3 id="比较拙劣的手工演示图"><a href="#比较拙劣的手工演示图" class="headerlink" title="比较拙劣的手工演示图"></a>比较拙劣的手工演示图</h3><p><img src="http://klpicture.b0.upaiyun.com/2013/-z-indexs.jpg" alt=""></p>
+<p>正如演示图所示，当给绝对定位的wrapper（设定了Z-INDEX）的子元素layer2绝对定位并设置<code>z-index: -1;</code>后，该子元素会显示在wrapper的其他子元素之下；而给绝对定位的wrapper（设未定Z-INDEX）的子元素layer2绝对定位并设置<code>z-index: -1;</code>后，它会显示在wrapper之下。<br>根据个人理解：当绝对定位的父元素在设置了Z-INDEX之后其绝对定位的子元素的Z-INDEX为负值时，会显示在该父元素的其他子元素之下；当绝对定位的父元素在没有设置Z-INDEX，其绝对定位的子元素的Z-INDEX为负值时，会显示在该父元素之下。总算把Z-INDEX负值的工作原理说明白了。如果你还不太明白没关系继续看下文，我将通过实例进一步探索Z-INDEX负值。</p>
+<h2 id="使用Z-INDEX制作阴影效果"><a href="#使用Z-INDEX制作阴影效果" class="headerlink" title="使用Z-INDEX制作阴影效果"></a>使用Z-INDEX制作阴影效果</h2><p>该示例结合CSS3的box-shadow属性和transform属性以及伪元素，但这里只关注z-index负值。实现如下：</p>
+<h3 id="用例代码-HTML部分-3"><a href="#用例代码-HTML部分-3" class="headerlink" title="用例代码-HTML部分"></a>用例代码-HTML部分</h3><pre><code>&lt;div class=&quot;box shadow&quot;&gt;
+    &lt;h1&gt;阴影效果&lt;/h1&gt;
+&lt;/div&gt;
+</code></pre><h3 id="用例代码-CSS部分-3"><a href="#用例代码-CSS部分-3" class="headerlink" title="用例代码-CSS部分"></a>用例代码-CSS部分</h3><pre><code>.box h1{
+    text-align:center;
+    position:relative;
+    top:80px;
+}
+.box {
+    width:70%;
+    height:200px;
+    background:#EEE;
+    margin:40px auto;
+}
+.shadow
+{
+  position: relative;
+}
+.shadow:before, .shadow:after
+{
+  z-index: -1;
+  position: absolute;
+  content: &quot;&quot;;
+  bottom: 15px;
+  left: 10px;
+  width: 50%;
+  top: 80%;
+  max-width:300px;
+  background: #666;
+  -webkit-box-shadow: 0 15px 10px #666;
+  -moz-box-shadow: 0 15px 10px #666;
+  box-shadow: 0 15px 10px #666;
+  -webkit-transform: rotate(-3deg);
+  -moz-transform: rotate(-3deg);
+  -o-transform: rotate(-3deg);
+  -ms-transform: rotate(-3deg);
+  transform: rotate(-3deg);
+}
+.shadow:after
+{
+  -webkit-transform: rotate(3deg);
+  -moz-transform: rotate(3deg);
+  -o-transform: rotate(3deg);
+  -ms-transform: rotate(3deg);
+  transform: rotate(3deg);
+  right: 10px;
+  left: auto;
+}
+</code></pre><h3 id="分析如图-2"><a href="#分析如图-2" class="headerlink" title="分析如图"></a>分析如图</h3><p>通过伪元素<code>:before</code> <code>:after</code>在box前后布置阴影，CSS3的<code>box-shadow</code>属性做出阴影，然后通过transform属性变换阴影的角度，最后通过<code>z-index: -1;</code>使其在box之下显示。<br><img src="http://klpicture.b0.upaiyun.com/2013/yinyingxg.jpg" alt=""></p>
+<h2 id="使用Z-INDEX制作图像叠加效果"><a href="#使用Z-INDEX制作图像叠加效果" class="headerlink" title="使用Z-INDEX制作图像叠加效果"></a>使用Z-INDEX制作图像叠加效果</h2><h3 id="用例代码-HTML部分-4"><a href="#用例代码-HTML部分-4" class="headerlink" title="用例代码-HTML部分"></a>用例代码-HTML部分</h3><pre><code>&lt;div class=&quot;stacks&quot;&gt;
+  &lt;img src=&quot;stars.jpg&quot;&gt;
+&lt;/div&gt;
+</code></pre><h3 id="用例代码-CSS部分-4"><a href="#用例代码-CSS部分-4" class="headerlink" title="用例代码-CSS部分"></a>用例代码-CSS部分</h3><pre><code>body{
+    background: #eee;
+}
+.stacks{
+    border: 6px solid #fff;
+    float: left;
+    width: 480px; 
+    height: 316px;
+    margin: 50px;
+    position: relative;
+    -webkit-box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+    -moz-box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+}
+.stacks:before{
+    position: absolute;
+    z-index: -1;
+    top: 0px;
+    left: -10px;
+    content: &quot;&quot;;
+    height: 316px;
+    width: 480px;
+    -webkit-box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+    -moz-box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.3);     
+    -webkit-transform: rotate(-5deg);
+    -moz-transform: rotate(-5deg);
+    -o-transform: rotate(-5deg);
+    -ms-transform: rotate(-5deg);
+    transform: rotate(-5deg);
+    background: url(stars.jpg) no-repeat;
+    border: 6px solid #fff;
+}
+.stacks:after {
+    content: &quot;&quot;;
+    height: 316px;
+    width: 480px;
+    background: url(stars.jpg) no-repeat;
+    border: 6px solid #fff;
+    position: absolute;
+    z-index: -2;
+    top: 5px;
+    left: 0px;
+    -webkit-box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+    -moz-box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+    -webkit-transform: rotate(3deg);
+    -moz-transform: rotate(3deg);
+    -o-transform: rotate(3deg);
+    -ms-transform: rotate(3deg);
+    transform: rotate(3deg);
+}
+</code></pre><h3 id="分析如图-3"><a href="#分析如图-3" class="headerlink" title="分析如图"></a>分析如图</h3><p>图片叠加实现影集一样的效果，其中叠加的图片通过伪元素<code>:before</code> <code>:after</code>在stacks的前后添加，通过transform完成角度的旋转，关键是通过<code>z-index</code>负值实现叠加的层次效果。<br><img src="http://klpicture.b0.upaiyun.com/2013/diejiatpxg.jpg" alt=""></p>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><ul>
+<li>要用Z-INDEX属性一定要使用绝对定位，所以考虑再慎重使用Z-INDEX属性之前，先对自己的布局有一个整体的把握。其次，涉及到上下文时，父元素层级地位高者要呈现在最前面；父元素层级地位低者即使其子元素Z-INDEX属性值再大也也会被覆盖。</li>
+<li>Z-INDEX属性的数值要有尺度1~10就够用了，其实在前两条的基础之上根本不会出现<code>z-index: 999999;</code>的情况。</li>
+<li>正文中使用Z-INDEX负值的两个实例仅仅是其使用中的一小部分，更多的好的应用还是靠大家发挥。如果您有比较新颖的使用技巧，提前感谢您能够给与我提示。</li>
+<li>如果在不使用Z-INDEX属性的情况下层级关系表现良好，那就把它跑到九霄云外吧！</li>
+</ul>
+<p>以上，就是我对Z-INDEX属性的了解，文中错误之处还请帮忙指正。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/z-index/" rel="tag"># z-index</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2013/10/02/css-pro-fast/" rel="next" title="常用CSS属性速记">
+                <i class="fa fa-chevron-left"></i> 常用CSS属性速记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2013/10/05/virtual-dexpot/" rel="prev" title="WIN7下的虚拟桌面">
+                WIN7下的虚拟桌面 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="karl">
+            
+              <p class="site-author-name" itemprop="name">karl</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">97</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">83</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/likenow" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:fmslikai@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://yujiangshui.com/" title="yujiangshui" target="_blank">yujiangshui</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#没有Z-INDEX时的自动层级"><span class="nav-number">1.</span> <span class="nav-text">没有Z-INDEX时的自动层级</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#用例代码-HTML部分"><span class="nav-number">1.1.</span> <span class="nav-text">用例代码-HTML部分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用例代码-CSS部分"><span class="nav-number">1.2.</span> <span class="nav-text">用例代码-CSS部分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分析如图。"><span class="nav-number">1.3.</span> <span class="nav-text">分析如图。</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用Z-INDEX表达层级关系"><span class="nav-number">2.</span> <span class="nav-text">使用Z-INDEX表达层级关系</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#用例代码-HTML部分-1"><span class="nav-number">2.1.</span> <span class="nav-text">用例代码-HTML部分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用例代码-CSS部分-1"><span class="nav-number">2.2.</span> <span class="nav-text">用例代码-CSS部分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分析如图"><span class="nav-number">2.3.</span> <span class="nav-text">分析如图</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#复杂情况举例"><span class="nav-number">3.</span> <span class="nav-text">复杂情况举例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#用例代码-HTML部分-2"><span class="nav-number">3.1.</span> <span class="nav-text">用例代码-HTML部分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用例代码-CSS部分-2"><span class="nav-number">3.2.</span> <span class="nav-text">用例代码-CSS部分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分析如图-1"><span class="nav-number">3.3.</span> <span class="nav-text">分析如图</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Z-INDEX负值工作原理"><span class="nav-number">4.</span> <span class="nav-text">Z-INDEX负值工作原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#比较拙劣的手工演示图"><span class="nav-number">4.1.</span> <span class="nav-text">比较拙劣的手工演示图</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用Z-INDEX制作阴影效果"><span class="nav-number">5.</span> <span class="nav-text">使用Z-INDEX制作阴影效果</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#用例代码-HTML部分-3"><span class="nav-number">5.1.</span> <span class="nav-text">用例代码-HTML部分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用例代码-CSS部分-3"><span class="nav-number">5.2.</span> <span class="nav-text">用例代码-CSS部分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分析如图-2"><span class="nav-number">5.3.</span> <span class="nav-text">分析如图</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用Z-INDEX制作图像叠加效果"><span class="nav-number">6.</span> <span class="nav-text">使用Z-INDEX制作图像叠加效果</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#用例代码-HTML部分-4"><span class="nav-number">6.1.</span> <span class="nav-text">用例代码-HTML部分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用例代码-CSS部分-4"><span class="nav-number">6.2.</span> <span class="nav-text">用例代码-CSS部分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分析如图-3"><span class="nav-number">6.3.</span> <span class="nav-text">分析如图</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结语"><span class="nav-number">7.</span> <span class="nav-text">结语</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2013 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">karl</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

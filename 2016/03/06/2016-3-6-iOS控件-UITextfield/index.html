@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next gemini" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="iOS,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="本文，主要记录一点开发中的实战。  TextField输入限制 TextField输入格式化 键盘遮挡输入框">
+<meta name="keywords" content="iOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS控件-UITextfield">
+<meta property="og:url" content="http://yoursite.com/2016/03/06/2016-3-6-iOS控件-UITextfield/index.html">
+<meta property="og:site_name" content="Karl&#39;s Blog">
+<meta property="og:description" content="本文，主要记录一点开发中的实战。  TextField输入限制 TextField输入格式化 键盘遮挡输入框">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-10-28T08:41:25.582Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS控件-UITextfield">
+<meta name="twitter:description" content="本文，主要记录一点开发中的实战。  TextField输入限制 TextField输入格式化 键盘遮挡输入框">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/03/06/2016-3-6-iOS控件-UITextfield/">
+
+
+
+
+
+  <title>iOS控件-UITextfield | Karl's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Karl's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/03/06/2016-3-6-iOS控件-UITextfield/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="karl">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Karl's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">iOS控件-UITextfield</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-03-06T15:47:53+08:00">
+                2016-03-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文，主要记录一点开发中的实战。</p>
+<ul>
+<li>TextField输入限制</li>
+<li>TextField输入格式化</li>
+<li>键盘遮挡输入框</li>
+</ul>
+<a id="more"></a>
+<h2 id="首先，UITextfield-代理"><a href="#首先，UITextfield-代理" class="headerlink" title="首先，UITextfield 代理"></a>首先，UITextfield 代理</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">@protocol UITextFieldDelegate &lt;NSObject&gt;</span><br><span class="line"></span><br><span class="line">@optional</span><br><span class="line"></span><br><span class="line">- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField;        // return NO to disallow editing.</span><br><span class="line">- (void)textFieldDidBeginEditing:(UITextField *)textField;           // became first responder</span><br><span class="line">- (BOOL)textFieldShouldEndEditing:(UITextField *)textField;          // return YES to allow editing to stop and to resign first responder status. NO to disallow the editing session to end</span><br><span class="line">- (void)textFieldDidEndEditing:(UITextField *)textField;             // may be called if forced even if shouldEndEditing returns NO (e.g. view removed from window) or endEditing:YES called</span><br><span class="line">- (void)textFieldDidEndEditing:(UITextField *)textField reason:(UITextFieldDidEndEditingReason)reason NS_AVAILABLE_IOS(10_0); // if implemented, called in place of textFieldDidEndEditing:</span><br><span class="line"></span><br><span class="line">- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string;   // return NO to not change text</span><br><span class="line"></span><br><span class="line">- (BOOL)textFieldShouldClear:(UITextField *)textField;               // called when clear button pressed. return NO to ignore (no notifications)</span><br><span class="line">- (BOOL)textFieldShouldReturn:(UITextField *)textField;              // called when &apos;return&apos; key pressed. return NO to ignore.</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<h2 id="TextField输入限制"><a href="#TextField输入限制" class="headerlink" title="TextField输入限制"></a>TextField输入限制</h2><p>在<code>TextFieldDelegate</code>中设置，在<code>textField:shouldChangeCharactersInRange:replacementString</code>中，通过:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">textField.text.length - range.length + string.length &gt; maxlength;</span><br></pre></td></tr></table></figure>
+<p>来进行判断,是否超过最大长度。</p>
+<p>一些输入判断的代码片段如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">// 包含分机号的验证</span><br><span class="line">- (BOOL)isCompanyPhone:(NSString *)telphone &#123;</span><br><span class="line">    NSString *phoneRegex = @&quot;^(0\\d&#123;2,3&#125;-\\d&#123;7,8&#125;(-\\d&#123;3,5&#125;)&#123;0,1&#125;)|(((13[0-9])|(15([0-3]|[5-9]))|(17[0,0-9])|(18[0,5-9]))\\d&#123;8&#125;)|^(0\\d&#123;2,3&#125;\\d&#123;7,8&#125;(\\d&#123;3,5&#125;)&#123;0,1&#125;)|(((13[0-9])|(15([0-3]|[5-9]))|(17[0,0-9])|(18[0,5-9]))\\d&#123;8&#125;)$&quot;;</span><br><span class="line">    NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@&quot;SELF MATCHES %@&quot;,phoneRegex];</span><br><span class="line">    return [phoneTest evaluateWithObject:telphone];</span><br><span class="line">&#125;</span><br><span class="line">// 固话验证</span><br><span class="line">- (BOOL)validateTelphone:(NSString *)telphone &#123;</span><br><span class="line">    NSString *phoneRegex = @&quot;\\d&#123;3&#125;-\\d&#123;8&#125;|\\d&#123;4&#125;-\\d&#123;7,8&#125;&quot;;</span><br><span class="line">    NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@&quot;SELF MATCHES %@&quot;,phoneRegex];</span><br><span class="line">    return [phoneTest evaluateWithObject:telphone];</span><br><span class="line">&#125;</span><br><span class="line">// 手机号验证</span><br><span class="line">- (BOOL)phoneNumber:(NSString *)phoneNumber &#123;</span><br><span class="line">    NSString *phoneNumberRegularExpression = @&quot;((13[0-9])|(14[0-9])|(15[0-9])|(18[0,0-9])|(17[0,0-9]))\\d&#123;8&#125;&quot;;</span><br><span class="line">    BOOL isPhoneNumber = [[NSPredicate predicateWithFormat:@&quot;SELF MATCHES %@&quot;,phoneNumberRegularExpression]evaluateWithObject:phoneNumber];;</span><br><span class="line">    //    ((13[0-9])|(15[0-9])|(18[0-9]|(17[0-9]))\\d&#123;8&#125;</span><br><span class="line">    return isPhoneNumber;</span><br><span class="line">&#125;</span><br><span class="line">// 银行卡开户行验证</span><br><span class="line">- (BOOL)isBankTextField:(NSString *)bankCard &#123;</span><br><span class="line">    NSString *pattern = @&quot;[a-zA-Z\u4e00-\u9fa5][a-zA-Z0-9\u4e00-\u9fa5]+&quot;;</span><br><span class="line">    NSPredicate *pred = [NSPredicate predicateWithFormat:@&quot;SELF MATCHES %@&quot;, pattern];</span><br><span class="line">    BOOL isMatch = [pred evaluateWithObject:bankCard];</span><br><span class="line">    return isMatch;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 邮箱验证</span><br><span class="line">- (BOOL)isEmailTextField:(NSString *)email &#123;</span><br><span class="line">    NSString *pattern = @&quot;^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.)&#123;1,63&#125;[a-z0-9]+$&quot;;</span><br><span class="line">    NSPredicate *pred = [NSPredicate predicateWithFormat:@&quot;SELF MATCHES %@&quot;, pattern];</span><br><span class="line">    BOOL isMatch = [pred evaluateWithObject:email];</span><br><span class="line">    return isMatch;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 身份证号码验证</span><br><span class="line">- (BOOL)IDTextField:(NSString *)ids &#123;</span><br><span class="line">    NSString *mmdd = @&quot;(((0[13578]|1[02])(0[1-9]|[12][0-9]|3[01]))|((0[469]|11)(0[1-9]|[12][0-9]|30))|(02(0[1-9]|[1][0-9]|2[0-8])))&quot;;</span><br><span class="line">    NSString *leapMmdd = @&quot;0229&quot;;</span><br><span class="line">    NSString *year = @&quot;(19|20)[0-9]&#123;2&#125;&quot;;</span><br><span class="line">    NSString *leapYear = @&quot;(19|20)(0[48]|[2468][048]|[13579][26])&quot;;</span><br><span class="line">    NSString *yearMmdd = [NSString stringWithFormat:@&quot;%@%@&quot;, year, mmdd];</span><br><span class="line">    NSString *leapyearMmdd = [NSString stringWithFormat:@&quot;%@%@&quot;, leapYear, leapMmdd];</span><br><span class="line">    NSString *yyyyMmdd = [NSString stringWithFormat:@&quot;((%@)|(%@)|(%@))&quot;, yearMmdd, leapyearMmdd, @&quot;20000229&quot;];</span><br><span class="line">    NSString *area = @&quot;(1[1-5]|2[1-3]|3[1-7]|4[1-6]|5[0-4]|6[1-5]|82|[7-9]1)[0-9]&#123;4&#125;&quot;;</span><br><span class="line">    NSString *regex = [NSString stringWithFormat:@&quot;%@%@%@&quot;, area,yyyyMmdd,@&quot;[0-9]&#123;3&#125;[0-9Xx]&quot;];</span><br><span class="line">    BOOL isID = [[NSPredicate predicateWithFormat:@&quot;SELF MATCHES %@&quot;,regex]evaluateWithObject:ids];</span><br><span class="line">    return isID;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 英文</span><br><span class="line">- (BOOL)isLetter:(NSString *)ids&#123;</span><br><span class="line">    NSString *IDRegularExpression = @&quot;^[A-Za-z]+$&quot;;</span><br><span class="line">    BOOL isID = [[NSPredicate predicateWithFormat:@&quot;SELF MATCHES %@&quot;,IDRegularExpression]evaluateWithObject:ids];</span><br><span class="line">    return isID;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 数字</span><br><span class="line">- (BOOL)isNumber:(NSString *)ids &#123;</span><br><span class="line">    NSString *IDRegularExpression = @&quot;^[0-9]*$&quot;;</span><br><span class="line">    BOOL isID = [[NSPredicate predicateWithFormat:@&quot;SELF MATCHES %@&quot;,IDRegularExpression]evaluateWithObject:ids];</span><br><span class="line">    return isID;</span><br><span class="line">&#125;</span><br><span class="line">// 汉字</span><br><span class="line">-(BOOL)isChinese:(NSString *)ids &#123;</span><br><span class="line">    NSString *IDRegularExpression = @&quot;^[\u4e00-\u9fa5]&#123;0,&#125;$&quot;;</span><br><span class="line">    BOOL isID = [[NSPredicate predicateWithFormat:@&quot;SELF MATCHES %@&quot;,IDRegularExpression]evaluateWithObject:ids];</span><br><span class="line">    return isID;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">-(BOOL)IsChinese:(NSString *)str &#123;</span><br><span class="line">    for(int i=0; i&lt; [str length];i++)&#123;</span><br><span class="line">        int a = [str characterAtIndex:i];</span><br><span class="line">        if( a &gt; 0x4e00 &amp;&amp; a &lt; 0x9fff)&#123;</span><br><span class="line">            return YES;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return NO;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 姓名 判断 只有汉子 和 .</span><br><span class="line">- (BOOL)isNameTextField:(NSString *)ids &#123;</span><br><span class="line">    BOOL isOk = NO;</span><br><span class="line">    // 位数判断</span><br><span class="line">    if(ids.length&lt;2||ids.length&gt;10)&#123;</span><br><span class="line">        isOk = YES;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    // 不会写汉字＋ . 的正则 只能用判断每个字符的正则</span><br><span class="line">    for (int i=0; i&lt;[ids length]; i++) &#123;</span><br><span class="line">        int a = [ids characterAtIndex:i];</span><br><span class="line">        </span><br><span class="line">        if ( a &gt; 0x4e00 &amp;&amp; a &lt; 0x9fff ) &#123;</span><br><span class="line">            </span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            if (a != 8226 &amp;&amp; a != 19968&amp;&amp;a != 183) &#123;</span><br><span class="line">                isOk = YES;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return isOk;</span><br><span class="line">&#125;</span><br><span class="line">// 2~10字，除汉字、字母、数字外其他字符不可以</span><br><span class="line">- (BOOL)isMaxTen:(NSString *)ids &#123;</span><br><span class="line">    BOOL isOk = NO;</span><br><span class="line">    //位数判断</span><br><span class="line">    if(ids.length&lt;2||ids.length&gt;10)&#123;</span><br><span class="line">        isOk = YES;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    //不会写汉字＋ . 的正则 只能用判断每个字符的正则</span><br><span class="line">    </span><br><span class="line">    for (int i=0; i&lt;[ids length]; i++) &#123;</span><br><span class="line">        </span><br><span class="line">        int a = [ids characterAtIndex:i];</span><br><span class="line">        </span><br><span class="line">        if ( a &gt; 0x4e00 &amp;&amp; a &lt; 0x9fff ) &#123;//中文</span><br><span class="line">            </span><br><span class="line">        &#125;else if (a &gt; 47 &amp;&amp; a &lt; 58)&#123;//数字</span><br><span class="line">            </span><br><span class="line">        &#125;else if (a &gt; 64 &amp;&amp; a &lt; 91)&#123;//大写字母</span><br><span class="line">            </span><br><span class="line">        &#125;else if (a &gt; 96 &amp;&amp; a &lt; 123)&#123;//小写字母</span><br><span class="line">            </span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            if (a != 19968) &#123;</span><br><span class="line">                isOk = YES;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return isOk;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 6~20个字母、数字、下划线或减号</span><br><span class="line">- (BOOL)isWexin:(NSString *)ids &#123;</span><br><span class="line">    BOOL isOk = NO;</span><br><span class="line">    //位数判断</span><br><span class="line">    if(ids.length&lt;6||ids.length&gt;20)&#123;</span><br><span class="line">        isOk = YES;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    //不会写汉字＋ . 的正则 只能用判断每个字符的正则</span><br><span class="line">    </span><br><span class="line">    for (int i=0; i&lt;[ids length]; i++) &#123;</span><br><span class="line">        </span><br><span class="line">        int a = [ids characterAtIndex:i];</span><br><span class="line">        </span><br><span class="line">        if (a &gt; 47 &amp;&amp; a &lt; 58)&#123;//数字</span><br><span class="line">            </span><br><span class="line">        &#125;else if (a &gt; 64 &amp;&amp; a &lt; 91)&#123;//大写字母</span><br><span class="line">            </span><br><span class="line">        &#125;else if (a &gt; 96 &amp;&amp; a &lt; 123)&#123;//小写字母</span><br><span class="line">            </span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            </span><br><span class="line">            if(a!=65343&amp;&amp;a!=65293&amp;&amp;a!=95&amp;&amp;a!=45&amp;&amp;a != 19968)&#123;//65343下划线65293减号</span><br><span class="line">                isOk = YES;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return isOk;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="TextField输入格式化"><a href="#TextField输入格式化" class="headerlink" title="TextField输入格式化"></a>TextField输入格式化</h2><p>输入需要进行格式化处理，使输入内容按照一定格式以空格进行分隔。因为这种格式化会导致光标的异常，处理光标是一件比较麻烦的事。</p>
+<p>输入控制在这个回调中进行控制时，对于选中一块进行输入或删除时，会出现光标异常的情况，处理方法是，对于所有<code>textField:shouldChangeCharactersInRange:replacementString</code>直接全部返回<code>NO</code>，正是因为返回的<code>YES</code>导致了<code>textfield</code>自行删除添加，然后导致光标移动，而如果返回<code>NO</code>，首先光标不会乱动，然后在设置光标的位置，使光标显示正常。而由于返回了<code>NO</code>导致无法进行自动输入或删除内容到<code>textField</code>，要使用<code>textfield</code>的<code>UIKeyInput</code>中的<code>insertText:</code>和<code>deleteBackward</code>方法来进行内容的输入与删除。</p>
+<h2 id="键盘遮挡输入框"><a href="#键盘遮挡输入框" class="headerlink" title="键盘遮挡输入框"></a>键盘遮挡输入框</h2><p>通过在<code>ViewController</code>注册键盘弹出的通知，分别在键盘显示和键盘隐藏的时候对视图做一个动画处理，滚动到一个<strong>偏移量</strong>用户可视范围内。基于这个思路，我们需要知道四个重要的数值去计算，<strong>偏移量</strong>。</p>
+<ul>
+<li>键盘高度</li>
+<li>获取焦点视图的位置和高度</li>
+<li>屏幕的高度</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// 注册键盘出现的通知</span><br><span class="line">    [[NSNotificationCenter defaultCenter] addObserver:self</span><br><span class="line">                                             selector:@selector(keyboardWillShow:)</span><br><span class="line">                                                 name:UIKeyboardWillShowNotification object:nil];</span><br><span class="line">    // 注册键盘消失的通知</span><br><span class="line">    [[NSNotificationCenter defaultCenter] addObserver:self</span><br><span class="line">                                             selector:@selector(keyboardWillHide:)</span><br><span class="line">                                                 name:UIKeyboardWillHideNotification object:nil];</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/02/21/2016-2-21-OC中的正则表达式/" rel="next" title="OC中的正则表达式">
+                <i class="fa fa-chevron-left"></i> OC中的正则表达式
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/04/03/2016-4-3-cocoaPods的简单使用/" rel="prev" title="CocoaPods的简单使用">
+                CocoaPods的简单使用 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="karl">
+            
+              <p class="site-author-name" itemprop="name">karl</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">97</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">83</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/likenow" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:fmslikai@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://yujiangshui.com/" title="yujiangshui" target="_blank">yujiangshui</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#首先，UITextfield-代理"><span class="nav-number">1.</span> <span class="nav-text">首先，UITextfield 代理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TextField输入限制"><span class="nav-number">2.</span> <span class="nav-text">TextField输入限制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TextField输入格式化"><span class="nav-number">3.</span> <span class="nav-text">TextField输入格式化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#键盘遮挡输入框"><span class="nav-number">4.</span> <span class="nav-text">键盘遮挡输入框</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2013 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">karl</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

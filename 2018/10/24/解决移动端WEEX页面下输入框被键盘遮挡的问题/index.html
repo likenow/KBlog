@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next gemini" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="iOS,Android,键盘,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="先说一下问题背景我们的应用中有一些表单页面，而我们写页面使用了跨平台的 Weex 框架，weex 布局的页面，输入框被遮挡。Android 端在在AndroidManifest文件中对activity设置：android:windowSoftInputMode的值adjustPan或者adjustResize没有起作用。:( iOS端本身就是需要对键盘这块做处理的，不像Android 一样在And">
+<meta name="keywords" content="iOS,Android,键盘">
+<meta property="og:type" content="article">
+<meta property="og:title" content="解决移动端WEEX页面下输入框被键盘遮挡的问题">
+<meta property="og:url" content="http://yoursite.com/2018/10/24/解决移动端WEEX页面下输入框被键盘遮挡的问题/index.html">
+<meta property="og:site_name" content="Karl&#39;s Blog">
+<meta property="og:description" content="先说一下问题背景我们的应用中有一些表单页面，而我们写页面使用了跨平台的 Weex 框架，weex 布局的页面，输入框被遮挡。Android 端在在AndroidManifest文件中对activity设置：android:windowSoftInputMode的值adjustPan或者adjustResize没有起作用。:( iOS端本身就是需要对键盘这块做处理的，不像Android 一样在And">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-10-28T08:45:11.233Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="解决移动端WEEX页面下输入框被键盘遮挡的问题">
+<meta name="twitter:description" content="先说一下问题背景我们的应用中有一些表单页面，而我们写页面使用了跨平台的 Weex 框架，weex 布局的页面，输入框被遮挡。Android 端在在AndroidManifest文件中对activity设置：android:windowSoftInputMode的值adjustPan或者adjustResize没有起作用。:( iOS端本身就是需要对键盘这块做处理的，不像Android 一样在And">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/10/24/解决移动端WEEX页面下输入框被键盘遮挡的问题/">
+
+
+
+
+
+  <title>解决移动端WEEX页面下输入框被键盘遮挡的问题 | Karl's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Karl's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/24/解决移动端WEEX页面下输入框被键盘遮挡的问题/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="karl">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Karl's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">解决移动端WEEX页面下输入框被键盘遮挡的问题</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-24T19:51:47+08:00">
+                2018-10-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/weex/" itemprop="url" rel="index">
+                    <span itemprop="name">weex</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="先说一下问题背景"><a href="#先说一下问题背景" class="headerlink" title="先说一下问题背景"></a>先说一下问题背景</h2><p>我们的应用中有一些表单页面，而我们写页面使用了跨平台的 <code>Weex 框架</code>，<code>weex</code> 布局的页面，输入框被遮挡。<code>Android</code> 端在在<code>AndroidManifest</code>文件中对<code>activity</code>设置：<code>android:windowSoftInputMode</code>的值<code>adjustPan</code>或者<code>adjustResize</code>没有起作用。:(</p>
+<p><code>iOS</code>端本身就是需要对键盘这块做处理的，不像<code>Android</code> 一样在<code>AndroidManifest</code>配置。</p>
+<p>综上，根据<code>iOS</code> 处理键盘遮挡的思路，对<code>Android</code> 端故技重施。达到了我们最终的要求。:)</p>
+<a id="more"></a>
+<h2 id="iOS端的处理方案"><a href="#iOS端的处理方案" class="headerlink" title="iOS端的处理方案"></a>iOS端的处理方案</h2><h3 id="先说思路"><a href="#先说思路" class="headerlink" title="先说思路"></a>先说思路</h3><p>通过在<code>baseViewController</code>注册键盘弹出的通知，分别在键盘显示和键盘隐藏的时候对视图做一个动画处理，滚动到用户可视范围内。基于这个思路，我们需要知道四个重要的值去计算，偏移量。</p>
+<ul>
+<li>键盘高度</li>
+<li>获取焦点视图的位置和高度</li>
+<li>屏幕的高度</li>
+</ul>
+<h3 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h3><h4 id="注册通知"><a href="#注册通知" class="headerlink" title="注册通知"></a>注册通知</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// 注册键盘出现的通知</span><br><span class="line">    [[NSNotificationCenter defaultCenter] addObserver:self</span><br><span class="line">                                             selector:@selector(keyboardWillShow:)</span><br><span class="line">                                                 name:UIKeyboardWillShowNotification object:nil];</span><br><span class="line">    // 注册键盘消失的通知</span><br><span class="line">    [[NSNotificationCenter defaultCenter] addObserver:self</span><br><span class="line">                                             selector:@selector(keyboardWillHide:)</span><br><span class="line">                                                 name:UIKeyboardWillHideNotification object:nil];</span><br></pre></td></tr></table></figure>
+<h4 id="键盘显示事件"><a href="#键盘显示事件" class="headerlink" title="键盘显示事件"></a>键盘显示事件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">// 键盘显示事件</span><br><span class="line">- (void)keyboardWillShow:(NSNotification *)notification &#123;</span><br><span class="line">    // 递归遍历视图，对获取焦点的视图记录rect</span><br><span class="line">    [self traverseView:self.view];</span><br><span class="line">    </span><br><span class="line">    // 计算出键盘顶端到inputTextView底端的距离(加上自定义的缓冲距离INTERVAL_KEYBOARD)</span><br><span class="line">    UIApplication *app = [UIApplication sharedApplication];</span><br><span class="line">    CGFloat statusBarFrameHeight = app.statusBarFrame.size.height;</span><br><span class="line">    CGFloat navigationBarHeight = self.navigationController.navigationBar.frame.size.height;</span><br><span class="line">    </span><br><span class="line">    CGFloat kbHeight = [[notification.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size.height;</span><br><span class="line">    CGFloat offset = (_currViewRect.origin.y+_currViewRect.size.height+INTERVAL_KEYBOARD) - (self.view.frame.size.height - kbHeight)-statusBarFrameHeight-navigationBarHeight;</span><br><span class="line">    </span><br><span class="line">    // 取得键盘的动画时间</span><br><span class="line">    double duration = [[notification.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];</span><br><span class="line">    </span><br><span class="line">    // 将视图上移计算好的偏移</span><br><span class="line">    if(offset &gt; 0) &#123;</span><br><span class="line">        [UIView animateWithDuration:duration animations:^&#123;</span><br><span class="line">            self.view.frame = CGRectMake(0.0f, -offset, self.view.frame.size.width, self.view.frame.size.height);</span><br><span class="line">        &#125;];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="键盘隐藏事件"><a href="#键盘隐藏事件" class="headerlink" title="键盘隐藏事件"></a>键盘隐藏事件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">// 键盘消失事件</span><br><span class="line">- (void)keyboardWillHide:(NSNotification *)notify &#123;</span><br><span class="line">    // 键盘动画时间</span><br><span class="line">    double duration = [[notify.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];</span><br><span class="line">    </span><br><span class="line">    // 视图下沉恢复原状</span><br><span class="line">    UIApplication *app = [UIApplication sharedApplication];</span><br><span class="line">    CGFloat statusBarFrameHeight = app.statusBarFrame.size.height;</span><br><span class="line">    CGFloat navigationBarHeight = self.navigationController.navigationBar.frame.size.height;</span><br><span class="line">    [UIView animateWithDuration:duration animations:^&#123;</span><br><span class="line">        self.view.frame = CGRectMake(0, statusBarFrameHeight+navigationBarHeight, self.view.frame.size.width, self.view.frame.size.height);</span><br><span class="line">    &#125;];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="获取焦点子视图的位置和尺寸"><a href="#获取焦点子视图的位置和尺寸" class="headerlink" title="获取焦点子视图的位置和尺寸"></a>获取焦点子视图的位置和尺寸</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">// 获取焦点子视图</span><br><span class="line">- (void)traverseView:(UIView *)view &#123;</span><br><span class="line">    NSArray *subviews = [view subviews];</span><br><span class="line">    </span><br><span class="line">    // 如果没有子视图就直接返回</span><br><span class="line">    if (subviews.count &gt; 0) &#123;</span><br><span class="line">        for (UIView *subview in subviews) &#123;</span><br><span class="line">            if ([subview isFirstResponder]) &#123;</span><br><span class="line">                UIWindow *window = [[[UIApplication sharedApplication] delegate] window];</span><br><span class="line">                _currViewRect = [subview convertRect:subview.bounds toView:window];</span><br><span class="line">            &#125;</span><br><span class="line">            [self traverseView:subview];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Android-的具体实现"><a href="#Android-的具体实现" class="headerlink" title="Android 的具体实现"></a>Android 的具体实现</h2><ul>
+<li>通过监听<code>view</code>视图的状态和当前可见的区域大小以及屏幕的高度，拿到键盘的高度</li>
+<li>通过屏幕高度、焦点视图的位置和高度、键盘的高度算出偏移量</li>
+</ul>
+<p>总体思路，沿袭了上述的iOS 解决方案的思路。</p>
+<h3 id="具体实现-1"><a href="#具体实现-1" class="headerlink" title="具体实现"></a>具体实现</h3><h4 id="注册布局变化监听"><a href="#注册布局变化监听" class="headerlink" title="注册布局变化监听"></a>注册布局变化监听</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">getWindow().getDecorView().getViewTreeObserver().addOnGlobalLayoutListener(mLayoutChangeListener);</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line">    </span><br><span class="line">ViewTreeObserver.OnGlobalLayoutListener mLayoutChangeListener = <span class="keyword">new</span> ViewTreeObserver.OnGlobalLayoutListener() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onGlobalLayout</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 逻辑代码，后边会具体介绍</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h4 id="获得当前焦点视图"><a href="#获得当前焦点视图" class="headerlink" title="获得当前焦点视图"></a>获得当前焦点视图</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获得当前焦点的控件</span></span><br><span class="line">View rootview = getWindow().getDecorView();</span><br><span class="line">View focusview = rootview.findFocus();</span><br><span class="line"><span class="keyword">if</span> (focusview == <span class="keyword">null</span>) <span class="keyword">return</span>;</span><br></pre></td></tr></table></figure>
+<h4 id="计算偏移量"><a href="#计算偏移量" class="headerlink" title="计算偏移量"></a>计算偏移量</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 判断窗口可见区域大小</span></span><br><span class="line">Rect r = <span class="keyword">new</span> Rect();</span><br><span class="line">getWindow().getDecorView().getWindowVisibleDisplayFrame(r);</span><br><span class="line"><span class="keyword">int</span> screenHeight = ScreenUtils.getScreenHeight(LWXRenderActivity.<span class="keyword">this</span>);</span><br><span class="line"><span class="keyword">int</span> heightDifference = screenHeight - (r.bottom- r.top);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 计算偏移高度</span></span><br><span class="line"><span class="keyword">int</span>[] location = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">2</span>];</span><br><span class="line">focusview.getLocationOnScreen(location);</span><br><span class="line"><span class="keyword">int</span> offset = (location[<span class="number">1</span>]+focusview.getHeight()+<span class="number">10</span>) - (screenHeight-heightDifference);</span><br></pre></td></tr></table></figure>
+<h4 id="键盘的显示隐藏处理"><a href="#键盘的显示隐藏处理" class="headerlink" title="键盘的显示隐藏处理"></a>键盘的显示隐藏处理</h4><blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; 如果屏幕高度和Window可见区域高度差值大于整个屏幕高度的1/3，则表示软键盘显示中，否则软键盘为隐藏状态</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">boolean</span> isKeyboardShowing = heightDifference &gt; screenHeight/<span class="number">3</span>;</span><br><span class="line"><span class="keyword">if</span>(isKeyboardShowing) &#123;</span><br><span class="line">    <span class="keyword">if</span> (offset&gt;<span class="number">0</span>) &#123;</span><br><span class="line">        mBinding.wxcontent.scrollTo(<span class="number">0</span>, offset);</span><br><span class="line">    &#125;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    mBinding.wxcontent.scrollTo(<span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="简单总结"><a href="#简单总结" class="headerlink" title="简单总结"></a>简单总结</h2><p><code>iOS</code> 的解决方案是一个比较传统的解决思路，<code>Android</code> 端我则借鉴了一些博客中的思路，在文献中也贴出来了。欢迎拍砖 :)</p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ul>
+<li><p><a href="https://www.diycode.cc/topics/383" target="_blank" rel="noopener">Android 爬坑之旅：软键盘挡住输入框问题的终极解决方案</a></p>
+</li>
+<li><p><a href="https://www.jianshu.com/p/166cdc57576d" target="_blank" rel="noopener">让Android软键盘不遮挡布局</a></p>
+</li>
+<li><p><a href="https://www.jianshu.com/p/04db78f55e1e" target="_blank" rel="noopener">在weex页面下输入框被键盘遮挡问题</a></p>
+</li>
+<li><p><a href="https://blog.csdn.net/l540675759/article/details/74528641" target="_blank" rel="noopener">Android软键盘的全面解析，让你不再怕控件被遮盖</a></p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+            <a href="/tags/键盘/" rel="tag"># 键盘</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/06/2018-7-6-Android天气应用Demo/" rel="next" title="Android天气应用Demo">
+                <i class="fa fa-chevron-left"></i> Android天气应用Demo
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/11/01/Objective-C真假值小结/" rel="prev" title="Objective-C真假值小结">
+                Objective-C真假值小结 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="karl">
+            
+              <p class="site-author-name" itemprop="name">karl</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">97</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">83</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/likenow" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:fmslikai@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://yujiangshui.com/" title="yujiangshui" target="_blank">yujiangshui</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#先说一下问题背景"><span class="nav-number">1.</span> <span class="nav-text">先说一下问题背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iOS端的处理方案"><span class="nav-number">2.</span> <span class="nav-text">iOS端的处理方案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#先说思路"><span class="nav-number">2.1.</span> <span class="nav-text">先说思路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#具体实现"><span class="nav-number">2.2.</span> <span class="nav-text">具体实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#注册通知"><span class="nav-number">2.2.1.</span> <span class="nav-text">注册通知</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#键盘显示事件"><span class="nav-number">2.2.2.</span> <span class="nav-text">键盘显示事件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#键盘隐藏事件"><span class="nav-number">2.2.3.</span> <span class="nav-text">键盘隐藏事件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#获取焦点子视图的位置和尺寸"><span class="nav-number">2.2.4.</span> <span class="nav-text">获取焦点子视图的位置和尺寸</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Android-的具体实现"><span class="nav-number">3.</span> <span class="nav-text">Android 的具体实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#具体实现-1"><span class="nav-number">3.1.</span> <span class="nav-text">具体实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#注册布局变化监听"><span class="nav-number">3.1.1.</span> <span class="nav-text">注册布局变化监听</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#获得当前焦点视图"><span class="nav-number">3.1.2.</span> <span class="nav-text">获得当前焦点视图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#计算偏移量"><span class="nav-number">3.1.3.</span> <span class="nav-text">计算偏移量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#键盘的显示隐藏处理"><span class="nav-number">3.1.4.</span> <span class="nav-text">键盘的显示隐藏处理</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#简单总结"><span class="nav-number">4.</span> <span class="nav-text">简单总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-number">5.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2013 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">karl</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

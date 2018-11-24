@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next gemini" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="随笔,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="两类 Github Page 搞清楚 人家GitHub Pages说的很清楚，只怪我自己太晕，当时就因为没有搞清楚这两种类型，浪费了些时间。硬伤！要命啊······">
+<meta name="keywords" content="随笔">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo 搭建博客小结">
+<meta property="og:url" content="http://yoursite.com/2015/01/22/hexo-blog/index.html">
+<meta property="og:site_name" content="Karl&#39;s Blog">
+<meta property="og:description" content="两类 Github Page 搞清楚 人家GitHub Pages说的很清楚，只怪我自己太晕，当时就因为没有搞清楚这两种类型，浪费了些时间。硬伤！要命啊······">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://kailee.b0.upaiyun.com/github-pages-type.png">
+<meta property="og:image" content="http://kailee.b0.upaiyun.com/config1.png">
+<meta property="og:image" content="http://kailee.b0.upaiyun.com/config2.png">
+<meta property="og:image" content="http://kailee.b0.upaiyun.com/sysdm-cpl.png">
+<meta property="og:image" content="http://kailee.b0.upaiyun.com/xtsx-gj.png">
+<meta property="og:image" content="http://kailee.b0.upaiyun.com/environment-variable.png">
+<meta property="og:image" content="http://kailee.b0.upaiyun.com/edit-path.png">
+<meta property="og:image" content="http://kailee.b0.upaiyun.com/readme-render.png">
+<meta property="og:image" content="http://kailee.b0.upaiyun.com/categories.png">
+<meta property="og:updated_time" content="2018-10-20T14:33:02.493Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hexo 搭建博客小结">
+<meta name="twitter:description" content="两类 Github Page 搞清楚 人家GitHub Pages说的很清楚，只怪我自己太晕，当时就因为没有搞清楚这两种类型，浪费了些时间。硬伤！要命啊······">
+<meta name="twitter:image" content="http://kailee.b0.upaiyun.com/github-pages-type.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2015/01/22/hexo-blog/">
+
+
+
+
+
+  <title>Hexo 搭建博客小结 | Karl's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Karl's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/01/22/hexo-blog/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="karl">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Karl's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Hexo 搭建博客小结</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-01-22T15:59:51+08:00">
+                2015-01-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/日记/" itemprop="url" rel="index">
+                    <span itemprop="name">日记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="两类-Github-Page-搞清楚"><a href="#两类-Github-Page-搞清楚" class="headerlink" title="两类 Github Page 搞清楚"></a>两类 Github Page 搞清楚</h2><p><img src="http://kailee.b0.upaiyun.com/github-pages-type.png" alt=""></p>
+<p>人家<a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a>说的很清楚，只怪我自己太晕，当时就因为没有搞清楚这两种类型，浪费了些时间。硬伤！要命啊······<br><a id="more"></a></p>
+<h2 id="两个配置文件搞清楚"><a href="#两个配置文件搞清楚" class="headerlink" title="两个配置文件搞清楚"></a>两个配置文件搞清楚</h2><h3 id="两个文件"><a href="#两个文件" class="headerlink" title="两个文件"></a>两个文件</h3><ol>
+<li>对整站的配置：<br><img src="http://kailee.b0.upaiyun.com/config1.png" alt=""></li>
+<li>对主题的配置：<br><img src="http://kailee.b0.upaiyun.com/config2.png" alt=""></li>
+</ol>
+<p>上述连个文件要搞清楚，不要犯浑，一开始的时候我对这两个文件搞混了一次，浪费了些时间，希望大家注意。至于如何配置以及各个可配置项的用处大家可以到<a href="http://hexo.io/docs/configuration.html" target="_blank" rel="noopener">Configuration</a>学习配置。</p>
+<h2 id="Hexo-命令丢失"><a href="#Hexo-命令丢失" class="headerlink" title="Hexo 命令丢失"></a>Hexo 命令丢失</h2><blockquote>
+<p>conmand not found</p>
+</blockquote>
+<p>之前用的好好的，突然遇到这个问题后，我有点儿搞不懂了，稍微冷静了一会儿后，突然想到，我上午安装软件估计是把环境变量搞乱了，于是</p>
+<ol>
+<li><img src="http://kailee.b0.upaiyun.com/sysdm-cpl.png" alt=""></li>
+<li><img src="http://kailee.b0.upaiyun.com/xtsx-gj.png" alt=""></li>
+<li><img src="http://kailee.b0.upaiyun.com/environment-variable.png" alt=""></li>
+<li><img src="http://kailee.b0.upaiyun.com/edit-path.png" alt=""></li>
+</ol>
+<p>修改了环境变量后，然后就恢复了。如果你也遇到了这样的问题可以先排查一下是不是因为环境变量的改变造成的。</p>
+<h2 id="Hexo上传-README-文件"><a href="#Hexo上传-README-文件" class="headerlink" title="Hexo上传 README 文件"></a>Hexo上传 README 文件</h2><p>Github 的版本库通常建议同时附上 README.md 说明文件，但是 hexo 默认情况下会把所有 md 文件解析成 html 文件，所以即使你在线生成了README.md ，它也会在你下一次执行<code>hexo d -g</code>时被删去。<br>我没有找到解决办法，只是在<strong>顺序</strong>上做了一下调整，算是处理了这个问题吧如下：</p>
+<ol>
+<li>在本地<ol>
+<li>执行<code>hexo clean</code>(执行它的前提是你想清楚原来生成的文件)</li>
+<li>执行<code>hexo g</code></li>
+</ol>
+</li>
+<li>在执行<code>hexo deploy</code>前把在本地写好的 README.md 文件复制到 .deploy 文件夹中，再去执行 <code>hexo d</code>。</li>
+</ol>
+<h3 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h3><p>在浏览到<a href="https://github.com/hexojs/hexo/issues/786" target="_blank" rel="noopener">How do I add a README.md file into the root directory of the generated blog by HEXO? </a>看到了处理方案：利用主题的 source 目录，也就是 themes/themes-name/source 。因为这个文件夹里面的所有文件都会被复制到网站的根目录中去，也就是说，如果在里面放上 README.md ，就可以正常的存在于网站的主目录了。于是尝试了一下，但是 README.md 文件还是被解析成了html文件：</p>
+<p><img src="http://kailee.b0.upaiyun.com/readme-render.png" alt=""></p>
+<p>既然 md 文件被解析成 html 文件无可避免，于是我就把 README.md 改成了 README.mdown ，终于问题算是解决了。</p>
+<h2 id="Hexo-写文章"><a href="#Hexo-写文章" class="headerlink" title="Hexo 写文章"></a>Hexo 写文章</h2><p>在本地搭建的博客的根目录下找到 scaffolds 文件下的 post.md 可对其进行编辑文章头：</p>
+<pre><code>title: { { title } }
+date: { { date } }
+categories:
+tags:
+---
+
+&lt;!-- more --&gt;
+</code></pre><p>做这样的编辑就可在下次执行<code>hexo new &quot;postname&quot;</code>时，会是你一贯的作文结构。因此，避免每次都手工输入文章分类，readmore 这样的结构性的东西。这里我要谈的一点是，标签可以添加多个如下：</p>
+<pre><code>tags:
+- tag1
+- tag2
+- ···
+- tagi
+
+tags: [tag1,tag2,···,tagi]
+</code></pre><p>但是，分类并不是这样，如果你这样写：</p>
+<pre><code>categories: 
+- CSS    
+- 前端相关
+</code></pre><p>原本是希望，文章可在这两个同级分类下，但是结果却是：</p>
+<p><img src="http://kailee.b0.upaiyun.com/categories.png" alt=""></p>
+<p>所以，我看到其他博文里有提到说 categories 可添加多个分类，好像不太合理，当然也有可能是对静态博客系统做了自己的定制吧。</p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ul>
+<li><a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a></li>
+<li><a href="http://hexo.io/docs/configuration.html" target="_blank" rel="noopener">Configuration</a></li>
+<li><a href="http://hexo.io/docs/writing.html" target="_blank" rel="noopener">Create a New Post</a></li>
+<li><a href="http://ibruce.info/2013/11/22/hexo-your-blog/" target="_blank" rel="noopener">hexo你的博客</a></li>
+<li><a href="http://www.jianshu.com/p/05289a4bc8b2" target="_blank" rel="noopener">如何搭建一个独立博客——简明Github Pages与Hexo教程</a></li>
+<li><a href="https://github.com/hexojs/hexo/issues/786" target="_blank" rel="noopener">How do I add a README.md file into the root directory of the generated blog by HEXO? </a></li>
+<li><a href="https://github.com/hexojs/hexo/issues?page=1&amp;q=is%3Aissue+is%3Aopen" target="_blank" rel="noopener">Hexo issue</a></li>
+<li><a href="http://wwssllabcd.github.io/blog/2014/12/22/how-to-install-hexo-on-window/#安裝_Hexo_所需檔案" target="_blank" rel="noopener">Hexo 安裝教學、心得筆記 (Windows)</a></li>
+<li><a href="http://inching.org/2014/03/22/hexo/" target="_blank" rel="noopener">使用 Hexo 搭建静态博客</a></li>
+<li><a href="http://baike.baidu.com/view/95930.htm" target="_blank" rel="noopener">环境变量</a></li>
+<li><a href="http://lszb811.com/2014/07/08/Hexo-%E7%9A%84%E5%AD%A6%E4%B9%A0%E3%80%81%E6%90%AD%E5%BB%BA%E3%80%81%E6%95%B4%E7%90%86/" target="_blank" rel="noopener">Hexo 的学习、搭建、整理</a></li>
+<li><a href="http://xuanwo.org/2014/08/14/hexo-usual-problem/" target="_blank" rel="noopener">Hexo常见问题解决方案</a></li>
+<li><a href="http://stackoverflow.com/questions/25258660/how-do-i-add-a-readme-md-file-into-the-root-directory-of-the-generated-blog-by-h" target="_blank" rel="noopener">How do I add a README.md file into the root directory of the generated blog by HEXO?</a></li>
+<li><a href="http://cnfeat.com/2014/05/10/2014-05-11-how-to-build-a-blog/#Hexo上传README文件" target="_blank" rel="noopener">如何搭建一个独立博客——简明Github Pages与Hexo教程</a></li>
+<li><a href="http://zipperary.com/2013/05/29/hexo-guide-3/" target="_blank" rel="noopener">hexo系列教程：（三）hexo博客的配置、使用</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/随笔/" rel="tag"># 随笔</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/01/19/set-github/" rel="next" title="配置 Github 时遇到的问题">
+                <i class="fa fa-chevron-left"></i> 配置 Github 时遇到的问题
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/03/07/2015-3-7-Windows操作系统的电脑如何学习OC/" rel="prev" title="Windows操作系统的电脑如何学习OC">
+                Windows操作系统的电脑如何学习OC <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="karl">
+            
+              <p class="site-author-name" itemprop="name">karl</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">97</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">83</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/likenow" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:fmslikai@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://yujiangshui.com/" title="yujiangshui" target="_blank">yujiangshui</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#两类-Github-Page-搞清楚"><span class="nav-number">1.</span> <span class="nav-text">两类 Github Page 搞清楚</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#两个配置文件搞清楚"><span class="nav-number">2.</span> <span class="nav-text">两个配置文件搞清楚</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#两个文件"><span class="nav-number">2.1.</span> <span class="nav-text">两个文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hexo-命令丢失"><span class="nav-number">3.</span> <span class="nav-text">Hexo 命令丢失</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hexo上传-README-文件"><span class="nav-number">4.</span> <span class="nav-text">Hexo上传 README 文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#补充"><span class="nav-number">4.1.</span> <span class="nav-text">补充</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hexo-写文章"><span class="nav-number">5.</span> <span class="nav-text">Hexo 写文章</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-number">6.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2013 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">karl</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

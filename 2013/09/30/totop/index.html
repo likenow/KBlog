@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next gemini" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="javascript,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="当我们浏览网页的时候，往往会垂直滚动浏览更多内容。如果有这样一个按钮当你开始滚动页面的时候他浮现出来，单击一下可以回到网页顶部然后消失。你的设计里是否需要一个这样的设计呢？接下来我将通过jQuery实现它。">
+<meta name="keywords" content="javascript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="totop">
+<meta property="og:url" content="http://yoursite.com/2013/09/30/totop/index.html">
+<meta property="og:site_name" content="Karl&#39;s Blog">
+<meta property="og:description" content="当我们浏览网页的时候，往往会垂直滚动浏览更多内容。如果有这样一个按钮当你开始滚动页面的时候他浮现出来，单击一下可以回到网页顶部然后消失。你的设计里是否需要一个这样的设计呢？接下来我将通过jQuery实现它。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-11-05T14:57:19.731Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="totop">
+<meta name="twitter:description" content="当我们浏览网页的时候，往往会垂直滚动浏览更多内容。如果有这样一个按钮当你开始滚动页面的时候他浮现出来，单击一下可以回到网页顶部然后消失。你的设计里是否需要一个这样的设计呢？接下来我将通过jQuery实现它。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2013/09/30/totop/">
+
+
+
+
+
+  <title>totop | Karl's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Karl's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2013/09/30/totop/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="karl">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Karl's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">totop</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2013-09-30T19:54:38+08:00">
+                2013-09-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>当我们浏览网页的时候，往往会垂直滚动浏览更多内容。如果有这样一个按钮当你开始滚动页面的时候他浮现出来，单击一下可以回到网页顶部然后消失。你的设计里是否需要一个这样的设计呢？接下来我将通过jQuery实现它。</p>
+<a id="more"></a>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p>在开始之前，首先要了解jQuery的以下内容：</p>
+<ol>
+<li>click事件</li>
+<li>scroll事件</li>
+<li>fadeIn（淡入效果）</li>
+<li>fadeOut（淡出效果）</li>
+<li>animate（自定义效果）</li>
+<li>scrollTop（获取对滚动条顶部的偏移）</li>
+</ol>
+<h2 id="click事件"><a href="#click事件" class="headerlink" title="click事件"></a>click事件</h2><p><code>click([[data],fn])</code>触发每个匹配元素的click事件。这个函数会调用执行绑定到click事件的所有函数。参数：</p>
+<ul>
+<li>data供函数fn处理；fn在每一个匹配元素的click事件中绑定的处理函数。</li>
+</ul>
+<h2 id="scroll事件"><a href="#scroll事件" class="headerlink" title="scroll事件"></a>scroll事件</h2><p><code>scroll([[data],fn])</code>，在每个匹配元素的scroll事件中绑定一个处理函数。当滚动条发生变化时触发。参数：</p>
+<ul>
+<li>data供函数fn处理；fn在每一个匹配元素的scroll事件中绑定的处理函数。</li>
+</ul>
+<h2 id="fadeIn-fadeOut"><a href="#fadeIn-fadeOut" class="headerlink" title="fadeIn/fadeOut"></a>fadeIn/fadeOut</h2><p><code>fadeIn([speed],[easing],[fn])</code>，通过不透明度的变化来实现所有匹配元素的淡入（淡出）效果，并在动画完成后可选地触发一个回调函数。ps：该动画效果只调整元素的不透明度，元素的宽高不变。参数：</p>
+<ol>
+<li><code>speed[,fn]</code>，用来设定速度的<code>speed(&quot;slow&quot;,&quot;normal&quot;or&quot;fast&quot;)</code>或毫秒数<code>speed(1000)</code>；fn是在动画完成时执行的函数，每个元素执行一次。</li>
+<li><code>[speed],[easing],[fn]</code>。用来设定速度的<code>speed(&quot;slow&quot;,&quot;normal&quot;or&quot;fast&quot;)</code>或毫秒数<code>speed(1000)</code>；fn是在动画完成时执行的函数，每个元素执行一次；easing用来指定切换效果，默认是”swing”，可用参数”linear”。</li>
+</ol>
+<h2 id="animate"><a href="#animate" class="headerlink" title="animate"></a>animate</h2><p><code>animate(params,[speed],[easing],[fn])</code>，用于创建自定动画函数。该函数关键在于指定动画形式及结果样式属性。这个对象中每个属性都表示一个可以变化的样式属性（eg：”height”、”top”或”opacity”）。推荐属性命名法——<strong>骆驼式</strong>，eg：<em>marginLeft</em>。参数：</p>
+<ol>
+<li><code>params,[speed],[easing],[fn]</code>。params：一组包含作为动画属性和终值的样式属性及其值的集合；用来设定速度的<code>speed(&quot;slow&quot;,&quot;normal&quot;or&quot;fast&quot;)</code>或毫秒数<code>speed(1000)</code>；fn是在动画完成时执行的函数，每个元素执行一次；easing用来指定切换效果，默认是”swing”，可用参数”linear”。</li>
+<li><code>params,options</code>。params：一组包含作为动画属性和终值的样式属性及其值的集合；options：动画的额外选项。如：speed – 设置动画的速度,easing – 规定要使用的 easing 函数,callback – 规定动画完成之后要执行的函数,step – 规定动画的每一步完成之后要执行的函数,queue – 布尔值。指示是否在效果队列中放置动画。如果为 false，则动画将立即开始,specialEasing – 来自 styles 参数的一个或多个 CSS 属性的映射，以及它们的对应 easing 函数</li>
+</ol>
+<h2 id="scrollTop"><a href="#scrollTop" class="headerlink" title="scrollTop"></a>scrollTop</h2><p><code>scrollTop([val])</code>，获取匹配元素相对滚动条顶部的偏移。ps：对可见和隐藏元素均有效。参数：val设定垂直滚动条的值。</p>
+<h2 id="综合运用得到一键置顶按钮"><a href="#综合运用得到一键置顶按钮" class="headerlink" title="综合运用得到一键置顶按钮"></a>综合运用得到一键置顶按钮</h2><h3 id="代码其实很简单，代码如下："><a href="#代码其实很简单，代码如下：" class="headerlink" title="代码其实很简单，代码如下："></a>代码其实很简单，代码如下：</h3><pre><code>/*一键置顶*/
+$(&apos;a[href=&quot;#&quot;]&apos;).click(function($e) {
+    /* Act on the event */
+    $e.preventDefault();/*阻止链接的默认行为*/
+});
+$(&apos;.back-to-top&apos;).click(function() {
+    /* Act on the event */
+    $(&apos;html,body&apos;).animate({scrollTop:&apos;0&apos;}, 200);
+});
+$(window).scroll(function(){
+    var scrollH = document.documentElement.scrollTop + documentbody.scrollTop;
+    if( scrollH &gt; 200 ){
+        $(&apos;.back-to-top&apos;).fadeIn(200);
+    }else{
+        $(&apos;.back-to-top&apos;).fadeOut(200);
+    }
+});
+</code></pre><p>我们可以看到通过jQuery来实现真是小菜一碟。基本上就是选择包装集，然后在应用上述讲到的方法操作包装集。这样就ok了！如果您想马上试一下效果，你可以在你的样式文件里添加back-to-top类后把这段代码粘贴到你的js文件夹里就可以马上看到效果了。关于back-to-top类的写法这里就不赘述了，您可以尽情发挥。        </p>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>今天的内容就这么点儿，好吧总结一下：设计一个一键置顶按钮需要用到click、scroll、fadeIn、fadeOut、animate以及scrollTop。了解了基本的方法，当滚动条发生变化的时候（scroll获取相对于滚动条顶部偏移位置）我们定义了一个自定义动画效果 ，然后就搞定了。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/javascript/" rel="tag"># javascript</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2013/09/27/visual-format-model/" rel="next" title="可视化格式模型">
+                <i class="fa fa-chevron-left"></i> 可视化格式模型
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2013/10/01/html-url/" rel="prev" title="了解URL">
+                了解URL <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="karl">
+            
+              <p class="site-author-name" itemprop="name">karl</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">97</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">83</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/likenow" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:fmslikai@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://yujiangshui.com/" title="yujiangshui" target="_blank">yujiangshui</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#准备工作"><span class="nav-number">1.</span> <span class="nav-text">准备工作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#click事件"><span class="nav-number">2.</span> <span class="nav-text">click事件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#scroll事件"><span class="nav-number">3.</span> <span class="nav-text">scroll事件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#fadeIn-fadeOut"><span class="nav-number">4.</span> <span class="nav-text">fadeIn/fadeOut</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#animate"><span class="nav-number">5.</span> <span class="nav-text">animate</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#scrollTop"><span class="nav-number">6.</span> <span class="nav-text">scrollTop</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#综合运用得到一键置顶按钮"><span class="nav-number">7.</span> <span class="nav-text">综合运用得到一键置顶按钮</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#代码其实很简单，代码如下："><span class="nav-number">7.1.</span> <span class="nav-text">代码其实很简单，代码如下：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结语"><span class="nav-number">8.</span> <span class="nav-text">结语</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2013 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">karl</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

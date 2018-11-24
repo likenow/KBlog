@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next gemini" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="iOS,架构,设计模式,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言在移动应用架构与设计模式的选用时，我并没有感到非常纠结。并不是因为我很牛逼，恰恰相反因为iOS平台本身往往对应用层有着自己的设计，我们在开发客户端应用时，只需要遵循平台固有的设计就可以完成应用的开发。所以，与其说不纠结，倒不如说道行浅。 不过，在有些时候，由于工程变得庞大、业务逻辑变得异常复杂，诸如手机淘宝、百度、微信、美团、头条、滴滴等巨无霸类型的 APP，的确需要考虑架构以满足复杂工程的高">
+<meta name="keywords" content="iOS,架构,设计模式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS架构与设计模式">
+<meta property="og:url" content="http://yoursite.com/2017/09/22/2017-9-22-iOS架构与设计模式/index.html">
+<meta property="og:site_name" content="Karl&#39;s Blog">
+<meta property="og:description" content="前言在移动应用架构与设计模式的选用时，我并没有感到非常纠结。并不是因为我很牛逼，恰恰相反因为iOS平台本身往往对应用层有着自己的设计，我们在开发客户端应用时，只需要遵循平台固有的设计就可以完成应用的开发。所以，与其说不纠结，倒不如说道行浅。 不过，在有些时候，由于工程变得庞大、业务逻辑变得异常复杂，诸如手机淘宝、百度、微信、美团、头条、滴滴等巨无霸类型的 APP，的确需要考虑架构以满足复杂工程的高">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://kailee.b0.upaiyun.com/mvcvjbk2017.png">
+<meta property="og:image" content="http://kailee.b0.upaiyun.com/mvcios2017.png">
+<meta property="og:image" content="http://kailee.b0.upaiyun.com/mvvm2017.png">
+<meta property="og:image" content="http://kailee.b0.upaiyun.com/passiveviewmvp2017.png">
+<meta property="og:image" content="http://kailee.b0.upaiyun.com/supervisingControllermvp2017.png">
+<meta property="og:image" content="http://kailee.b0.upaiyun.com/viewcontrollerdesign2017.png">
+<meta property="og:image" content="http://kailee.b0.upaiyun.com/viewdesign2017.png">
+<meta property="og:image" content="http://kailee.b0.upaiyun.com/modeldesign2017.png">
+<meta property="og:updated_time" content="2018-11-01T15:17:53.301Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS架构与设计模式">
+<meta name="twitter:description" content="前言在移动应用架构与设计模式的选用时，我并没有感到非常纠结。并不是因为我很牛逼，恰恰相反因为iOS平台本身往往对应用层有着自己的设计，我们在开发客户端应用时，只需要遵循平台固有的设计就可以完成应用的开发。所以，与其说不纠结，倒不如说道行浅。 不过，在有些时候，由于工程变得庞大、业务逻辑变得异常复杂，诸如手机淘宝、百度、微信、美团、头条、滴滴等巨无霸类型的 APP，的确需要考虑架构以满足复杂工程的高">
+<meta name="twitter:image" content="http://kailee.b0.upaiyun.com/mvcvjbk2017.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/09/22/2017-9-22-iOS架构与设计模式/">
+
+
+
+
+
+  <title>iOS架构与设计模式 | Karl's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Karl's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/22/2017-9-22-iOS架构与设计模式/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="karl">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Karl's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">iOS架构与设计模式</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-22T23:39:24+08:00">
+                2017-09-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在移动应用<strong>架构</strong>与<strong>设计模式</strong>的选用时，我并没有感到非常<strong>纠结</strong>。并不是因为我很牛逼，恰恰相反因为iOS平台本身往往对应用层有着自己的设计，我们在开发客户端应用时，只需要遵循平台固有的设计就可以完成应用的开发。所以，与其说不纠结，倒不如说<strong>道行浅</strong>。</p>
+<p>不过，在有些时候，由于工程变得<strong>庞大</strong>、业务逻辑变得异常<strong>复杂</strong>，诸如手机淘宝、百度、微信、美团、头条、滴滴等巨无霸类型的 APP，的确需要考虑<strong>架构</strong>以满足复杂工程的<strong>高效开发</strong>。</p>
+<a id="more"></a>
+<h2 id="几种设计模式"><a href="#几种设计模式" class="headerlink" title="几种设计模式"></a>几种设计模式</h2><h3 id="MVC"><a href="#MVC" class="headerlink" title="MVC"></a>MVC</h3><blockquote>
+<p> <a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller" target="_blank" rel="noopener"><strong>MVC</strong></a></p>
+<p><strong>Model–view–controller</strong> is an <a href="https://en.wikipedia.org/wiki/Architectural_pattern" target="_blank" rel="noopener">architectural pattern</a> commonly used for developing <a href="https://en.wikipedia.org/wiki/User_interface" target="_blank" rel="noopener">user interfaces</a> that divides an application into three interconnected parts. This is done to separate internal representations of information from the ways information is presented to and accepted from the user.<a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller#cite_note-1" target="_blank" rel="noopener">[1]</a><a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller#cite_note-2" target="_blank" rel="noopener">[2]</a> The MVC design pattern decouples these major components allowing for efficient <a href="https://en.wikipedia.org/wiki/Code_reuse" target="_blank" rel="noopener">code reuse</a> and parallel development.</p>
+<p>Traditionally used for desktop <a href="https://en.wikipedia.org/wiki/Graphical_user_interface" target="_blank" rel="noopener">graphical user interfaces</a> (GUIs), this architecture has become popular for designing <a href="https://en.wikipedia.org/wiki/Web_application" target="_blank" rel="noopener">web applications</a> and even mobile, desktop and other clients.<a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller#cite_note-3" target="_blank" rel="noopener">[3]</a> Popular programming languages like <a href="https://en.wikipedia.org/wiki/Java_(programming_language" target="_blank" rel="noopener">Java</a>), <a href="https://en.wikipedia.org/wiki/C_Sharp_(programming_language" target="_blank" rel="noopener">C#</a>), <a href="https://en.wikipedia.org/wiki/Ruby_(programming_language" target="_blank" rel="noopener">Ruby</a>), <a href="https://en.wikipedia.org/wiki/PHP" target="_blank" rel="noopener">PHP</a> have MVC frameworks that are used in web application development straight <a href="https://en.wikipedia.org/wiki/Out_of_the_box_(feature" target="_blank" rel="noopener">out of the box</a>).</p>
+<p>From wikipedia</p>
+</blockquote>
+<p><img src="http://kailee.b0.upaiyun.com/mvcvjbk2017.png" alt=""></p>
+<p>看到维基百科的这个 <code>MVC</code>的架构图，作为iOS开发者，我非常困惑。View 层和 COntroller 层没有直接关联？通过 Model 层来通讯吗？</p>
+<p>以下是摘录自<a href="https://developer.apple.com/library/archive/documentation/General/Conceptual/CocoaEncyclopedia/Model-View-Controller/Model-View-Controller.html#//apple_ref/doc/uid/TP40010810-CH14-SW14" target="_blank" rel="noopener">Concepts in Objective-C Programming</a>：</p>
+<blockquote>
+<p>The MVC design pattern considers there to be three types of objects: model objects, view objects, and controller objects. The MVC pattern defines the roles that these types of objects play in the application and their lines of communication. When designing an application, a major step is choosing—or creating custom classes for—objects that fall into one of these three groups. Each of the three types of objects is separated from the others by abstract boundaries and communicates with objects of the other types across those boundaries.</p>
+</blockquote>
+<p><img src="http://kailee.b0.upaiyun.com/mvcios2017.png" alt=""></p>
+<p>由于 <code>UIViewController</code> 类持有一个根视图 <code>UIView</code>，所以视图层与控制器层是耦合度很高，iOS 项目经常遇到视图控制器非常臃肿，然后开发者们就开始不断的对 MVC 进行<strong>演进</strong>以实现更好的工程结构。</p>
+<h3 id="MVVM"><a href="#MVVM" class="headerlink" title="MVVM"></a>MVVM</h3><blockquote>
+<p><a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93viewmodel" target="_blank" rel="noopener"><strong>MVVM(Model–view–viewmodel )</strong></a></p>
+<p>MVVM facilitates a <a href="https://en.wikipedia.org/wiki/Separation_of_concerns" target="_blank" rel="noopener">separation</a> of development of the <a href="https://en.wikipedia.org/wiki/Graphical_user_interface" target="_blank" rel="noopener">graphical user interface</a> – be it via a <a href="https://en.wikipedia.org/wiki/Markup_language" target="_blank" rel="noopener">markup language</a> or GUI code – from development of the <a href="https://en.wikipedia.org/wiki/Business_logic" target="_blank" rel="noopener">business logic</a> or <a href="https://en.wikipedia.org/wiki/Front_and_back_ends" target="_blank" rel="noopener">back-end</a> logic (the <em>data model</em>). The <em>view model</em> of MVVM is a value converter,<a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93viewmodel#cite_note-MVVM-eliminates-valueconverters-1" target="_blank" rel="noopener">[1]</a> meaning the view model is responsible for exposing (converting) the <a href="https://en.wikipedia.org/wiki/Data_object" target="_blank" rel="noopener">data objects</a> from the model in such a way that objects are easily managed and presented. In this respect, the view model is more model than view, and handles most if not all of the view’s display logic.<a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93viewmodel#cite_note-MVVM-eliminates-valueconverters-1" target="_blank" rel="noopener">[1]</a> The view model may implement a <a href="https://en.wikipedia.org/wiki/Mediator_pattern" target="_blank" rel="noopener">mediator pattern</a>, organizing access to the back-end logic around the set of <a href="https://en.wikipedia.org/wiki/Use_case" target="_blank" rel="noopener">use cases</a>supported by the view.</p>
+<p>MVVM is a variation of <a href="https://en.wikipedia.org/wiki/Martin_Fowler" target="_blank" rel="noopener">Martin Fowler</a>‘s Presentation Model design pattern.<a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93viewmodel#cite_note-2" target="_blank" rel="noopener">[2]</a><a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93viewmodel#cite_note-JoshSmith-3" target="_blank" rel="noopener">[3]</a> MVVM abstracts a view’s <a href="https://en.wikipedia.org/wiki/State_(computer_science" target="_blank" rel="noopener">state</a>) and behavior in the same way,<a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93viewmodel#cite_note-JoshSmith-3" target="_blank" rel="noopener">[3]</a> but a Presentation Model abstracts a view (creates a <em>view model</em>) in a manner <em>not</em> dependent on a specific user-interface platform.</p>
+<p>MVVM was invented by <a href="https://en.wikipedia.org/wiki/Microsoft" target="_blank" rel="noopener">Microsoft</a> architects Ken Cooper and Ted Peters specifically to simplify <a href="https://en.wikipedia.org/wiki/Event-driven_programming" target="_blank" rel="noopener">event-driven programming</a> of user interfaces. The pattern was incorporated into <a href="https://en.wikipedia.org/wiki/Windows_Presentation_Foundation" target="_blank" rel="noopener">Windows Presentation Foundation (WPF)</a> (Microsoft’s <a href="https://en.wikipedia.org/wiki/.NET" target="_blank" rel="noopener">.NET</a> graphics system) and <a href="https://en.wikipedia.org/wiki/Silverlight" target="_blank" rel="noopener">Silverlight</a> (WPF’s Internet application derivative).<a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93viewmodel#cite_note-JoshSmith-3" target="_blank" rel="noopener">[3]</a> John Gossman, one of Microsoft’s WPF and Silverlight architects, <a href="https://blogs.msdn.microsoft.com/johngossman/2005/10/08/introduction-to-modelviewviewmodel-pattern-for-building-wpf-apps/" target="_blank" rel="noopener">announced MVVM on his blog</a> in 2005.<a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93viewmodel#cite_note-JoshSmith-3" target="_blank" rel="noopener">[3]</a></p>
+<p>Model–view–viewmodel is also referred to as <strong>model–view–binder</strong>, especially in implementations not involving the .NET platform. <a href="https://en.wikipedia.org/wiki/ZK_(framework" target="_blank" rel="noopener">ZK</a>) (a <a href="https://en.wikipedia.org/wiki/Web_application_framework" target="_blank" rel="noopener">web application framework</a> written in <a href="https://en.wikipedia.org/wiki/Java_(programming_language" target="_blank" rel="noopener">Java</a>)) and <a href="https://en.wikipedia.org/wiki/KnockoutJS" target="_blank" rel="noopener">KnockoutJS</a> (a <a href="https://en.wikipedia.org/wiki/JavaScript" target="_blank" rel="noopener">JavaScript</a> <a href="https://en.wikipedia.org/wiki/Library_(computing" target="_blank" rel="noopener">library</a>)) use model–view–binder.<a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93viewmodel#cite_note-JoshSmith-3" target="_blank" rel="noopener">[3]</a><a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93viewmodel#cite_note-SMassey-4" target="_blank" rel="noopener">[4]</a><a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93viewmodel#cite_note-5" target="_blank" rel="noopener">[5]</a></p>
+</blockquote>
+<p><img src="http://kailee.b0.upaiyun.com/mvvm2017.png" alt=""></p>
+<p>除了我们非常熟悉的 <code>Model</code>、<code>View</code> 和 <code>ViewModel</code>这三个部分，在<code>MVVM</code>的实现中，还引入了<strong>隐式的</strong>一个 <code>Binder 层</code>来同步视图和展示模型/视图模型之间的状态。主要使用<strong>观察者模式</strong>、<strong>双向绑定</strong>等机制。</p>
+<p>最为关键的是<strong>展示模型/视图模型</strong>创建了一个<strong>视图的抽象</strong>，<strong>将视图中的状态和行为抽离出一个新的抽象</strong>，这是 MVVM 中需要注意的。</p>
+<h3 id="MVP"><a href="#MVP" class="headerlink" title="MVP"></a>MVP</h3><blockquote>
+<p><a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93presenter" target="_blank" rel="noopener"><strong>MVP</strong></a></p>
+<p><strong>Model–view–presenter</strong> (<strong>MVP</strong>) is a derivation of the <a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller" target="_blank" rel="noopener">model–view–controller</a> (MVC) <a href="https://en.wikipedia.org/wiki/Architectural_pattern" target="_blank" rel="noopener">architectural pattern</a>, and is used mostly for building user interfaces.</p>
+</blockquote>
+<p>目前常见的 MVP 架构模式：<a href="https://www.martinfowler.com/eaaDev/PassiveScreen.html" target="_blank" rel="noopener">Passive View</a> 和 <a href="https://www.martinfowler.com/eaaDev/SupervisingPresenter.html" target="_blank" rel="noopener">Supervising Controller</a></p>
+<p><img src="http://kailee.b0.upaiyun.com/passiveviewmvp2017.png" alt=""></p>
+<p><strong>被动视图</strong></p>
+<ul>
+<li><p>当视图接收到来自用户的事件时，会将事件转交给<code>Presenter</code>进行处理；</p>
+</li>
+<li><p>被动的视图向外界暴露接口，当需要更新视图时<code>Presenter</code> 通过视图暴露的接口更新视图的内容；</p>
+</li>
+<li><p><code>Presenter</code> 负责对模型进行操作和更新，在需要时取出其中存储的信息；</p>
+</li>
+<li><p>当模型层改变时，可以将改变的信息发送给<strong>观察者</strong> <code>Presenter</code>；</p>
+</li>
+<li>在 <code>MVP</code> 的变种被动视图中，模型的操作以及视图的更新都仅通过 <code>Presenter</code> 作为<strong>中间人</strong>进行。</li>
+</ul>
+<p><img src="http://kailee.b0.upaiyun.com/supervisingControllermvp2017.png" alt=""></p>
+<p>在<strong>监督控制器</strong>中，<code>View</code>接管了一部分视图逻辑，主要内容就是同步<strong>简单的</strong>视图和模型的状态；而监督控制器就需要负责<strong>响应</strong>用户的输入以及一部分更加复杂的视图、模型状态<strong>同步</strong>工作。</p>
+<p>对于用户输入的处理，监督控制器的做法与标准 <code>MVP</code> 中的 <code>Presenter</code> 完全相同；但是对于视图、模型的同步工作，监督控制器会尽可能地将所有简单的属性<strong>以数据绑定的形式声明在视图层中</strong>，剩下的无法通过上述方式直接绑定的属性就需要通过监督控制器来<strong>操作</strong>和<strong>更新</strong>。</p>
+<h2 id="我如何使用MVC"><a href="#我如何使用MVC" class="headerlink" title="我如何使用MVC"></a>我如何使用MVC</h2><h3 id="Controller-包括但不仅限于以下几个方面："><a href="#Controller-包括但不仅限于以下几个方面：" class="headerlink" title="Controller 包括但不仅限于以下几个方面："></a>Controller 包括但不仅限于以下几个方面：</h3><p><img src="http://kailee.b0.upaiyun.com/viewcontrollerdesign2017.png" alt=""></p>
+<p>这也就是为什么在 iOS 应用中的 <code>Controller</code> 层都非常庞大、<strong>臃肿</strong>的原因了，而 <strong>MVVM</strong>、<strong>MVP</strong> 等架构模式的目的之一就是给 Controller 做<strong>减法</strong>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">#pragma mark - property</span><br><span class="line">@property (nonatomic, storng) ...</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#pragma mark - life Cycle</span><br><span class="line">- viewDidload</span><br><span class="line">- viewWillAppear</span><br><span class="line">- viewDidDisappear    </span><br><span class="line"></span><br><span class="line">#pragma mark - delegate</span><br><span class="line">    </span><br><span class="line">#pragma mark - event response</span><br><span class="line">    </span><br><span class="line">#pragma mark - private method</span><br><span class="line">    </span><br><span class="line">#pragma mark - getter &amp; setter methods</span><br></pre></td></tr></table></figure>
+<h3 id="View-包括但不仅限于以下几个方面："><a href="#View-包括但不仅限于以下几个方面：" class="headerlink" title="View 包括但不仅限于以下几个方面："></a>View 包括但不仅限于以下几个方面：</h3><p><img src="http://kailee.b0.upaiyun.com/viewdesign2017.png" alt=""></p>
+<p>随着<strong>大屏幕</strong>的到来，iOS开发者面对的不再是那个曾经的 <code>640 * 960</code>/<code>640*1136</code>的时代了，开发者需要适配不同尺寸的屏幕。<code>View</code> 层的<strong>布局</strong>，经历了从 <code>frame</code> 布局到<code>Autolayout</code>布局，以及像<code>AsyncDisplayKit</code>这样的布局框架的发展。<strong>动画</strong>效果也越来越炫酷，用户对<strong>流畅</strong>度的体验也越来越高。我们一方面希望通过框架设计使之<strong>组件</strong>化，即插即用，同时可以带来每秒不低于<code>60FPS</code>的体验来提高开发效率，满足产品需求。</p>
+<h3 id="Model"><a href="#Model" class="headerlink" title="Model"></a>Model</h3><p>谈到  Model 我其实没有太多发言权，因为起初接触 iOS 开发的时候， 对于 <code>Model</code> 的理解就是定义个继承自<code>NSObject</code> 的类，类中定义几个属性，属性的名称和接口字段对应 。<code>Controller</code> 使用数据的的时候，直接拿到对应的 <code>model</code>类 获取<code>属性</code>就完事儿！这就是我最早对 <code>Model</code> 的理解。<strong>low 到死</strong>。。。</p>
+<p><strong>Model</strong>是什么？他是数据模型吗？事到如今，我觉得它的合适定义应该是<strong>业务模型</strong>。也就是你所有<strong>业务数据</strong>和<strong>业务实现逻辑</strong>都应该定义在 <code>M</code> 层里面，而且业务逻辑的实现和定义应该和具体的界面无关或者尽可能少的纠缠，也就是和视图以及控制之间应该降低<strong>耦合</strong>度。</p>
+<p><img src="http://kailee.b0.upaiyun.com/modeldesign2017.png" alt=""></p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ul>
+<li><a href="https://developer.apple.com/library/archive/documentation/General/Conceptual/CocoaEncyclopedia/Model-View-Controller/Model-View-Controller.html#//apple_ref/doc/uid/TP40010810-CH14-SW14" target="_blank" rel="noopener">Model-View-Controller</a></li>
+<li><a href="https://draveness.me/mvx" target="_blank" rel="noopener">浅谈 MVC、MVP 和 MVVM 架构模式</a></li>
+<li><a href="https://www.martinfowler.com/eaaDev/PassiveScreen.html" target="_blank" rel="noopener">Passive View</a></li>
+<li><a href="https://www.martinfowler.com/eaaDev/SupervisingPresenter.html" target="_blank" rel="noopener">Supervising Controller</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller" target="_blank" rel="noopener"><strong>MVC</strong></a></li>
+<li><a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93viewmodel" target="_blank" rel="noopener"><strong>MVVM(Model–view–viewmodel )</strong></a></li>
+<li><a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93viewmodel" target="_blank" rel="noopener"><strong>MVVM(Model–view–viewmodel )</strong></a></li>
+<li><a href="https://www.jianshu.com/p/33c7e2f3a613" target="_blank" rel="noopener">论MVVM伪框架结构和MVC中M的实现机制</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+            <a href="/tags/架构/" rel="tag"># 架构</a>
+          
+            <a href="/tags/设计模式/" rel="tag"># 设计模式</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/05/2017-8-5-iOS集成ijkplayer播放视频/" rel="next" title="iOS集成ijkplayer播放视频">
+                <i class="fa fa-chevron-left"></i> iOS集成ijkplayer播放视频
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/11/18/C与C++语言struct与typedef/" rel="prev" title="C/C++语言struct与typedef">
+                C/C++语言struct与typedef <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="karl">
+            
+              <p class="site-author-name" itemprop="name">karl</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">97</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">83</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/likenow" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:fmslikai@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://yujiangshui.com/" title="yujiangshui" target="_blank">yujiangshui</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#几种设计模式"><span class="nav-number">2.</span> <span class="nav-text">几种设计模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MVC"><span class="nav-number">2.1.</span> <span class="nav-text">MVC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MVVM"><span class="nav-number">2.2.</span> <span class="nav-text">MVVM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MVP"><span class="nav-number">2.3.</span> <span class="nav-text">MVP</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#我如何使用MVC"><span class="nav-number">3.</span> <span class="nav-text">我如何使用MVC</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Controller-包括但不仅限于以下几个方面："><span class="nav-number">3.1.</span> <span class="nav-text">Controller 包括但不仅限于以下几个方面：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#View-包括但不仅限于以下几个方面："><span class="nav-number">3.2.</span> <span class="nav-text">View 包括但不仅限于以下几个方面：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Model"><span class="nav-number">3.3.</span> <span class="nav-text">Model</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-number">4.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2013 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">karl</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

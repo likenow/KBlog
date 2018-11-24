@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next gemini" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="git,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Git 的安装（大家可到Set Up Git学习安装）以及 Github 的注册这里不再赘述。这里本人主要是想把自己在配置和使用 Github 时遇到的一些问题拿出来分析一下（windows 平台下）。">
+<meta name="keywords" content="git">
+<meta property="og:type" content="article">
+<meta property="og:title" content="配置 Github 时遇到的问题">
+<meta property="og:url" content="http://yoursite.com/2015/01/19/set-github/index.html">
+<meta property="og:site_name" content="Karl&#39;s Blog">
+<meta property="og:description" content="Git 的安装（大家可到Set Up Git学习安装）以及 Github 的注册这里不再赘述。这里本人主要是想把自己在配置和使用 Github 时遇到的一些问题拿出来分析一下（windows 平台下）。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://kailee.b0.upaiyun.com/bad-file-num.png">
+<meta property="og:image" content="http://kailee.b0.upaiyun.com/use-https.png">
+<meta property="og:image" content="http://kailee.b0.upaiyun.com/443port.png">
+<meta property="og:image" content="http://kailee.b0.upaiyun.com/ssh-success.png">
+<meta property="og:updated_time" content="2018-10-20T14:29:37.171Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="配置 Github 时遇到的问题">
+<meta name="twitter:description" content="Git 的安装（大家可到Set Up Git学习安装）以及 Github 的注册这里不再赘述。这里本人主要是想把自己在配置和使用 Github 时遇到的一些问题拿出来分析一下（windows 平台下）。">
+<meta name="twitter:image" content="http://kailee.b0.upaiyun.com/bad-file-num.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2015/01/19/set-github/">
+
+
+
+
+
+  <title>配置 Github 时遇到的问题 | Karl's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Karl's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/01/19/set-github/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="karl">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Karl's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">配置 Github 时遇到的问题</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-01-19T20:00:30+08:00">
+                2015-01-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/Git/" itemprop="url" rel="index">
+                    <span itemprop="name">Git</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a href="http://git-scm.com/" target="_blank" rel="noopener">Git</a> 的安装（大家可到<a href="https://help.github.com/articles/set-up-git/" target="_blank" rel="noopener">Set Up Git</a>学习安装）以及 <a href="https://github.com/" target="_blank" rel="noopener">Github</a> 的注册这里不再赘述。这里本人主要是想把自己在配置和使用 Github 时遇到的一些问题拿出来分析一下（<strong>windows 平台下</strong>）。<br><a id="more"></a></p>
+<h2 id="配置-Github"><a href="#配置-Github" class="headerlink" title="配置 Github"></a>配置 Github</h2><p>这部分可以参考<a href="http://beiyuu.com/github-pages/" target="_blank" rel="noopener">使用Github Pages建独立博客</a>。</p>
+<h2 id="我遇到的问题"><a href="#我遇到的问题" class="headerlink" title="我遇到的问题"></a>我遇到的问题</h2><h3 id="问题如图"><a href="#问题如图" class="headerlink" title="问题如图"></a>问题如图</h3><p><img src="http://kailee.b0.upaiyun.com/bad-file-num.png" alt=""></p>
+<h3 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h3><p>我到<a href="https://help.github.com/articles/error-bad-file-number/" target="_blank" rel="noopener">Error: Bad file number</a>找到了解决的办法，我尝试 GitHub Help提供的方案：</p>
+<ul>
+<li>Use HTTPS ，它干脆避免了 SSH<br><img src="http://kailee.b0.upaiyun.com/use-https.png" alt=""></li>
+<li>Test from a different network ，如果可以连到另一个没有防火墙的网络不失为一种方法，那我只有“呵呵”了</li>
+<li>Using SSH over the HTTPS port ，如果使用 HTTPS 行不通，而且你的防火墙管理员拒绝允许 SSH 连接，你可以尝试其他端口去连接 SSH ，这里用的是 443 端口，而且也确实可行：<br><img src="http://kailee.b0.upaiyun.com/443port.png" alt=""></li>
+</ul>
+<p>那么我用的解决方案就是在<code>.ssh</code>文件下创建了<code>config</code>文件放到 rsa 相同目录下。<code>config</code>配置如下：</p>
+<pre><code>Host github.com
+Hostname ssh.github.com
+PreferredAuthentications publickey
+IdentityFile /c/Users/Administrator/.ssh/id_rsa
+Port 443
+</code></pre><p>成功解决如下，已经可以成功连接GitHub了：<br><img src="http://kailee.b0.upaiyun.com/ssh-success.png" alt=""></p>
+<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><h3 id="Permission-denied-publickey"><a href="#Permission-denied-publickey" class="headerlink" title="Permission denied (publickey)."></a>Permission denied (publickey).</h3><p>此提示一出，一般应该是程序没有找到 <strong>rsa</strong> 私有钥匙或者 <strong>rsa</strong> 密钥匹配出错。想了解更多到<a href="https://help.github.com/articles/error-permission-denied-publickey/" target="_blank" rel="noopener">Error: Permission denied (publickey)</a>我这里不再赘述。</p>
+<h3 id="Host-key-verification-failed"><a href="#Host-key-verification-failed" class="headerlink" title="Host key verification failed"></a>Host key verification failed</h3><p>相信你也撞到了这个问题，主机的密钥验证失败。密钥验证失败有两个原因：</p>
+<ul>
+<li>RSA 做了更改，</li>
+<li>在 known_hosts 中存在一个缓存的记录，如果确认了 RSA 没有错误，那你就应该去 known_hosts 中删掉对应的那个记录（这个记录可以当做是缓存，是对验证做了一次缓存，缓存的作用是减少验证次数，不需要每次都验证，读取缓存就行了）</li>
+</ul>
+<h3 id="多个服务端的维护"><a href="#多个服务端的维护" class="headerlink" title="多个服务端的维护"></a>多个服务端的维护</h3><p>在配置 SSH 时，我们知道程序会默认寻找 <code>~/.ssh/id_rsa</code> 这个文件，同一目录下显然不能有两个重名文件，也就是说当我们去认证 github 和另外一个 git 服务器的时候，我们需要在两者之间互相替换。这样效率可见一斑了，本人从网上找到了一片不错的博文<a href="http://kevinpelgrims.com/blog/2012/07/19/setting-up-multiple-github-accounts-on-windows" target="_blank" rel="noopener">Setting up multiple GitHub accounts on Windows</a>，感觉挺靠谱，自己就不费口舌了。</p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ul>
+<li><a href="https://help.github.com/articles/generating-ssh-keys/" target="_blank" rel="noopener">Generating SSH keys</a></li>
+<li><a href="https://help.github.com/articles/error-bad-file-number/" target="_blank" rel="noopener">Error: Bad file number</a></li>
+<li><a href="https://help.github.com/articles/error-permission-denied-publickey/" target="_blank" rel="noopener">Error: Permission denied (publickey)</a></li>
+<li><a href="http://stackoverflow.com/questions/2643502/git-permission-denied-publickey" target="_blank" rel="noopener">Git - Permission denied (publickey)</a></li>
+<li><a href="https://wiki.archlinux.org/index.php/SSH_Keys_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87" target="_blank" rel="noopener">SSH Keys (简体中文)</a>)</li>
+<li><a href="http://stackoverflow.com/questions/7144811/git-ssh-error-connect-to-host-bad-file-number" target="_blank" rel="noopener">Git SSH error: “Connect to host: Bad file number”</a></li>
+<li><a href="http://stackoverflow.com/questions/18551556/permission-denied-publickey-when-ssh-access-to-amazon-ec2-instance" target="_blank" rel="noopener">Permission denied (publickey) when SSH Access to Amazon EC2 instance</a></li>
+<li><a href="http://stackoverflow.com/questions/2643502/git-permission-denied-publickey" target="_blank" rel="noopener">Git - Permission denied (publickey)</a></li>
+<li><a href="http://serverfault.com/questions/39733/why-do-i-get-permission-denied-publickey-when-trying-to-ssh-from-local-ubunt" target="_blank" rel="noopener">Why do I get “Permission denied (publickey)” when trying to SSH from local Ubuntu to a Amazon EC2 server?</a></li>
+<li><a href="http://askubuntu.com/questions/337757/how-to-fix-permission-denied-public-key-error" target="_blank" rel="noopener">How to fix Permission Denied (Public key) error?</a></li>
+<li><a href="http://kevinpelgrims.com/blog/2012/07/19/setting-up-multiple-github-accounts-on-windows" target="_blank" rel="noopener">Setting up multiple GitHub accounts on Windows</a></li>
+<li><a href="http://stackoverflow.com/questions/25810942/how-to-setup-multiple-identities-of-git-ssh-on-windows" target="_blank" rel="noopener">How to setup multiple identities of git ssh on windows?</a></li>
+<li><a href="http://stackoverflow.com/questions/3225862/multiple-github-accounts-ssh-config" target="_blank" rel="noopener">Multiple GitHub Accounts &amp; SSH Config</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/git/" rel="tag"># git</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/01/19/set-use-github/" rel="next" title="配置 Github 时遇到的问题">
+                <i class="fa fa-chevron-left"></i> 配置 Github 时遇到的问题
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/01/22/hexo-blog/" rel="prev" title="Hexo 搭建博客小结">
+                Hexo 搭建博客小结 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="karl">
+            
+              <p class="site-author-name" itemprop="name">karl</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">97</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">83</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/likenow" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:fmslikai@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://yujiangshui.com/" title="yujiangshui" target="_blank">yujiangshui</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#配置-Github"><span class="nav-number">1.</span> <span class="nav-text">配置 Github</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#我遇到的问题"><span class="nav-number">2.</span> <span class="nav-text">我遇到的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#问题如图"><span class="nav-number">2.1.</span> <span class="nav-text">问题如图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决问题"><span class="nav-number">2.2.</span> <span class="nav-text">解决问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常见问题"><span class="nav-number">3.</span> <span class="nav-text">常见问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Permission-denied-publickey"><span class="nav-number">3.1.</span> <span class="nav-text">Permission denied (publickey).</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Host-key-verification-failed"><span class="nav-number">3.2.</span> <span class="nav-text">Host key verification failed</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多个服务端的维护"><span class="nav-number">3.3.</span> <span class="nav-text">多个服务端的维护</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-number">4.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2013 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">karl</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

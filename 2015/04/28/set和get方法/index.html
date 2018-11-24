@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next gemini" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="oc,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="写在前面的话之前的博文，比如我之前写的 C 语言学习笔记系列感觉偏向于教程之类的文体，内容比较全面但是深度上并没有达到较高的水准。所以，接下来我打算换一种文体，毕竟如果写博客没有自己的风格和乐趣将会成为一个比较繁重的工作。那么，本文将针对 OC 中 Set 方法和 Get 方法写一写自己的几点总结，希望那些还没搞懂 Set 方法和 Get 方法 的人看到这篇文章可以有所收获。">
+<meta name="keywords" content="oc">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Set 方法和 Get 方法">
+<meta property="og:url" content="http://yoursite.com/2015/04/28/set和get方法/index.html">
+<meta property="og:site_name" content="Karl&#39;s Blog">
+<meta property="og:description" content="写在前面的话之前的博文，比如我之前写的 C 语言学习笔记系列感觉偏向于教程之类的文体，内容比较全面但是深度上并没有达到较高的水准。所以，接下来我打算换一种文体，毕竟如果写博客没有自己的风格和乐趣将会成为一个比较繁重的工作。那么，本文将针对 OC 中 Set 方法和 Get 方法写一写自己的几点总结，希望那些还没搞懂 Set 方法和 Get 方法 的人看到这篇文章可以有所收获。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-10-28T08:50:32.834Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Set 方法和 Get 方法">
+<meta name="twitter:description" content="写在前面的话之前的博文，比如我之前写的 C 语言学习笔记系列感觉偏向于教程之类的文体，内容比较全面但是深度上并没有达到较高的水准。所以，接下来我打算换一种文体，毕竟如果写博客没有自己的风格和乐趣将会成为一个比较繁重的工作。那么，本文将针对 OC 中 Set 方法和 Get 方法写一写自己的几点总结，希望那些还没搞懂 Set 方法和 Get 方法 的人看到这篇文章可以有所收获。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2015/04/28/set和get方法/">
+
+
+
+
+
+  <title>Set 方法和 Get 方法 | Karl's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Karl's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/04/28/set和get方法/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="karl">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Karl's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Set 方法和 Get 方法</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-04-28T16:59:51+08:00">
+                2015-04-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/oc/" itemprop="url" rel="index">
+                    <span itemprop="name">oc</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="写在前面的话"><a href="#写在前面的话" class="headerlink" title="写在前面的话"></a>写在前面的话</h2><p>之前的博文，比如我之前写的<strong> C 语言学习笔记系列</strong>感觉偏向于教程之类的文体，内容比较全面但是深度上并没有达到较高的水准。所以，接下来我打算换一种文体，毕竟如果写博客没有自己的风格和乐趣将会成为一个比较繁重的工作。那么，本文将针对 OC 中 <strong>Set 方法</strong>和<strong> Get 方法</strong>写一写自己的几点总结，希望那些还没搞懂 Set 方法和 Get 方法 的人看到这篇文章可以有所收获。<br><a id="more"></a></p>
+<h2 id="OC-为什么要有-Set-方法和-Get-方法"><a href="#OC-为什么要有-Set-方法和-Get-方法" class="headerlink" title="OC 为什么要有 Set 方法和 Get 方法"></a>OC 为什么要有 Set 方法和 Get 方法</h2><p>其实不只是 OC 这门语言，所有的面向对象的语言都有和这两个方法功能相同的方法，只不过各个语言的语法不同罢了。而且，要回答这个问题我感觉要先从面向对象开发的特性之一的封装开始谈起。那什么是<strong>封装</strong>？什么是<strong>面向对象</strong>呢？我靠，这个问题的确是一环扣一环，环环相扣的啊！那我就先来回答什么事面向对象吧。用面向对象的眼光看世界，万物皆对象！所以，我们解决问题的时候，问题本身就是一个对象，然后解决问题要用到的也是对象,这是一种思想。这个东西也不是一两句话能够说明白的，所以这方面还是要靠自己的思考。<br>然后，再来谈谈封装，我感觉封装就是为了保护，保护自己类的内部属性，不让外部的人轻易地使用我内部的成员变量。贴出一段代码来说一下吧：</p>
+<pre><code>#import &lt;Foundation/Foundation.h&gt;
+
+@interface Student : NSObject
+{
+    // public 意味着所有人都可以用，不安全
+    @public
+    int age;
+}
+@end
+@implementation Student
+@end
+
+int main()
+{
+    Student *stu = [[Student alloc] init];
+
+    //暴漏的成员变量，可以随意被修改——这样不好
+    stu-&gt;age = 20;        
+
+    [stu release];
+
+    return 0;
+}
+</code></pre><p>这是一段非常简陋的代码，就是创建了一个学生对象，学生对象只有一个成员变量 age ，学生对象连个对象方法都没有。不过，那来讲我要说的东西足够了。上述代码安全性不好，可以直接修改我创建出来的学生对象的年龄。我想你会说那直接把 <strong>public</strong> 换成 <strong>private</strong> 得了这样外面的人就无法随意改动了，那么我们又如何访问成员变量呢？如何对他进行赋值？<strong>方法</strong>，没错！对象的方法可以直接操作对象的成员变量，而不至于把自己的成员变量暴漏于外部。所以我们想办法创建一个方法，让人们通过方法把值传递给成员变量就安全多了。于是，就有了 set 方法和 get 方法来管理成员的访问。</p>
+<h2 id="Set-方法和-Get-方法"><a href="#Set-方法和-Get-方法" class="headerlink" title="Set 方法和 Get 方法"></a>Set 方法和 Get 方法</h2><h3 id="set-方法"><a href="#set-方法" class="headerlink" title="set 方法"></a>set 方法</h3><p>Set 方法给外界提供一个方法设置成员变量的值，同时可以在方法里面对外面传进来的只进行过滤，以避免传递进来一些乱七八糟的东西。</p>
+<ol>
+<li>它有固定的命名方法和命名规范：<ol>
+<li>方法名以 set 开头</li>
+<li>set 后面跟上成员变量的名称，成员变量的首字母必须大写</li>
+</ol>
+</li>
+<li>它返回值一定为void，一定要接受一个参数，而且参数类型跟成员变量类型一致</li>
+<li>形参名称不能与成员变量名相同</li>
+<li>set 方法可以在别人传递进来值以后做一些事情，可以监听成员变量值的改变</li>
+</ol>
+<h3 id="get-方法"><a href="#get-方法" class="headerlink" title="get 方法"></a>get 方法</h3><ol>
+<li><p>它有固定的命名方法和命名规范：</p>
+<ol>
+<li>肯定有返回值，返回值类型肯定与成员变量类型一致</li>
+<li>方法名跟成员变量名一样,但是不用写下划线了</li>
+<li>不需要接受任何参数</li>
+</ol>
+</li>
+<li><p>它返回对象内部的成员变量</p>
+</li>
+</ol>
+<h3 id="成员变量注意的几点规范"><a href="#成员变量注意的几点规范" class="headerlink" title="成员变量注意的几点规范"></a>成员变量注意的几点规范</h3><ol>
+<li>成员变量都以下划线 _ 开头</li>
+<li>可以跟get方法的名称区分开</li>
+<li>可以跟其他局部变量区分开，一看到下划线开头的变量，肯定是成员变量</li>
+</ol>
+<h3 id="set-方法和-get-方法实战"><a href="#set-方法和-get-方法实战" class="headerlink" title="set 方法和 get 方法实战"></a>set 方法和 get 方法实战</h3><p>那么我们用 set 方法和 get 方法对上述代码进行改进：</p>
+<pre><code>#import &lt;Foundation/Foundation.h&gt;
+
+@interface Student : NSObject
+{
+    int _age;
+}
+// set 方法
+- (void)setAge:(int)age;
+// get 方法
+- (int)age;
+@end
+@implementation Student
+// set 方法
+- (void)setAge:(int)age
+{
+    // 过滤
+    if (age&lt;=0)
+    {
+        age = 1;
+    }
+    _age = age;
+}
+// get 方法
+- (int)age
+{
+    return _age;
+}
+@end
+
+int main()
+{
+    Student *stu = [[Student alloc] init];
+
+    [stu setAge:20];
+
+    int age = [stu age];
+
+    NSLog(@&quot;age is %d&quot;, age);
+
+    [stu release];
+
+    return 0;
+}
+</code></pre><h3 id="set-方法和-get-方法的好处"><a href="#set-方法和-get-方法的好处" class="headerlink" title="set 方法和 get 方法的好处"></a>set 方法和 get 方法的好处</h3><ul>
+<li>过滤不合理的值</li>
+<li>屏蔽内部的赋值过程</li>
+<li>让外界不必关注内部的细节</li>
+</ul>
+<h2 id="set-方法和-get-方法的调用"><a href="#set-方法和-get-方法的调用" class="headerlink" title="set 方法和 get 方法的调用"></a>set 方法和 get 方法的调用</h2><p>从上面的代码中我们调用 set 方法和 get 方法的方式如下：</p>
+<pre><code>[stu setAge:20];
+[stu age];
+</code></pre><p>OC 还提供了如下等价的方式：</p>
+<pre><code>stu.age = 10;
+int age = stu.age;
+</code></pre><p>相信接触过其他编程语言的人会了解<strong>点语法</strong>，即使没有接触其他编程语言，就在 C 的结构体那一部分，我们访问结构体成员也是有点语法的。不过，这里要注意的是：OC 中点语法这样的方式给成员变量赋值和取值并非是直接访问 stu 对象的成员变量 age ，这里是方法的调用，而且规范的成员变量名的书写也帮助我们区分这一点：成员变量名都是以下划线开头的。</p>
+<h2 id="被雪藏的-set-和-get"><a href="#被雪藏的-set-和-get" class="headerlink" title="被雪藏的 set 和 get"></a>被雪藏的 set 和 get</h2><p>在实际的开发中，为了提高开发人员的工作效率，Xcode4.5 及以上版本下的编译器提供了更为搞笑的关键字 <strong>@property</strong>。只要在类的声明中写好 @property 就可以自动帮我们生成：成员变量的定义和声明、set 和 get 方法的声明和实现。</p>
+<pre><code>#import &lt;Foundation/Foundation.h&gt;
+
+@interface Student : NSObject
+@property int age;
+@end
+
+int main()
+{
+    Student *stu = [[Student alloc] init];
+
+    [stu setAge:20];
+
+    int age = [stu age];
+
+    NSLog(@&quot;age is %d&quot;, age);
+
+    [stu release];
+
+    return 0;
+}
+</code></pre><p>有没有感觉一下子代码精简了不少啊！这样我们就可以花更少的时间见在这些简单的代码上。</p>
+<h2 id="内存管理中的-set-方法"><a href="#内存管理中的-set-方法" class="headerlink" title="内存管理中的 set 方法"></a>内存管理中的 set 方法</h2><p>这里我还要讲一下 set 和 get 方法在<strong>内存管理</strong>中的活跃表现，至于<strong>内存管理</strong>这里暂时不深入讲解，一方面原因以我觉得我还没与能力讲解这部分，另一方面我是觉得咱们不要跑题对吧？来看一下内存管理中 set 方法的活跃身影吧！</p>
+<h3 id="基本数据类型的set方法"><a href="#基本数据类型的set方法" class="headerlink" title="基本数据类型的set方法"></a>基本数据类型的set方法</h3><p>基本数据类型的 set 方法：</p>
+<pre><code>- (void)setAge:(int)age
+{
+    _age = age;
+} 
+</code></pre><h3 id="OC-对象类型的-set-方法"><a href="#OC-对象类型的-set-方法" class="headerlink" title="OC 对象类型的 set 方法"></a>OC 对象类型的 set 方法</h3><pre><code>- (void)setCar:(Car *)car
+{
+    // 解决重复赋值问题，检测是不是新传进来的对象
+    if (car != _car)
+    {
+        // 旧对象做一次release
+        [_car release];
+
+        对新对象做一次retain，同时把它赋值给_car，
+        // 这样_car就是最新的车
+
+        _car = [car retain];
+    }       
+}
+</code></pre><h2 id="写在最后的话"><a href="#写在最后的话" class="headerlink" title="写在最后的话"></a>写在最后的话</h2><p>set 方法和 get 方法是 OC 中的两个基本方法，虽然在开发中我们已经基本上不用敲这些东西了，但是总得知道它到底是怎么回事吧！文章中有涉猎一丁点儿内存管理的内容只是为了想把这两个方法说清楚，如果你看不懂那就先了解一下内存管理的内容。希望我的博文可以给看到文章最后的您带来些许的帮助，谢谢！敬请期待！</p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ul>
+<li><a href="http://zh.wikipedia.org/wiki/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1" target="_blank" rel="noopener">面向对象程序设计</a></li>
+<li><a href="http://www.cnblogs.com/mjios/archive/2013/04/08/3006577.html#label2" target="_blank" rel="noopener">【Objective-C】06-点语法</a></li>
+<li><a href="http://www.csis.pace.edu/~bergin/patterns/ppoop.html" target="_blank" rel="noopener">Understanding Object Oriented Programming</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/oc/" rel="tag"># oc</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/04/28/OC语言笔记开山篇/" rel="next" title="OC 语言的初步了解">
+                <i class="fa fa-chevron-left"></i> OC 语言的初步了解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/04/29/小结OC中的方法重写/" rel="prev" title="OC 中的方法“重写”小结（一）">
+                OC 中的方法“重写”小结（一） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="karl">
+            
+              <p class="site-author-name" itemprop="name">karl</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">97</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">83</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/likenow" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:fmslikai@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://yujiangshui.com/" title="yujiangshui" target="_blank">yujiangshui</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#写在前面的话"><span class="nav-number">1.</span> <span class="nav-text">写在前面的话</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OC-为什么要有-Set-方法和-Get-方法"><span class="nav-number">2.</span> <span class="nav-text">OC 为什么要有 Set 方法和 Get 方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Set-方法和-Get-方法"><span class="nav-number">3.</span> <span class="nav-text">Set 方法和 Get 方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#set-方法"><span class="nav-number">3.1.</span> <span class="nav-text">set 方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#get-方法"><span class="nav-number">3.2.</span> <span class="nav-text">get 方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#成员变量注意的几点规范"><span class="nav-number">3.3.</span> <span class="nav-text">成员变量注意的几点规范</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#set-方法和-get-方法实战"><span class="nav-number">3.4.</span> <span class="nav-text">set 方法和 get 方法实战</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#set-方法和-get-方法的好处"><span class="nav-number">3.5.</span> <span class="nav-text">set 方法和 get 方法的好处</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#set-方法和-get-方法的调用"><span class="nav-number">4.</span> <span class="nav-text">set 方法和 get 方法的调用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#被雪藏的-set-和-get"><span class="nav-number">5.</span> <span class="nav-text">被雪藏的 set 和 get</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内存管理中的-set-方法"><span class="nav-number">6.</span> <span class="nav-text">内存管理中的 set 方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本数据类型的set方法"><span class="nav-number">6.1.</span> <span class="nav-text">基本数据类型的set方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#OC-对象类型的-set-方法"><span class="nav-number">6.2.</span> <span class="nav-text">OC 对象类型的 set 方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#写在最后的话"><span class="nav-number">7.</span> <span class="nav-text">写在最后的话</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-number">8.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2013 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">karl</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

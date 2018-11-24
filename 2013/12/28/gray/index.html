@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next gemini" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="javascript,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="本篇文章，我们将通过一些方法来开启网页图形灰度，使图片变成黑白版的图片，并且兼容主流浏览器。">
+<meta name="keywords" content="javascript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="三种方法开启网页图片灰度">
+<meta property="og:url" content="http://yoursite.com/2013/12/28/gray/index.html">
+<meta property="og:site_name" content="Karl&#39;s Blog">
+<meta property="og:description" content="本篇文章，我们将通过一些方法来开启网页图形灰度，使图片变成黑白版的图片，并且兼容主流浏览器。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://klpicture.b0.upaiyun.com/2013/kdsk.jpg">
+<meta property="og:image" content="http://klpicture.b0.upaiyun.com/2013/graykdsk.jpg">
+<meta property="og:updated_time" content="2018-11-05T14:58:55.615Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="三种方法开启网页图片灰度">
+<meta name="twitter:description" content="本篇文章，我们将通过一些方法来开启网页图形灰度，使图片变成黑白版的图片，并且兼容主流浏览器。">
+<meta name="twitter:image" content="http://klpicture.b0.upaiyun.com/2013/kdsk.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2013/12/28/gray/">
+
+
+
+
+
+  <title>三种方法开启网页图片灰度 | Karl's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Karl's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2013/12/28/gray/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="karl">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Karl's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">三种方法开启网页图片灰度</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2013-12-28T20:08:49+08:00">
+                2013-12-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本篇文章，我们将通过一些方法来开启网页图形灰度，使图片变成黑白版的图片，并且兼容主流浏览器。</p>
+<a id="more"></a>
+<h2 id="第一种方法-CSS-Filter"><a href="#第一种方法-CSS-Filter" class="headerlink" title="第一种方法 CSS Filter"></a>第一种方法 CSS Filter</h2><p>通过 CSS Filter 属性或许是开启网页图形灰度最简单的方式了。其实早在以前IE浏览器就拥有其特创的 Filter (滤镜) CSS属性来自定义效果其中就包括 Grayscale 效果。现在，Fileter 属性已经成为CSS3规范的一部分了，并且被诸如 Firefox ,Chrome and Safari 这样的现代浏览器所支持。一个值得一提的东东—— Webkit Filter，这些滤镜效果最初是用于SVG的，W3C引入到CSS中，然后制定了<a href="https://dvcs.w3.org/hg/FXTF/raw-file/tip/filters/index.html" target="_blank" rel="noopener">CSS Filter Effects 1.0</a>，现在 webkit 率先支持了它使我们不仅能够把图像的灰度，但也适用棕褐色和模糊效果。本文仅介绍开启网页图形灰度的方法，关于 -webkit-filter 的更多详细内容推荐<a href="http://www.qianduan.net/" target="_blank" rel="noopener">神飞</a>的<a href="http://www.qianduan.net/what-is-webkit-filter.html" target="_blank" rel="noopener">-webkit-filter是神马</a>这篇文章。<br>ps:这段代码兼容 IE6-9 和 Webkit 浏览器(Chrome 18+,Safari 6.0+,and Opera 15+)</p>
+<h3 id="CSS-代码实现"><a href="#CSS-代码实现" class="headerlink" title="CSS 代码实现"></a>CSS 代码实现</h3><pre><code>img {  
+    -webkit-filter: grayscale(1); /* Webkit */
+    -moz-filter: grayscale(1); /*Firefox*/
+    -ms-filter: grayscale(1); /*IE*/
+    -o-filter: grayscale(1); /*Opera*/ 
+    filter: grayscale(1); /* W3C */ 
+    filter: gray; /* IE6-9 */  
+}
+/*灰度值可以为百分比eg:*/
+img {  
+    -webkit-filter: grayscale(100%); /* Webkit */
+    -moz-filter: grayscale(100%); /*Firefox*/
+    -ms-filter: grayscale(100%); /*IE*/
+    -o-filter: grayscale(100%); /*Opera*/
+    filter: grayscale(100%); /* W3C */ 
+    filter: gray; /* IE6-9 */   
+}
+</code></pre><h3 id="效果展示"><a href="#效果展示" class="headerlink" title="效果展示"></a>效果展示</h3><ol>
+<li><img src="http://klpicture.b0.upaiyun.com/2013/kdsk.jpg" alt=""></li>
+<li><img src="http://klpicture.b0.upaiyun.com/2013/graykdsk.jpg" alt=""></li>
+</ol>
+<h2 id="第二种方法-javascript"><a href="#第二种方法-javascript" class="headerlink" title="第二种方法 javascript"></a>第二种方法 javascript</h2><p>通过JavaScript可以兼容绝大多数开启JavaScript的浏览器，以下这段代码来自<a href="http://www.ajaxblender.com/howto-convert-image-to-grayscale-using-javascript.html" target="_blank" rel="noopener">Ajax Blender</a></p>
+<pre><code>$(document).ready(function(){
+    $(&apos;#toggleDesaturate&apos;).click(function(){
+        var imgObj = document.getElementById(&apos;image&apos;);
+
+        if($.browser.msie){
+            grayscaleImageIE(imgObj);
+        } else {
+            imgObj.src = grayscaleImage(imgObj);
+        }           
+    });
+});
+
+function grayscaleImageIE(imgObj)
+{
+    imgObj.style.filter = &apos;progid:DXImageTransform.Microsoft.BasicImage(grayScale=1)&apos;;
+}
+
+function grayscaleImage(imgObj)
+{
+    var canvas = document.createElement(&apos;canvas&apos;);
+    var canvasContext = canvas.getContext(&apos;2d&apos;);
+
+    var imgW = imgObj.width;
+    var imgH = imgObj.height;
+    canvas.width = imgW;
+    canvas.height = imgH;
+
+    canvasContext.drawImage(imgObj, 0, 0);
+    var imgPixels = canvasContext.getImageData(0, 0, imgW, imgH);
+
+    for(var y = 0; y &lt; imgPixels.height; y++){
+        for(var x = 0; x &lt; imgPixels.width; x++){
+            var i = (y * 4) * imgPixels.width + x * 4;
+            var avg = (imgPixels.data[i] + imgPixels.data[i + 1] + imgPixels.data[i + 2]) / 3;
+            imgPixels.data[i] = avg; 
+            imgPixels.data[i + 1] = avg; 
+            imgPixels.data[i + 2] = avg;
+        }
+    }
+
+    canvasContext.putImageData(imgPixels, 0, 0, 0, 0, imgPixels.width, imgPixels.height);
+    return canvas.toDataURL();
+}
+</code></pre><p>IE浏览器下是添加灰度滤镜，这个大家都懂的。其他浏览器使用Canvas中的getImageData方法，然后对每个像素点进行灰度转换。但是本人在调用此代码的时候在最新的Chrome和FF浏览器下都没有调试出效果，在最新的Chrome浏览器上提示如下错误：</p>
+<blockquote>
+<p>Uncaught SecurityError: Failed to execute ‘getImageData’ on ‘CanvasRenderingContext2D’: the canvas has been tainted by cross-origin data.</p>
+</blockquote>
+<p>这个错误让我颇感困惑，最终在<a href="http://www.cnblogs.com/jdksummer/articles/2565998.html" target="_blank" rel="noopener">“Unable to get image data from canvas because the canvas has been tainted by cross-origin data”问题产生原因及解决办法</a>找到了答案;在张鑫旭的<a href="http://www.zhangxinxu.com/wordpress/?p=2547" target="_blank" rel="noopener">小tip: 使用CSS将图片转换成黑白(灰色、置灰)</a>这篇文章中也用提到一种JavaScript方法，大家可以一起学习一下。</p>
+<h2 id="SVG"><a href="#SVG" class="headerlink" title="SVG"></a>SVG</h2><p>在一种方法是通过 SVG Filter 实现。首先我们要建一个SVG文件，然后把如下代码粘进去。<br>​<br>    <svg xmlns="http://www.w3.org/2000/svg"><br/>        <filter id="grayscale"><br/>            <fecolormatrix type="matrix" values="0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0"><br/>        </fecolormatrix></filter><br/>    </svg> </p>
+<p>然后，用filter属性，加载SVG文件，如下：</p>
+<pre><code>img {  
+    filter: url(&apos;img/gray.svg#grayscale&apos;);  
+}  
+</code></pre><h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a href="http://www.hongkiat.com/blog/grayscale-image-web/" target="_blank" rel="noopener">3 Ways To Turn Web Images To Grayscale</a></li>
+<li><a href="http://www.ajaxblender.com/howto-convert-image-to-grayscale-using-javascript.html" target="_blank" rel="noopener">Ajax Blender</a></li>
+<li><a href="http://www.qianduan.net/what-is-webkit-filter.html" target="_blank" rel="noopener">-webkit-filter是神马？</a></li>
+<li><a href="http://www.cnblogs.com/jdksummer/articles/2565998.html" target="_blank" rel="noopener">“Unable to get image data from canvas because the canvas has been tainted by cross-origin data”问题产生原因及解决办法</a></li>
+<li><a href="http://www.zhangxinxu.com/wordpress/?p=2547" target="_blank" rel="noopener">小tip: 使用CSS将图片转换成黑白(灰色、置灰)</a></li>
+</ul>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>以上就是本篇文章所要讲的内容，希望看完以后可以给你的网页带来，不一样的视觉冲击。文中的不足与错误还请指正，谢谢！</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/javascript/" rel="tag"># javascript</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2013/12/24/learn-remind/" rel="next" title="CSS学习反思">
+                <i class="fa fa-chevron-left"></i> CSS学习反思
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2013/12/29/js-to-load/" rel="prev" title="总结JavaScript文件的加载">
+                总结JavaScript文件的加载 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="karl">
+            
+              <p class="site-author-name" itemprop="name">karl</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">97</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">83</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/likenow" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:fmslikai@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://yujiangshui.com/" title="yujiangshui" target="_blank">yujiangshui</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第一种方法-CSS-Filter"><span class="nav-number">1.</span> <span class="nav-text">第一种方法 CSS Filter</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CSS-代码实现"><span class="nav-number">1.1.</span> <span class="nav-text">CSS 代码实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#效果展示"><span class="nav-number">1.2.</span> <span class="nav-text">效果展示</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第二种方法-javascript"><span class="nav-number">2.</span> <span class="nav-text">第二种方法 javascript</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SVG"><span class="nav-number">3.</span> <span class="nav-text">SVG</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">4.</span> <span class="nav-text">参考资料</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结语"><span class="nav-number">5.</span> <span class="nav-text">结语</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2013 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">karl</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

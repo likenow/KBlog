@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next gemini" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="javascript,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="文章将介绍四种两栏等高的实现方法。主要是通过两种手段：用CSS技巧来实现；通过脚本语言来实现。">
+<meta name="keywords" content="javascript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="实现两列等高">
+<meta property="og:url" content="http://yoursite.com/2013/12/03/equal-high/index.html">
+<meta property="og:site_name" content="Karl&#39;s Blog">
+<meta property="og:description" content="文章将介绍四种两栏等高的实现方法。主要是通过两种手段：用CSS技巧来实现；通过脚本语言来实现。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-11-05T14:59:06.333Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="实现两列等高">
+<meta name="twitter:description" content="文章将介绍四种两栏等高的实现方法。主要是通过两种手段：用CSS技巧来实现；通过脚本语言来实现。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2013/12/03/equal-high/">
+
+
+
+
+
+  <title>实现两列等高 | Karl's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Karl's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2013/12/03/equal-high/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="karl">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Karl's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">实现两列等高</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2013-12-03T20:07:33+08:00">
+                2013-12-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>文章将介绍四种两栏等高的实现方法。主要是通过两种手段：用CSS技巧来实现；通过脚本语言来实现。</p>
+<a id="more"></a>
+<h2 id="实现方法汇总"><a href="#实现方法汇总" class="headerlink" title="实现方法汇总"></a>实现方法汇总</h2><h3 id="HTML-代码"><a href="#HTML-代码" class="headerlink" title="HTML 代码"></a>HTML 代码</h3><pre><code>&lt;!doctype html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Document&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class=&quot;header&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;wrapper&quot;&gt;
+        &lt;div class=&quot;content&quot;&gt;&lt;/div&gt;
+        &lt;div class=&quot;sidebar&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;footer&quot;&gt;&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><h3 id="通过CSS的position-absolute-实现"><a href="#通过CSS的position-absolute-实现" class="headerlink" title="通过CSS的position: absolute;实现"></a>通过CSS的position: absolute;实现</h3><h4 id="CSS-代码"><a href="#CSS-代码" class="headerlink" title="CSS 代码"></a>CSS 代码</h4><pre><code>.content
+{
+    float: left;
+    margin-right: 50px;
+    background-color: #FFE0F8;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+}
+.sidebar
+{
+    background-color: #E1FFE0;
+    margin-left: 50px;
+}
+</code></pre><p>上述代码实现必须是在事先知道 content 的高度大于 sidebar 的高度的情况下。如果相反则如下：</p>
+<pre><code>.sidebar
+{
+    float: left;
+    margin-right: 50px;
+    background-color: #FFE0F8;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+}
+.content
+{
+    background-color: #E1FFE0;
+    margin-left: 50px;
+}
+</code></pre><h3 id="通过CSS的paddingmargin实现"><a href="#通过CSS的paddingmargin实现" class="headerlink" title="通过CSS的paddingmargin实现"></a>通过CSS的paddingmargin实现</h3><h4 id="CSS-代码-1"><a href="#CSS-代码-1" class="headerlink" title="CSS 代码"></a>CSS 代码</h4><pre><code>.wrapper{
+    overflow:hidden; 
+    width:650px; 
+    margin:0 auto;
+}
+.content{
+    padding-bottom: 5000px; 
+    margin-bottom: -5000px; 
+    width:490px; background:#ff1; 
+    float:left; 
+    margin-right:10px;
+    height:400px;
+}
+.sidebar{
+    padding-bottom: 5000px; 
+    margin-bottom: -5000px; 
+    width:150px; 
+    background:#ccc; 
+    float:left;
+    height:800px;
+}
+</code></pre><p>该方法中核心CSS代码部分的5000像素是个可变值，如果您的分栏高度不可能高度超过2000像素，您就可以设为2000像素，如果会超过3000像素，那么您要修改值为4000像素或是更高。父标签的<code>overflow:hidden</code>属性是必须的，否则会显示溢出的内容。弊端是：底部成了一个无底洞有没有？你在设置诸如<code>border-bottoom: 10px solid red;</code>的时候，边框在无底洞的底部无法出现在你的视野。该方法还有一个致命的缺陷，当用到锚跳转的时候，浏览器会把正文内容往上移动，这样就被切断了。</p>
+<h3 id="通过CSS的display-table-cell实现"><a href="#通过CSS的display-table-cell实现" class="headerlink" title="通过CSS的display:table-cell实现"></a>通过CSS的<code>display:table-cell</code>实现</h3><pre><code>.wrapper{
+    display:table-row;
+}
+.sidebar{
+    display:table-cell; 
+    width:30%; 
+    padding:1.6%; 
+    background-color:#f5f5f5;
+}
+.content{
+    background-color:#f0f3f9;
+}
+</code></pre><p>table表格布局似乎已经被CSS的光芒给覆盖了，但是不能忘记表格中的单元格一大特点————同一行列表元素都等高。所以，很多时候，我们需要等高布局的时候，就可以借助<code>display:table-cell</code>属性。然而，IE6/7浏览器不支持<code>display:table-cell</code>属性。所以，在浏览器兼容性这方面有一点瑕疵，但对于已经忽视IE6/7浏览器的人来说的确是个不错的选择。</p>
+<h3 id="通过脚本语言实现"><a href="#通过脚本语言实现" class="headerlink" title="通过脚本语言实现"></a>通过脚本语言实现</h3><h4 id="jQ-代码"><a href="#jQ-代码" class="headerlink" title="jQ 代码"></a>jQ 代码</h4><pre><code>;(function($) {
+$(window).load( function() {
+    var lHeight = $(&quot;#content&quot;).height();
+    var rHeight = $(&quot;#sidebar&quot;).height();
+    if (lHeight &gt; rHeight) {
+      $(&apos;#sidebar&apos;).height(lHeight);
+    } else {
+      $(&quot;#content&quot;).height(rHeight);
+    }
+});
+})(jQuery);
+</code></pre><p>以上是jQuery的实现代码。需要注意的一个点是：<code>$(window).load()</code>。通过它来加载而不是<code>$(document).ready()</code>主要是考虑到 content 中会有图片所以，要等到图片加载完成以后来计算出高度，此时通过jQuery获取的高度更精确一些。</p>
+<pre><code>lHeight = document.getelementByClassName(&apos;content&apos;);
+rHeight = document.getElementByClassName(&apos;sidebar&apos;);
+ if(lHeight.clientHeight &lt; rHeight.clientHeight){
+　　lHeight.style.height = rHeight .clientHeight + &quot;px&quot;;
+}else{
+　　rHeight.style.height = lHeight.clientHeight + &quot;px&quot;;
+}
+</code></pre><p>以上是原生javascript实现方式，原理也比较明了：取得左右两边的高度，然后判断这个值，把大的值赋给小的就ok！</p>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>文章汇总了四种实现两栏等高效果的方法，如果您有其他方式欢迎您能够不吝赐教。最后，提前感谢您指出文中补不足指出，本人收到立即改正。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/javascript/" rel="tag"># javascript</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2013/11/27/js-tab/" rel="next" title="网页选项卡">
+                <i class="fa fa-chevron-left"></i> 网页选项卡
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2013/12/24/learn-remind/" rel="prev" title="CSS学习反思">
+                CSS学习反思 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="karl">
+            
+              <p class="site-author-name" itemprop="name">karl</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">97</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">83</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/likenow" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:fmslikai@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://yujiangshui.com/" title="yujiangshui" target="_blank">yujiangshui</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#实现方法汇总"><span class="nav-number">1.</span> <span class="nav-text">实现方法汇总</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#HTML-代码"><span class="nav-number">1.1.</span> <span class="nav-text">HTML 代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通过CSS的position-absolute-实现"><span class="nav-number">1.2.</span> <span class="nav-text">通过CSS的position: absolute;实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#CSS-代码"><span class="nav-number">1.2.1.</span> <span class="nav-text">CSS 代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通过CSS的paddingmargin实现"><span class="nav-number">1.3.</span> <span class="nav-text">通过CSS的paddingmargin实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#CSS-代码-1"><span class="nav-number">1.3.1.</span> <span class="nav-text">CSS 代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通过CSS的display-table-cell实现"><span class="nav-number">1.4.</span> <span class="nav-text">通过CSS的display:table-cell实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通过脚本语言实现"><span class="nav-number">1.5.</span> <span class="nav-text">通过脚本语言实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#jQ-代码"><span class="nav-number">1.5.1.</span> <span class="nav-text">jQ 代码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结语"><span class="nav-number">2.</span> <span class="nav-text">结语</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2013 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">karl</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

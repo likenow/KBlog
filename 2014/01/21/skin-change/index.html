@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next gemini" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="javascript,css,cookie,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="网页换肤的基本原理也不难理解：通过使用脚本语言（这里以javascript的库jQuery为例）切换对应的样式表。这样的功能在很多情况下使用不到的，当然用户希望有的话也不得不做是吧。在Firefox默认的首页上就有该功能。当然仅仅是切换是不够的，通常还需要能够记录用户选择的皮肤，这样用户下次访问的时候，就不用再次选择自己喜欢的皮肤。这种实现需要cookie的支持。">
+<meta name="keywords" content="javascript,css,cookie">
+<meta property="og:type" content="article">
+<meta property="og:title" content="换肤功能">
+<meta property="og:url" content="http://yoursite.com/2014/01/21/skin-change/index.html">
+<meta property="og:site_name" content="Karl&#39;s Blog">
+<meta property="og:description" content="网页换肤的基本原理也不难理解：通过使用脚本语言（这里以javascript的库jQuery为例）切换对应的样式表。这样的功能在很多情况下使用不到的，当然用户希望有的话也不得不做是吧。在Firefox默认的首页上就有该功能。当然仅仅是切换是不够的，通常还需要能够记录用户选择的皮肤，这样用户下次访问的时候，就不用再次选择自己喜欢的皮肤。这种实现需要cookie的支持。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://klpicture.b0.upaiyun.com/2013/huanfugjl.jpg">
+<meta property="og:updated_time" content="2018-11-05T14:57:34.190Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="换肤功能">
+<meta name="twitter:description" content="网页换肤的基本原理也不难理解：通过使用脚本语言（这里以javascript的库jQuery为例）切换对应的样式表。这样的功能在很多情况下使用不到的，当然用户希望有的话也不得不做是吧。在Firefox默认的首页上就有该功能。当然仅仅是切换是不够的，通常还需要能够记录用户选择的皮肤，这样用户下次访问的时候，就不用再次选择自己喜欢的皮肤。这种实现需要cookie的支持。">
+<meta name="twitter:image" content="http://klpicture.b0.upaiyun.com/2013/huanfugjl.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2014/01/21/skin-change/">
+
+
+
+
+
+  <title>换肤功能 | Karl's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Karl's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2014/01/21/skin-change/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="karl">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Karl's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">换肤功能</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-01-21T20:03:49+08:00">
+                2014-01-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>网页换肤的基本原理也不难理解：通过使用脚本语言（这里以javascript的库jQuery为例）切换对应的样式表。这样的功能在很多情况下使用不到的，当然用户希望有的话也不得不做是吧。在Firefox默认的首页上就有该功能。<br>当然仅仅是切换是不够的，通常还需要能够记录用户选择的皮肤，这样用户下次访问的时候，就不用再次选择自己喜欢的皮肤。这种实现需要<strong>cookie</strong>的支持。</p>
+<a id="more"></a>
+<h2 id="换肤功能实现流程"><a href="#换肤功能实现流程" class="headerlink" title="换肤功能实现流程"></a>换肤功能实现流程</h2><pre><code>if(用户除此访问网页) // js 读取 cookie 为空选择默认的皮肤
+  if(点击换肤按钮定制皮肤)
+    js 控制切换到相应的样式表 // 将皮肤选项记录到 cookie 保存
+  使用制定皮肤
+else(已定制皮肤用户访问) // js 读取 cookie 
+   选择指定皮肤
+  if(点击换肤按钮重新定制)
+    js 控制切换到相应的样式表使用指定皮肤
+</code></pre><p>##开始实现换肤功能</p>
+<h3 id="了解实现需要的准备工作"><a href="#了解实现需要的准备工作" class="headerlink" title="了解实现需要的准备工作"></a>了解实现需要的准备工作</h3><p>首先，应该是有多套CSS样式分别代表不同皮肤；再者，是在网页上增加一个列表作为换肤按钮；最后，是功能上的实现分别是切换功能和 Cookie 记录功能</p>
+<h3 id="换肤工具栏实现"><a href="#换肤工具栏实现" class="headerlink" title="换肤工具栏实现"></a>换肤工具栏实现</h3><h4 id="HTML结构"><a href="#HTML结构" class="headerlink" title="HTML结构"></a>HTML结构</h4><pre><code>&lt;div class=&quot;schemes&quot;&gt;
+    &lt;ul&gt;
+        &lt;li&gt;&lt;a href=&quot;#&quot; rel=&quot;blue&quot; class=&quot;blue&quot; title=&quot;Blue&quot;&gt;Blue&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&quot;#&quot; rel=&quot;dark-violet&quot; class=&quot;dark-violet&quot; title=&quot;Dark-Violet&quot;&gt;Dark-Violet&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&quot;#&quot; rel=&quot;dark&quot; class=&quot;dark&quot; title=&quot;Dark&quot;&gt;Dark&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&quot;#&quot; rel=&quot;emerald&quot; class=&quot;emerald&quot; title=&quot;Emerald&quot;&gt;Emerald&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&quot;#&quot; rel=&quot;golden&quot; class=&quot;golden&quot; title=&quot;Golden&quot;&gt;Golden&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&quot;#&quot; rel=&quot;grapefruit&quot; class=&quot;grapefruit&quot; title=&quot;Grapefruit&quot;&gt;Grapefruit&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&quot;#&quot; rel=&quot;light-brown&quot; class=&quot;light-brown&quot; title=&quot;Light-Brown&quot;&gt;Light-Brown&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/div&gt;
+</code></pre><h4 id="CSS样式"><a href="#CSS样式" class="headerlink" title="CSS样式"></a>CSS样式</h4><pre><code>/* ---- Colors Box ---- */
+
+.schemes{
+    width:432px;
+    padding:5px;
+    position:absolute;
+    z-index:1000;
+    top:50px;
+    left:50px;
+    background:#fff;
+    border:1px solid #d9d9d9;
+    border-radius:5px;
+    -moz-border-radius:5px;
+    -khtml-border-radius:5px;
+    -webkit-border-radius:5px;
+    -webkit-border-radius:5px;
+}
+
+.schemes a{
+    float: left;
+    width:15px;
+    height:15px;
+    margin:5px;
+    display:block;
+    overflow:hidden;
+    outline:none;
+    text-indent:-999px;
+}
+.schemes a.dark    {
+    background:#474c52;
+    border:1px solid #2b3035;
+}
+.schemes a.blue    {
+    background:#2261a8;
+    border:1px solid #174c88;
+}
+.schemes a.dark-violet{
+    background:#44547f;
+    border:1px solid #2e3959;
+}
+.schemes a.emerald{
+    background:#009e8c;
+    border:1px solid #02665b;
+}
+.schemes a.golden{
+    background:#a88342;
+    border:1px solid #84642c;
+}
+.schemes a.grapefruit{
+    background:#d8552a;
+    border:1px solid #b64622;
+}
+.schemes a.light-brown{
+    background:#7a6c6c;
+        border:1px solid #574a4a;
+}    
+</code></pre><h4 id="效果如图"><a href="#效果如图" class="headerlink" title="效果如图"></a>效果如图</h4><p><img src="http://klpicture.b0.upaiyun.com/2013/huanfugjl.jpg" alt=""></p>
+<h3 id="换肤功能实现"><a href="#换肤功能实现" class="headerlink" title="换肤功能实现"></a>换肤功能实现</h3><p>实现换肤功能主要是实现单击切换按钮时的切换样式文件功能和 Cookie 记录皮肤功能。</p>
+<h4 id="样式切换功能"><a href="#样式切换功能" class="headerlink" title="样式切换功能"></a>样式切换功能</h4><h5 id="实现描述："><a href="#实现描述：" class="headerlink" title="实现描述："></a>实现描述：</h5><p>载入不同皮肤的CSS文件，遍历载入的CSS文件载入方式</p>
+<pre><code>&lt;link rel=&quot;alternate stylesheet&quot; id=&quot;css_blue-css&quot; title=&quot;blue&quot; href=&quot;colors/blue.css&quot; type=&quot;text/css&quot; media=&quot;screen&quot;&gt;
+</code></pre><p>只有当前使用的CSS文件<code>this.disabled = false</code>可用，其他的都不可用<code>this.disabled = true</code>从而达到切换效果。ps：以下代码并非本人所写，为了易懂本人作了适当的注释。</p>
+<h5 id="jQ-代码"><a href="#jQ-代码" class="headerlink" title="jQ 代码"></a>jQ 代码</h5><pre><code>(function($)
+    {
+        // Local vars for toggle
+        var availableStylesheets = [];
+        var activeStylesheetIndex = 0;
+
+        // To loop through available stylesheets
+        $.stylesheetToggle = function()
+        {
+            activeStylesheetIndex ++;
+            activeStylesheetIndex %= availableStylesheets.length;
+            $.stylesheetSwitch(availableStylesheets[activeStylesheetIndex]);
+        };
+
+        // To switch to a specific named stylesheet
+        $.stylesheetSwitch = function(styleName)
+        {
+            $(&apos;link[rel*=style][title]&apos;).each(
+                function(i) 
+                {
+                    /*首先禁用所有的样式表链接*/
+                    this.disabled = true;
+                    /*然后开启任何title属性值与匿名函数传递过来的字串(styleName)相同的样式表*/
+                    if (this.getAttribute(&apos;title&apos;) == styleName) {
+                        this.disabled = false;
+                        activeStylesheetIndex = i;
+                    }
+                }
+            );
+            /*创建Cookie*/
+            createCookie(&apos;style&apos;, styleName, 365);            
+        };
+
+        /*等网页加载完毕后JS就读取Cookie内容*/
+        $.stylesheetInit = function()
+        {
+            $(&apos;link[rel*=style][title]&apos;).each(
+                function(i) 
+                {
+                    availableStylesheets.push(this.getAttribute(&apos;title&apos;));
+                }
+            );
+            /*获取Cookie的皮肤值*/
+            var c = readCookie(&apos;style&apos;);
+            /*如果有就转到对应的皮肤*/
+            if (c) {
+                $.stylesheetSwitch(c);
+            }
+        };
+    }
+)(jQuery);
+</code></pre><h4 id="Cookie-记录功能"><a href="#Cookie-记录功能" class="headerlink" title="Cookie 记录功能"></a>Cookie 记录功能</h4><p>以下是两个自定义的函数，用来创建、读取Cookie内容。ps：不用担心这些代码的晦涩难懂，其实只需copy到JS代码区域下就ok，这段代码也是我从前辈们那里copy的。如想深入了解很高兴与您交流。</p>
+<h5 id="jQ-代码-1"><a href="#jQ-代码-1" class="headerlink" title="jQ 代码"></a>jQ 代码</h5><pre><code>function createCookie(name,value,days)
+{
+    if (days)
+    {
+        var date = new Date();
+        date.setTime(date.getTime()+(days*24*60*60*1000));
+        var expires = &quot;; expires=&quot;+date.toGMTString();
+    }
+    else var expires = &quot;&quot;;
+    document.cookie = name+&quot;=&quot;+value+expires+&quot;; path=/&quot;;
+}
+function readCookie(name)
+{
+    var nameEQ = name + &quot;=&quot;;
+    var ca = document.cookie.split(&apos;;&apos;);
+    for(var i=0;i &lt; ca.length;i++)
+    {
+        var c = ca[i];
+        while (c.charAt(0)==&apos; &apos;) c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
+}
+function eraseCookie(name)
+{
+    createCookie(name,&quot;&quot;,-1);
+}
+</code></pre><h2 id="综述"><a href="#综述" class="headerlink" title="综述"></a>综述</h2><p>通过上述描述，换肤功能新鲜出炉。提醒一下，换肤功能是个性化比较强，根据用户的需要酌情添加！！料想你也看到了该方法加载了一干CSS文件，网页加载速度肯定会受到影响。<br>在CSS切换这方面也有其他的一些方法比如我看过的<a href="http://www.qianxingzhem.com/post-1980.html" target="_blank" rel="noopener">潜行者M</a>——网页换肤其切换CSS文件的方式就和本文讲述的不同。它是通过改变类来改变样式，具体想了解的可以去学习一下。<br>最后，提前感谢您能帮忙指正文中的错误。如果您有更有的换肤实现希望您能告知。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/javascript/" rel="tag"># javascript</a>
+          
+            <a href="/tags/css/" rel="tag"># css</a>
+          
+            <a href="/tags/cookie/" rel="tag"># cookie</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2013/12/31/js-event-driven/" rel="next" title="事件驱动的JavaScript">
+                <i class="fa fa-chevron-left"></i> 事件驱动的JavaScript
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/01/21/anchor/" rel="prev" title="锚点那些事儿">
+                锚点那些事儿 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="karl">
+            
+              <p class="site-author-name" itemprop="name">karl</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">97</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">83</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/likenow" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:fmslikai@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://yujiangshui.com/" title="yujiangshui" target="_blank">yujiangshui</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#换肤功能实现流程"><span class="nav-number">1.</span> <span class="nav-text">换肤功能实现流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#了解实现需要的准备工作"><span class="nav-number">1.1.</span> <span class="nav-text">了解实现需要的准备工作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#换肤工具栏实现"><span class="nav-number">1.2.</span> <span class="nav-text">换肤工具栏实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#HTML结构"><span class="nav-number">1.2.1.</span> <span class="nav-text">HTML结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CSS样式"><span class="nav-number">1.2.2.</span> <span class="nav-text">CSS样式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#效果如图"><span class="nav-number">1.2.3.</span> <span class="nav-text">效果如图</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#换肤功能实现"><span class="nav-number">1.3.</span> <span class="nav-text">换肤功能实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#样式切换功能"><span class="nav-number">1.3.1.</span> <span class="nav-text">样式切换功能</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#实现描述："><span class="nav-number">1.3.1.1.</span> <span class="nav-text">实现描述：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#jQ-代码"><span class="nav-number">1.3.1.2.</span> <span class="nav-text">jQ 代码</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Cookie-记录功能"><span class="nav-number">1.3.2.</span> <span class="nav-text">Cookie 记录功能</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#jQ-代码-1"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">jQ 代码</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#综述"><span class="nav-number">2.</span> <span class="nav-text">综述</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2013 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">karl</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

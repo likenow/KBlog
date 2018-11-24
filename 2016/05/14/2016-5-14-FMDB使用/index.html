@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next gemini" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="FMDB,SQLite,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="FMDB封装了SQLite，是CoreData的一个不错的替代方案">
+<meta name="keywords" content="FMDB,SQLite">
+<meta property="og:type" content="article">
+<meta property="og:title" content="FMDB使用">
+<meta property="og:url" content="http://yoursite.com/2016/05/14/2016-5-14-FMDB使用/index.html">
+<meta property="og:site_name" content="Karl&#39;s Blog">
+<meta property="og:description" content="FMDB封装了SQLite，是CoreData的一个不错的替代方案">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-10-28T08:41:45.712Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="FMDB使用">
+<meta name="twitter:description" content="FMDB封装了SQLite，是CoreData的一个不错的替代方案">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/05/14/2016-5-14-FMDB使用/">
+
+
+
+
+
+  <title>FMDB使用 | Karl's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Karl's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/05/14/2016-5-14-FMDB使用/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="karl">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Karl's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">FMDB使用</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-05-14T17:33:49+08:00">
+                2016-05-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据库/" itemprop="url" rel="index">
+                    <span itemprop="name">数据库</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><code>FMDB</code>封装了<code>SQLite</code>，是<code>CoreData</code>的一个不错的替代方案</p>
+<a id="more"></a>
+<h2 id="FMDB-简介"><a href="#FMDB-简介" class="headerlink" title="FMDB 简介"></a>FMDB 简介</h2><p>FMDB是对iOS上调用<code>SQLite</code>数据库的封装，主要使用三个类：</p>
+<ul>
+<li><code>FMDatabase</code> : 代表一个单独的SQLite数据库，用来执行<code>SQL</code>语句</li>
+<li><code>FMResultSet</code>: 表示在<code>FMDatabase</code>上一次查询的结果。</li>
+<li><code>FMDatabaseQueue</code> : 用于线程安全的查询和更新操作。</li>
+</ul>
+<h2 id="创建数据库："><a href="#创建数据库：" class="headerlink" title="创建数据库："></a>创建数据库：</h2><p><code>FMDatabase</code>创建的<code>SQLlite</code>数据库，会生成一个数据库文件，放在应用的沙盒中。而路径有三种情况：</p>
+<ul>
+<li>一个文件路径的地址。如果这个地址上没有数据库文件，会自动创建一个数据库文件</li>
+<li>一个空的字符串 <code>@&quot;&quot;</code> 。一个空的数据库创建在缓存路径中，数据库文件会在数据库连接断开时删除。</li>
+<li><code>NULL</code>，创建一个只存放在内存中的数据库，断开数据库连接后，也会自动被销毁</li>
+</ul>
+<p>一般创建方式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 这里的根路径是沙盒的根目录，所以沙盒目录下的/tmp就表示是沙盒下面的缓存目录</span><br><span class="line">FMDatabase *db = [FMDatabase databaseWithPath:@&quot;/tmp/tmp.db&quot;];</span><br><span class="line">if (![db open]) &#123;</span><br><span class="line">	// 一定要确保数据库正确打开，因为有可能因为资源不足或者权限问题导致打不开数据库</span><br><span class="line">    NSLog(@&quot;数据库打开失败！&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="使用SQLite"><a href="#使用SQLite" class="headerlink" title="使用SQLite"></a>使用SQLite</h2><p>只使用<code>SELECT</code>的是查询语句，除此之外，全部是更新操作。更新操作返回值是<code>BOOL</code>类型，返回<code>No</code>表示发生异常，可以通过<code>-lastErrorMessage</code>和<code>lastErrorCode</code>来查看异常信息。</p>
+<h3 id="SQLIte-保存时间注意"><a href="#SQLIte-保存时间注意" class="headerlink" title="SQLIte 保存时间注意"></a>SQLIte 保存时间注意</h3><p><code>SQLite</code>实际的数据类型只有5种： <code>NULL</code>/ <code>INTEGER</code>/<code>REAL</code>/<code>TEXT</code>/<code>BLOB</code></p>
+<p>所以不能直接保存时间，只能放在这几种类型中。</p>
+<p>将时间保存在 <code>Text</code>，也就是以<code>ISO8601</code>字符串形式保存。</p>
+<p>将时间保存在<code>INTEGER</code>中，像<code>UNIX</code>的时间，为距 <code>1970-01-01 00:00:00UTC</code> 的秒数。</p>
+<p><code>SQLIte</code>中通过一些函数进行日期转换，然后存储，有</p>
+<ul>
+<li><code>datetime()</code>产生时间日期.</li>
+<li><code>date()</code> 产生日期</li>
+<li><code>time()</code> 产生时间</li>
+<li><code>strftime()</code> 对时间日期进行格式化.</li>
+</ul>
+<h2 id="查询"><a href="#查询" class="headerlink" title="查询"></a>查询</h2><p>查询语句，调用<code>executeQuery</code>，返回一个<code>FMResultSet</code>，查询成功会返回一个对象，返回<code>nil</code>表示查询失败，遇到数据库的异常。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">FMResultSet *s = [db executeQuery:@&quot;SELECT COUNT(*) FROM myTable&quot;];</span><br><span class="line">// 调用next，表示指向查询结果的下一条</span><br><span class="line">if ([s next]) &#123;</span><br><span class="line">	 // 然后从FMResultSet 中获取数据</span><br><span class="line">    int totalCount = [s intForColumnIndex:0];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>FMResultSet</code>中支持以下的类型：</p>
+<ul>
+<li>intForColumn:</li>
+<li>longForColumn:</li>
+<li>longLongIntForColumn:</li>
+<li>boolForColumn:</li>
+<li>doubleForColumn:</li>
+<li>stringForColumn:</li>
+<li>dateForColumn:</li>
+<li>dataForColumn:</li>
+<li>dataNoCopyForColumn:</li>
+<li>UTF8StringForColumnName:</li>
+<li>objectForColumnName:</li>
+</ul>
+<p>每个方法都有一个对应的 <code>{type}ForColumnIndex</code>，即一个是根据<code>column</code>的名称查询，一个是根据<strong>行号</strong>查询。查询完成后，不需要手动调用<code>close</code>关闭<code>FMResultSet</code>。</p>
+<h2 id="关闭"><a href="#关闭" class="headerlink" title="关闭"></a>关闭</h2><p>但执行完更新和查询操作后，需要调用<code>FMDatabase</code>的<code>close</code>来关闭数据库连接。</p>
+<h2 id="事物"><a href="#事物" class="headerlink" title="事物"></a>事物</h2><p>在<code>FMDatabase</code>中，可以通过<code>commit</code>/<code>rollback</code>等方法来现实调用事物，也可以在<code>SQL语句</code>中声明使用事物。</p>
+<h2 id="多语句和批处理"><a href="#多语句和批处理" class="headerlink" title="多语句和批处理"></a>多语句和批处理</h2><p>通过调用<code>executeStatements:</code>来调用多语句和批处理：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">NSString *sql = @&quot;create table lktest1 (id integer primary key autoincrement, x text);&quot;</span><br><span class="line">                 &quot;create table lktest2 (id integer primary key autoincrement, y text);&quot;</span><br><span class="line">                 &quot;create table lktest3 (id integer primary key autoincrement, z text);&quot;</span><br><span class="line">                 &quot;insert into lktest1 (x) values (&apos;XXX&apos;);&quot;</span><br><span class="line">                 &quot;insert into lktest2 (y) values (&apos;YYY&apos;);&quot;</span><br><span class="line">                 &quot;insert into lktest3 (z) values (&apos;ZZZ&apos;);&quot;;</span><br><span class="line"></span><br><span class="line">success = [db executeStatements:sql];</span><br><span class="line"></span><br><span class="line">sql = @&quot;select count(*) as count from lktest1;&quot;</span><br><span class="line">       &quot;select count(*) as count from lktest2;&quot;</span><br><span class="line">       &quot;select count(*) as count from lktest3;&quot;;</span><br><span class="line"></span><br><span class="line">success = [self.db executeStatements:sql withResultBlock:^int(NSDictionary *dictionary) &#123;</span><br><span class="line">    NSInteger count = [dictionary[@&quot;count&quot;] integerValue];</span><br><span class="line">    XCTAssertEqual(count, 1, @&quot;expected one record for dictionary %@&quot;, dictionary);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+<h2 id="占位符-的使用"><a href="#占位符-的使用" class="headerlink" title="占位符 ? 的使用"></a>占位符 <code>?</code> 的使用</h2><p>FMDB中也支持占位符的使用：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> myTable <span class="keyword">VALUES</span> (?, ?, ?, ?)</span><br></pre></td></tr></table></figure>
+<p>举例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">BOOL success = [db executeUpdate:@&quot;INSERT INTO authors (identifier, name, date, comment) VALUES (?, ?, ?, ?)&quot;, @(identifier), name, date, comment ?: [NSNull null]];</span><br><span class="line">if (!success) &#123;</span><br><span class="line">    NSLog(@&quot;error = %@&quot;, [db lastErrorMessage]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>占位符的对象，应该是<code>NSObject</code>对象。 SQL语句中的<code>NULL</code> ，用<code>[NSNull null]</code>来替代。</p>
+<h2 id="named-parameters-syntax"><a href="#named-parameters-syntax" class="headerlink" title="named parameters syntax"></a>named parameters syntax</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">NSDictionary *arguments = @&#123;@&quot;identifier&quot;: @(identifier), @&quot;name&quot;: name, @&quot;date&quot;: date, @&quot;comment&quot;: comment ?: [NSNull null]&#125;;</span><br><span class="line">BOOL success = [db executeUpdate:@&quot;INSERT INTO authors (identifier, name, date, comment) VALUES (:identifier, :name, :date, :comment)&quot; withParameterDictionary:arguments];</span><br><span class="line">if (!success) &#123;</span><br><span class="line">    NSLog(@&quot;error = %@&quot;, [db lastErrorMessage]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用<code>Dictionary</code>来传递参数。</p>
+<h2 id="关于线程安全"><a href="#关于线程安全" class="headerlink" title="关于线程安全"></a>关于线程安全</h2><p>多线程中使用一个<code>FMDatabase</code>实例，是不行的。一般一个线程使用一个<code>FMDatabase</code>对象。而在多个线程中共用一个<code>FMDatabaseQueue</code>是安全的。</p>
+<p>使用方式 ：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">FMDatabaseQueue *queue = [FMDatabaseQueue databaseQueueWithPath:aPath];</span><br><span class="line">[queue inDatabase:^(FMDatabase *db) &#123;</span><br><span class="line">    [db executeUpdate:@&quot;INSERT INTO mTable VALUES (?)&quot;, @1];</span><br><span class="line">    [db executeUpdate:@&quot;INSERT INTO mTable VALUES (?)&quot;, @2];</span><br><span class="line">    [db executeUpdate:@&quot;INSERT INTO mTable VALUES (?)&quot;, @3];</span><br><span class="line"></span><br><span class="line">    FMResultSet *rs = [db executeQuery:@&quot;select * from mTable&quot;];</span><br><span class="line">    while ([rs next]) &#123;</span><br><span class="line">        …</span><br><span class="line">    &#125;</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+<p><code>FMDatabaseQueue</code>将SQL语句都放在了一个<code>GCD</code>队列中运行，所以是<strong>线程安全</strong>的。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/FMDB/" rel="tag"># FMDB</a>
+          
+            <a href="/tags/SQLite/" rel="tag"># SQLite</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/04/28/2016-4-28-KVO的使用/" rel="next" title="KVO的使用">
+                <i class="fa fa-chevron-left"></i> KVO的使用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/07/23/2016-7-23-iOS签到日历功能实现/" rel="prev" title="iOS签到日历功能实现">
+                iOS签到日历功能实现 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="karl">
+            
+              <p class="site-author-name" itemprop="name">karl</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">97</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">83</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/likenow" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:fmslikai@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://yujiangshui.com/" title="yujiangshui" target="_blank">yujiangshui</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#FMDB-简介"><span class="nav-number">1.</span> <span class="nav-text">FMDB 简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建数据库："><span class="nav-number">2.</span> <span class="nav-text">创建数据库：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用SQLite"><span class="nav-number">3.</span> <span class="nav-text">使用SQLite</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SQLIte-保存时间注意"><span class="nav-number">3.1.</span> <span class="nav-text">SQLIte 保存时间注意</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查询"><span class="nav-number">4.</span> <span class="nav-text">查询</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关闭"><span class="nav-number">5.</span> <span class="nav-text">关闭</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事物"><span class="nav-number">6.</span> <span class="nav-text">事物</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多语句和批处理"><span class="nav-number">7.</span> <span class="nav-text">多语句和批处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#占位符-的使用"><span class="nav-number">8.</span> <span class="nav-text">占位符 ? 的使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#named-parameters-syntax"><span class="nav-number">9.</span> <span class="nav-text">named parameters syntax</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于线程安全"><span class="nav-number">10.</span> <span class="nav-text">关于线程安全</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2013 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">karl</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

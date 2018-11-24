@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next gemini" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="weex,ios,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Weex 开发的一些经历从我们选择集成Weex 以来，真正开始实践，是从 运行 Weex playground 开始的。通过使用 Weex 提供的全家桶  Weex-toolkit：初始化项目，编译，运行，debug 所有工具  Weexpack：打包jsbundle  Weex-devtool：debug工具，与 Chrome Devtools 极为相似，目前只支持在 Chrome 浏览器里使用">
+<meta name="keywords" content="weex,ios">
+<meta property="og:type" content="article">
+<meta property="og:title" content="伪WEEX实践篇">
+<meta property="og:url" content="http://yoursite.com/2017/06/11/2017-6-11-伪WEEX实践篇/index.html">
+<meta property="og:site_name" content="Karl&#39;s Blog">
+<meta property="og:description" content="Weex 开发的一些经历从我们选择集成Weex 以来，真正开始实践，是从 运行 Weex playground 开始的。通过使用 Weex 提供的全家桶  Weex-toolkit：初始化项目，编译，运行，debug 所有工具  Weexpack：打包jsbundle  Weex-devtool：debug工具，与 Chrome Devtools 极为相似，目前只支持在 Chrome 浏览器里使用">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-11-10T13:44:23.022Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="伪WEEX实践篇">
+<meta name="twitter:description" content="Weex 开发的一些经历从我们选择集成Weex 以来，真正开始实践，是从 运行 Weex playground 开始的。通过使用 Weex 提供的全家桶  Weex-toolkit：初始化项目，编译，运行，debug 所有工具  Weexpack：打包jsbundle  Weex-devtool：debug工具，与 Chrome Devtools 极为相似，目前只支持在 Chrome 浏览器里使用">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/06/11/2017-6-11-伪WEEX实践篇/">
+
+
+
+
+
+  <title>伪WEEX实践篇 | Karl's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Karl's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/11/2017-6-11-伪WEEX实践篇/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="karl">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Karl's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">伪WEEX实践篇</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-11T20:19:43+08:00">
+                2017-06-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/weex/" itemprop="url" rel="index">
+                    <span itemprop="name">weex</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="Weex-开发的一些经历"><a href="#Weex-开发的一些经历" class="headerlink" title="Weex 开发的一些经历"></a>Weex 开发的一些经历</h2><p>从我们选择集成<code>Weex</code> 以来，真正开始实践，是从 运行 <code>Weex playground</code> 开始的。通过使用 <code>Weex</code> 提供的<em>全家桶</em></p>
+<ul>
+<li><p><code>Weex-toolkit</code>：初始化项目，编译，运行，<code>debug</code> 所有工具</p>
+</li>
+<li><p><code>Weexpack</code>：打包<code>jsbundle</code></p>
+</li>
+<li><p><code>Weex-devtool</code>：<code>debug</code>工具，与 <code>Chrome Devtools</code> 极为相似，目前只支持在 <code>Chrome</code> 浏览器里使用。</p>
+</li>
+</ul>
+<p>Run起<code>Demo</code>程序，并着手希望让这一切在我们自己的  App 里上演。然而，我们却走上了另一条崎岖山路。。。</p>
+<a id="more"></a>
+<h3 id="痛苦的调试"><a href="#痛苦的调试" class="headerlink" title="痛苦的调试"></a>痛苦的调试</h3><p>其实，很快我们的 App 就集成了 <code>Weex SDK</code> ，扑面而来的是的痛点是—<strong>调试</strong>！！！鉴于前端开发者即时浏览 <code>hot reload</code> 的开发习惯，跑在手机上的 <code>Weex</code> 页面的调试有一种天然的<strong>割裂感</strong>。纵然，<code>Weex</code>  团队提供了上述的 <code>Weex-devtool</code> 工具，但因其经常<strong>扑街</strong>而显得鸡肋。</p>
+<p>以至于，我们在前期调研在调试这块做了一些动作，比如：</p>
+<ul>
+<li><p>摇一摇 刷新、手势等方式刷新页面</p>
+</li>
+<li><p>扫一扫载入页面</p>
+</li>
+<li><p>编辑完代码保存即驱动刷新等操作</p>
+</li>
+</ul>
+<p>页面载入了，效果却并不如意：</p>
+<ul>
+<li><p>计算页面宽高尺寸这点是最需要注意的 <code>Weex</code> 进行界面适配的时候是用<code>750</code>像素为标准的，所以需要根据<code>750</code>像素去换算</p>
+</li>
+<li><p><code>Weex</code> 里面有四舍五入的操作，是会<strong>丢失一点精度</strong>的</p>
+</li>
+</ul>
+<h3 id="开发的不适应"><a href="#开发的不适应" class="headerlink" title="开发的不适应"></a>开发的不适应</h3><p><code>Weex</code> 对于前端开发者也有不适，诸如：</p>
+<ul>
+<li><code>API</code> 的支持，</li>
+<li><code>Web</code> 标准的支持，</li>
+<li><code>Flexbox</code> 的支持</li>
+</ul>
+<p>此外，</p>
+<ul>
+<li>组件不支持同步方法</li>
+<li><p>列表表现不佳</p>
+</li>
+<li><p>额外一点，由于苹果前段时间对<code>JSPatch</code> 的封杀，所以导致<code>Weex</code>官方对自定义模块给出了一个警告</p>
+</li>
+</ul>
+<blockquote>
+<p><code>Weex</code> 所有暴露给<code>JS</code> 的内置<code>module</code>或 <code>component API</code>都是安全和可控的， 它们不会去访问系统的私有<code>API</code> ，也不会去做任何<code>runtime</code> 上的<code>hack</code> 更不会去改变应用原有的功能定位。如果需要扩展自定义的<code>module</code> 或者<code>component</code>，一定注意不要将 <code>OC</code>的 <code>runtime</code> 暴露给<code>JS</code> ， 不要将一些诸如 <code>dlopen()</code>，<code>dlsym()</code>， <code>respondsToSelector:</code>，<code>performSelector:</code>，<code>method_exchangeImplementations()</code>的动态和不可控的方法暴露给<code>JS</code>， 也不要将系统的私有<code>API</code>暴露给<code>JS</code>。</p>
+</blockquote>
+<p>不过，到目前为止，还不是本文要说的重点，<strong>伪weex实践</strong> 到底指的是什么呢？看官，往下看</p>
+<h2 id="伪weex开发实践"><a href="#伪weex开发实践" class="headerlink" title="伪weex开发实践"></a>伪weex开发实践</h2><p>这里我不得不说道说道，因为我们前端的好多同学都是 <code>VUE</code>技术栈的，且我们项目原来大部分业务是依赖于 <code>HBuilder</code> 框架的，页面大部分业务都是 <code>vue</code>代码，所以我们选择了 <code>vue native</code> – <code>weex</code>；因为<code>webview</code>展示业务和<code>weex</code>展示业务会在一段时间内并存，我们不得不考虑一套<code>webview</code>、<code>native</code>、<code>weex</code> 通讯的解决方案。于是乎出现了一下两个根本问题：</p>
+<ul>
+<li><code>Weex</code>/ <code>WebView</code>/<code>Native</code> 三者之间的通讯如何建立联系</li>
+<li><code>Weex</code>/ <code>WebView</code>/<code>Native</code> 三者之间跳转如何相互来去自如</li>
+</ul>
+<p>基于上述问题，具体衍生出如下比较紧迫的问题：</p>
+<ul>
+<li>路由导航的问题，比如：<code>Navigation</code> 和 <code>Tabbar</code> 的处理</li>
+<li><code>Weex</code> /<code>native</code>/<code>webview</code>页面的事件传递，<code>callback</code> or<code>fireEvent</code></li>
+<li><code>Weex</code> / <code>native</code>/<code>webview</code> 页面间数据的传递</li>
+</ul>
+<p>解决以上问题方案的重要组成部分是，<strong>Bridge</strong> （桥）。我们的思路也很简单：</p>
+<blockquote>
+<p>建立一个native与webview互相通信的桥，weex 与 native 也是可以互相通信的，这样间接建立了native 与 webview 的通讯链路。</p>
+</blockquote>
+<h3 id="实践中的烦人问题"><a href="#实践中的烦人问题" class="headerlink" title="实践中的烦人问题"></a>实践中的烦人问题</h3><ul>
+<li><code>JS Bundle</code> 下载慢（压缩后500k左右，<code>NetworkTime</code> &gt; 1s）</li>
+<li><code>WebViewJSBridge</code> 和 <code>Native</code> 通讯效率低，拖慢加载时间</li>
+<li><code>UIWebView</code>性能瓶颈，导致内存溢出</li>
+<li><code>WKWebView Local Storage</code>读写不同步</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>以上，是我们项目中应用 <code>weex</code>框架所经历的坎坷。关于<strong>bridge</strong>的技术方案，我会拿出单独的一篇文章来分享。希望我分享的这些点对开始使用<code>weex</code>进行业务开发的个人或团队有所帮助。欢迎提出问题和指正错误。谢谢！</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/weex/" rel="tag"># weex</a>
+          
+            <a href="/tags/ios/" rel="tag"># ios</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/01/2017-6-1-用户行为统计探索/" rel="next" title="用户行为统计探索">
+                <i class="fa fa-chevron-left"></i> 用户行为统计探索
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/07/27/2017-7-27-iOS中OC与js的交互篇/" rel="prev" title="iOS中OC与js的交互篇">
+                iOS中OC与js的交互篇 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="karl">
+            
+              <p class="site-author-name" itemprop="name">karl</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">97</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">83</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/likenow" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:fmslikai@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://yujiangshui.com/" title="yujiangshui" target="_blank">yujiangshui</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Weex-开发的一些经历"><span class="nav-number">1.</span> <span class="nav-text">Weex 开发的一些经历</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#痛苦的调试"><span class="nav-number">1.1.</span> <span class="nav-text">痛苦的调试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#开发的不适应"><span class="nav-number">1.2.</span> <span class="nav-text">开发的不适应</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#伪weex开发实践"><span class="nav-number">2.</span> <span class="nav-text">伪weex开发实践</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#实践中的烦人问题"><span class="nav-number">2.1.</span> <span class="nav-text">实践中的烦人问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2013 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">karl</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
