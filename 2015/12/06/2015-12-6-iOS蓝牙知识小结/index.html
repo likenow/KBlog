@@ -110,7 +110,7 @@
 
 
 
-  <meta name="keywords" content="iOS,蓝牙,">
+  <meta name="keywords" content="蓝牙,iOS,">
 
 
 
@@ -122,7 +122,7 @@
 
 
 <meta name="description" content="背景介绍公司里，我所在的业务线有刷卡器这块，蓝牙刷卡器通过蓝牙与iPhone手机通讯。手机端的app通过发送不同的指令(通过蓝牙)控制刷卡器执行一些动作，比如读磁条卡，读金融IC卡等。所以，有对 iOS Core Bluetooth框架学习的机会和实践场景。该框架基于BLE4.0规范，直接适用于蓝牙低功率设备的使用。也就是说，该框架隐藏了很多开发规范的底层实现细节，使您更容易开发出与蓝牙低功耗设备">
-<meta name="keywords" content="iOS,蓝牙">
+<meta name="keywords" content="蓝牙,iOS">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS蓝牙知识小结">
 <meta property="og:url" content="http://yoursite.com/2015/12/06/2015-12-6-iOS蓝牙知识小结/index.html">
@@ -130,7 +130,7 @@
 <meta property="og:description" content="背景介绍公司里，我所在的业务线有刷卡器这块，蓝牙刷卡器通过蓝牙与iPhone手机通讯。手机端的app通过发送不同的指令(通过蓝牙)控制刷卡器执行一些动作，比如读磁条卡，读金融IC卡等。所以，有对 iOS Core Bluetooth框架学习的机会和实践场景。该框架基于BLE4.0规范，直接适用于蓝牙低功率设备的使用。也就是说，该框架隐藏了很多开发规范的底层实现细节，使您更容易开发出与蓝牙低功耗设备">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://developer.apple.com/library/archive/documentation/NetworkingInternetWeb/Conceptual/CoreBluetooth_concepts/Art/ReconnectingToAPeripheral_2x.png">
-<meta property="og:updated_time" content="2018-10-28T08:40:48.444Z">
+<meta property="og:updated_time" content="2018-12-10T13:08:03.953Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS蓝牙知识小结">
 <meta name="twitter:description" content="背景介绍公司里，我所在的业务线有刷卡器这块，蓝牙刷卡器通过蓝牙与iPhone手机通讯。手机端的app通过发送不同的指令(通过蓝牙)控制刷卡器执行一些动作，比如读磁条卡，读金融IC卡等。所以，有对 iOS Core Bluetooth框架学习的机会和实践场景。该框架基于BLE4.0规范，直接适用于蓝牙低功率设备的使用。也就是说，该框架隐藏了很多开发规范的底层实现细节，使您更容易开发出与蓝牙低功耗设备">
@@ -462,6 +462,19 @@
 </ol>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// 主动断开设备</span><br><span class="line">- (void)disConnect &#123;</span><br><span class="line">    if (_testPeripheral != nil) &#123;</span><br><span class="line">        NSLog(@&quot;主动断开&quot;);</span><br><span class="line">        [manager cancelPeripheralConnection:_testPeripheral];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>如果你顺利完成了上一步的操作，并且看到了蓝牙返回的数据，那么恭喜你，蓝牙的常用操作你已经了解大半了。因为蓝牙的任务大部分就是围绕发送指令，获取指令，将蓝牙数据呈现给用户。整个蓝牙开发实现方便，但回调方法非常多，容易晕。按部就班把每个回调方法实现，即可保证蓝牙开发的顺利进行。同时，涉及到多线程的地方，务必保证<strong>回到主线程刷新UI</strong>！！！</p>
+<hr>
+<hr>
+<h2 id="2016-01-09-20-48-补充"><a href="#2016-01-09-20-48-补充" class="headerlink" title="2016-01-09 20:48 补充"></a>2016-01-09 20:48 补充</h2><p>本来是想把开发中遇到的问题单独写一篇文章，后来又觉得没多少内容。于是，今天在这里补充以下3点：</p>
+<h3 id="1-看清楚硬件设备支持的蓝牙版本"><a href="#1-看清楚硬件设备支持的蓝牙版本" class="headerlink" title="1. 看清楚硬件设备支持的蓝牙版本"></a>1. 看清楚硬件设备支持的蓝牙版本</h3><p>我们开发调试的蓝牙设备主要指蓝牙 POS，是厂商烧录好的，支持 蓝牙4.0 版本，我们手里的测试机主要有，两台n手的 iPhone 4、一台 iPhone 4s和一台iPhone 5。从 iPhone 4s 开始支持 蓝牙 4.0，而且我们的厂商根本也没有苹果MFi认证，所以。。。老板的iPhone 4不能用，实在是搞不定啊：~结果，如何这里不再BB</p>
+<h3 id="2-搜索设备时用的-Service-UUID"><a href="#2-搜索设备时用的-Service-UUID" class="headerlink" title="2. 搜索设备时用的 Service UUID"></a>2. 搜索设备时用的 Service UUID</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[manager scanForPeripheralsWithServices:@[[CBUUID UUIDWithString:@&quot;xxx&quot;] options:@&#123;CBCentralManagerScanOptionAllowDuplicatesKey:@YES&#125;];</span><br></pre></td></tr></table></figure>
+<p>以上函数，第一个参数传<code>nil</code>代表搜索周围的全部设备；传<code>UUID</code>代表搜索包含该服务的特定设备。但是见鬼的事情就发生了：传<code>nil</code>可以搜到，传<code>UUID</code>却搜不到，而且是明确知道该设备包含了该服务的。</p>
+<p>造成这个问题的原因是：硬件没有将该Service添加到广播包时，即广播时没有将该UUID广播出来，所以iOS设备在搜索时候就会找不到对应的设备。<strong>解决办法</strong>：与硬件工程师沟通，让他在广播包里加上。ps.老板图便宜找得小厂就是不靠谱啊，按住不表。。。</p>
+<h3 id="3-获取-Mac-地址"><a href="#3-获取-Mac-地址" class="headerlink" title="3. 获取 Mac 地址"></a>3. 获取 Mac 地址</h3><p>产品给我们提的需求是，已经连过的设备就不需要用户重新连接了。新用户使用时需要扫描设备，并显示出每台设备的mac地址。</p>
+<p>我是觉得很合理，但是实现起来有点蛋疼，随后的解决方案虽然有点儿帅锅，但是完美解决：</p>
+<blockquote>
+<p>让乙方硬件工程师在广播包中添加mac地址，这样就能轻松实现显示mac 地址 和 重连了。</p>
+</blockquote>
+<p>阴险的笑了。谁让我们是甲方呢，哈哈哈</p>
 <h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ul>
 <li><a href="https://developer.apple.com/documentation/corebluetooth" target="_blank" rel="noopener">Core Bluetooth</a></li>
 <li><a href="https://developer.apple.com/library/archive/documentation/NetworkingInternetWeb/Conceptual/CoreBluetooth_concepts/AboutCoreBluetooth/Introduction.html#//apple_ref/doc/uid/TP40013257-CH1-SW1" target="_blank" rel="noopener">Core Bluetooth Programming Guide</a></li>
@@ -484,9 +497,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/iOS/" rel="tag"># iOS</a>
-          
             <a href="/tags/蓝牙/" rel="tag"># 蓝牙</a>
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
           
         </div>
       
@@ -675,7 +688,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景介绍"><span class="nav-number">1.</span> <span class="nav-text">背景介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Core-Bluetooth-框架概述"><span class="nav-number">2.</span> <span class="nav-text">Core Bluetooth 框架概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Core-Bluetooth-核心类"><span class="nav-number">2.1.</span> <span class="nav-text">Core Bluetooth 核心类</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#iPhone作为central，远端的蓝牙设备peripheral"><span class="nav-number">2.1.1.</span> <span class="nav-text">iPhone作为central，远端的蓝牙设备peripheral</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#iPhone作为远端设备"><span class="nav-number">2.1.2.</span> <span class="nav-text">iPhone作为远端设备</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Central-发现并连接广播中的-Peripheral"><span class="nav-number">2.1.3.</span> <span class="nav-text">Central 发现并连接广播中的 Peripheral</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#服务和特征"><span class="nav-number">2.1.4.</span> <span class="nav-text">服务和特征</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#蓝牙简单练习"><span class="nav-number">3.</span> <span class="nav-text">蓝牙简单练习</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#建立的步骤"><span class="nav-number">3.1.</span> <span class="nav-text">建立的步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现细节"><span class="nav-number">3.2.</span> <span class="nav-text">实现细节</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-number">4.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景介绍"><span class="nav-number">1.</span> <span class="nav-text">背景介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Core-Bluetooth-框架概述"><span class="nav-number">2.</span> <span class="nav-text">Core Bluetooth 框架概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Core-Bluetooth-核心类"><span class="nav-number">2.1.</span> <span class="nav-text">Core Bluetooth 核心类</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#iPhone作为central，远端的蓝牙设备peripheral"><span class="nav-number">2.1.1.</span> <span class="nav-text">iPhone作为central，远端的蓝牙设备peripheral</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#iPhone作为远端设备"><span class="nav-number">2.1.2.</span> <span class="nav-text">iPhone作为远端设备</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Central-发现并连接广播中的-Peripheral"><span class="nav-number">2.1.3.</span> <span class="nav-text">Central 发现并连接广播中的 Peripheral</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#服务和特征"><span class="nav-number">2.1.4.</span> <span class="nav-text">服务和特征</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#蓝牙简单练习"><span class="nav-number">3.</span> <span class="nav-text">蓝牙简单练习</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#建立的步骤"><span class="nav-number">3.1.</span> <span class="nav-text">建立的步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现细节"><span class="nav-number">3.2.</span> <span class="nav-text">实现细节</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2016-01-09-20-48-补充"><span class="nav-number">4.</span> <span class="nav-text">2016-01-09 20:48 补充</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-看清楚硬件设备支持的蓝牙版本"><span class="nav-number">4.1.</span> <span class="nav-text">1. 看清楚硬件设备支持的蓝牙版本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-搜索设备时用的-Service-UUID"><span class="nav-number">4.2.</span> <span class="nav-text">2. 搜索设备时用的 Service UUID</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-获取-Mac-地址"><span class="nav-number">4.3.</span> <span class="nav-text">3. 获取 Mac 地址</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-number">5.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
             
 
           </div>
