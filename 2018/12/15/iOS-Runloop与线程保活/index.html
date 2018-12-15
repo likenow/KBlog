@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next gemini" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="iOS,多线程,runloop,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言在前两篇文章iOS 多线程编程知识整理、iOS 多线编程之线程安全 中，我整理了 iOS 多线程编程的知识，还有非常重要的一块没有讲到那就是 Runloop 与线程。">
+<meta name="keywords" content="iOS,多线程,runloop">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS Runloop与线程保活">
+<meta property="og:url" content="http://yoursite.com/2018/12/15/iOS-Runloop与线程保活/index.html">
+<meta property="og:site_name" content="Karl&#39;s Blog">
+<meta property="og:description" content="前言在前两篇文章iOS 多线程编程知识整理、iOS 多线编程之线程安全 中，我整理了 iOS 多线程编程的知识，还有非常重要的一块没有讲到那就是 Runloop 与线程。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-12-15T07:04:44.605Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS Runloop与线程保活">
+<meta name="twitter:description" content="前言在前两篇文章iOS 多线程编程知识整理、iOS 多线编程之线程安全 中，我整理了 iOS 多线程编程的知识，还有非常重要的一块没有讲到那就是 Runloop 与线程。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/12/15/iOS-Runloop与线程保活/">
+
+
+
+
+
+  <title>iOS Runloop与线程保活 | Karl's Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?d714d594e46d4e86189e49fe568d871a";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Karl's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/15/iOS-Runloop与线程保活/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="karl">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Karl's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">iOS Runloop与线程保活</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-15T12:25:26+08:00">
+                2018-12-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在前两篇文章<a href="http://localhost:4000/2018/12/02/iOS-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E7%9F%A5%E8%AF%86%E6%95%B4%E7%90%86/" target="_blank" rel="noopener">iOS 多线程编程知识整理</a>、<a href="http://localhost:4000/2018/12/11/iOS-%E5%A4%9A%E7%BA%BF%E7%BC%96%E7%A8%8B%E4%B9%8B%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" target="_blank" rel="noopener">iOS 多线编程之线程安全</a> 中，我整理了 iOS 多线程编程的知识，还有非常重要的一块没有讲到那就是 <strong>Runloop</strong> 与线程。</p>
+<a id="more"></a>
+<h2 id="Runloop-与-线程"><a href="#Runloop-与-线程" class="headerlink" title="Runloop 与 线程"></a>Runloop 与 线程</h2><p>关于<strong>Runloop</strong>的理解，以我现在的知识基础，不觉得会比<a href="https://blog.ibireme.com/2015/05/18/runloop/" target="_blank" rel="noopener">深入理解RunLoop</a>这篇文章讲得好，所以读者可移步阅读。</p>
+<p><strong>Runloop</strong>是线程的基础架构部分，<code>Cocoa</code>和<code>CoreFundation</code>都提供了 runLoop 对象方便配置和管理线程的runLoop。每个线程，包括程序的主线程<code>main thread</code>都有与之相应的 runLoop 对象。</p>
+<p>主线程的 runLoop 默认是启动的。对其它线程来说，runLoop 默认是没有启动的。另外，苹果不允许直接创建 runLoop，不过我们可以通过：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NSRunLoop *runloop = [NSRunLoop currentRunLoop];</span><br></pre></td></tr></table></figure>
+<p>来获取到当前线程的 run loop。</p>
+<p>从 <code>CFRunLoopRef</code> 的<a href="https://opensource.apple.com/source/CF/CF-1153.18/CFRunLoop.c.auto.html" target="_blank" rel="noopener">源码</a>可以看出，线程和 RunLoop 之间是一一对应的，其关系是保存在一个全局的 <code>Dictionary</code> 里。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">CF-1153.18/CFRunLoop.c</span></span><br><span class="line"><span class="comment">line: 1358-1395</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="comment">// should only be called by Foundation</span></span><br><span class="line"><span class="comment">// t==0 is a synonym for "main thread" that always works</span></span><br><span class="line">CF_EXPORT CFRunLoopRef _CFRunLoopGet0(<span class="keyword">pthread_t</span> t) &#123;</span><br><span class="line">    <span class="keyword">if</span> (pthread_equal(t, kNilPthreadT)) &#123;</span><br><span class="line">	t = pthread_main_thread_np();</span><br><span class="line">    &#125;</span><br><span class="line">    __CFLock(&amp;loopsLock);</span><br><span class="line">    <span class="keyword">if</span> (!__CFRunLoops) &#123;</span><br><span class="line">        __CFUnlock(&amp;loopsLock);</span><br><span class="line">	CFMutableDictionaryRef dict = CFDictionaryCreateMutable(kCFAllocatorSystemDefault, <span class="number">0</span>, <span class="literal">NULL</span>, &amp;kCFTypeDictionaryValueCallBacks);</span><br><span class="line">	CFRunLoopRef mainLoop = __CFRunLoopCreate(pthread_main_thread_np());</span><br><span class="line">	CFDictionarySetValue(dict, pthreadPointer(pthread_main_thread_np()), mainLoop);</span><br><span class="line">	<span class="keyword">if</span> (!OSAtomicCompareAndSwapPtrBarrier(<span class="literal">NULL</span>, dict, (<span class="keyword">void</span> * <span class="keyword">volatile</span> *)&amp;__CFRunLoops)) &#123;</span><br><span class="line">	    CFRelease(dict);</span><br><span class="line">	&#125;</span><br><span class="line">	CFRelease(mainLoop);</span><br><span class="line">        __CFLock(&amp;loopsLock);</span><br><span class="line">    &#125;</span><br><span class="line">    CFRunLoopRef loop = (CFRunLoopRef)CFDictionaryGetValue(__CFRunLoops, pthreadPointer(t));</span><br><span class="line">    __CFUnlock(&amp;loopsLock);</span><br><span class="line">    <span class="keyword">if</span> (!loop) &#123;</span><br><span class="line">	CFRunLoopRef newLoop = __CFRunLoopCreate(t);</span><br><span class="line">        __CFLock(&amp;loopsLock);</span><br><span class="line">	loop = (CFRunLoopRef)CFDictionaryGetValue(__CFRunLoops, pthreadPointer(t));</span><br><span class="line">	<span class="keyword">if</span> (!loop) &#123;</span><br><span class="line">	    CFDictionarySetValue(__CFRunLoops, pthreadPointer(t), newLoop);</span><br><span class="line">	    loop = newLoop;</span><br><span class="line">	&#125;</span><br><span class="line">        <span class="comment">// don't release run loops inside the loopsLock, because CFRunLoopDeallocate may end up taking it</span></span><br><span class="line">        __CFUnlock(&amp;loopsLock);</span><br><span class="line">	CFRelease(newLoop);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (pthread_equal(t, pthread_self())) &#123;</span><br><span class="line">        _CFSetTSD(__CFTSDKeyRunLoop, (<span class="keyword">void</span> *)loop, <span class="literal">NULL</span>);</span><br><span class="line">        <span class="keyword">if</span> (<span class="number">0</span> == _CFGetTSD(__CFTSDKeyRunLoopCntr)) &#123;</span><br><span class="line">            _CFSetTSD(__CFTSDKeyRunLoopCntr, (<span class="keyword">void</span> *)(PTHREAD_DESTRUCTOR_ITERATIONS<span class="number">-1</span>), (<span class="keyword">void</span> (*)(<span class="keyword">void</span> *))__CFFinalizeRunLoop);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> loop;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>线程刚创建时并没有 runLoop，如果你不主动获取，那它一直都不会有。</li>
+<li>RunLoop 的创建是发生在第一次获取时，runLoop 的销毁是发生在线程结束时。</li>
+<li>你只能在一个线程的内部获取其 runLoop（<em>主线程除外</em>）。</li>
+</ul>
+<h2 id="Runloop与线程保活"><a href="#Runloop与线程保活" class="headerlink" title="Runloop与线程保活"></a>Runloop与线程保活</h2><h3 id="在-AFNetworking-2-x-源码-的分析文章中，你可能会看到如下被多次提及的代码片段："><a href="#在-AFNetworking-2-x-源码-的分析文章中，你可能会看到如下被多次提及的代码片段：" class="headerlink" title="在 AFNetworking(2.x) 源码 的分析文章中，你可能会看到如下被多次提及的代码片段："></a>在 <em>AFNetworking(2.x) 源码</em> 的分析文章中，你可能会看到如下被多次提及的代码片段：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line">AFNetworking/NSURLConnection/AFURLConnectionOperation.m</span><br><span class="line">*/ </span><br><span class="line">+ (NSThread *)networkRequestThread &#123;</span><br><span class="line">    static NSThread *_networkRequestThread = nil;</span><br><span class="line">    static dispatch_once_t oncePredicate;</span><br><span class="line">    dispatch_once(&amp;oncePredicate, ^&#123;</span><br><span class="line">        _networkRequestThread = [[NSThread alloc] initWithTarget:self selector:@selector(networkRequestThreadEntryPoint:) object:nil];</span><br><span class="line">        [_networkRequestThread start];</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    return _networkRequestThread;</span><br><span class="line">&#125;</span><br><span class="line">------------------------------------------------------------------------</span><br><span class="line">/*</span><br><span class="line">AFNetworking/NSURLConnection/AFURLConnectionOperation.m</span><br><span class="line">*/    </span><br><span class="line"></span><br><span class="line">+ (void)networkRequestThreadEntryPoint:(id)__unused object &#123;</span><br><span class="line">    @autoreleasepool &#123;</span><br><span class="line">        [[NSThread currentThread] setName:@&quot;AFNetworking&quot;];</span><br><span class="line"></span><br><span class="line">        NSRunLoop *runLoop = [NSRunLoop currentRunLoop];</span><br><span class="line">        [runLoop addPort:[NSMachPort port] forMode:NSDefaultRunLoopMode];</span><br><span class="line">        [runLoop run];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>AFN 创建了一个新的线程命名为 <code>AFNetworking</code> ，然后在这个线程中创建了一个 runLoop ，一个 runLoop 中如果<code>source/timer/observer</code> 都为空则会直接退出，并不进入循环。所以，AFN在这里为 runLoop 添加了一个 <code>NSMachPort</code> ，这个<code>port</code>开启相当于添加了一个<code>Source1</code>事件源，但是这个事件源并没有真正的监听什么东西，只是为了不让 runLoop 退出。</p>
+<h3 id="在AF3-x下，子线程使用-NSURLSession-时，还需要手动启动-Runloop-来实现线程保活吗？"><a href="#在AF3-x下，子线程使用-NSURLSession-时，还需要手动启动-Runloop-来实现线程保活吗？" class="headerlink" title="在AF3.x下，子线程使用 NSURLSession 时，还需要手动启动 Runloop 来实现线程保活吗？"></a>在AF3.x下，子线程使用 NSURLSession 时，还需要手动启动 Runloop 来实现线程保活吗？</h3><p>不需要。</p>
+<p>使用了 <code>NSURLConnection</code> 来发起并处理网络连接。AFN 的做法是把网络请求的发起和解析都放在同一个子线程中进行，但由于子线程默认不开启 runloop，它会向一个 C语言程序那样在运行完所有代码后退出线程。而网络请求是异步的，这会导致获取到请求数据时，线程已经退出，代理方法没有机会执行。因此，AFN 的做法是使用一个 runloop 来保证线程不死，</p>
+<p>从<code>iOS9.0</code>开始 <code>deprecated</code> 了<code>NSURLConnection</code>。 替代方案就是<code>NSURLSession</code>。</p>
+<p><code>NSURLSession</code>发起的请求，不再需要在当前线程进行代理方法的回调！可以指定回调的<code>delegateQueue</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line">AFNetworking/AFURLSessionManager.m</span><br><span class="line">*/</span><br><span class="line">- (NSURLSession *)session &#123;</span><br><span class="line">    </span><br><span class="line">    @synchronized (self) &#123;</span><br><span class="line">        if (!_session) &#123;</span><br><span class="line">            _session = [NSURLSession sessionWithConfiguration:self.sessionConfiguration delegate:self delegateQueue:self.operationQueue];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return _session;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样我们就不用为了等待代理回调方法而苦苦保活线程了。</p>
+<p>同时还要注意一下，指定的用于接收回调的<code>Queue</code>的<code>maxConcurrentOperationCount</code>设为了1：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line">AFNetworking/AFURLSessionManager.m</span><br><span class="line">*/</span><br><span class="line">- (instancetype)initWithSessionConfiguration:(NSURLSessionConfiguration *)configuration &#123;</span><br><span class="line">    self = [super init];</span><br><span class="line">    if (!self) &#123;</span><br><span class="line">        return nil;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if (!configuration) &#123;</span><br><span class="line">        configuration = [NSURLSessionConfiguration defaultSessionConfiguration];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    self.sessionConfiguration = configuration;</span><br><span class="line"></span><br><span class="line">    self.operationQueue = [[NSOperationQueue alloc] init];</span><br><span class="line">    // 并发的请求串行的进行回调</span><br><span class="line">    self.operationQueue.maxConcurrentOperationCount = 1;</span><br><span class="line"></span><br><span class="line">    self.responseSerializer = [AFJSONResponseSerializer serializer];</span><br><span class="line"></span><br><span class="line">    self.securityPolicy = [AFSecurityPolicy defaultPolicy];</span><br><span class="line"></span><br><span class="line">#if !TARGET_OS_WATCH</span><br><span class="line">    self.reachabilityManager = [AFNetworkReachabilityManager sharedManager];</span><br><span class="line">#endif</span><br><span class="line"></span><br><span class="line">    self.mutableTaskDelegatesKeyedByTaskIdentifier = [[NSMutableDictionary alloc] init];</span><br><span class="line"></span><br><span class="line">    self.lock = [[NSLock alloc] init];</span><br><span class="line">    self.lock.name = AFURLSessionManagerLockName;</span><br><span class="line"></span><br><span class="line">    __weak typeof(self) weakSelf = self;</span><br><span class="line">    [self.session getTasksWithCompletionHandler:^(NSArray *dataTasks, NSArray *uploadTasks, NSArray *downloadTasks) &#123;</span><br><span class="line">        </span><br><span class="line">        __strong typeof(weakSelf) strongSelf = weakSelf;</span><br><span class="line">        for (NSURLSessionDataTask *task in dataTasks) &#123;</span><br><span class="line">            [strongSelf addDelegateForDataTask:task uploadProgress:nil downloadProgress:nil completionHandler:nil];</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        for (NSURLSessionUploadTask *uploadTask in uploadTasks) &#123;</span><br><span class="line">            [strongSelf addDelegateForUploadTask:uploadTask progress:nil completionHandler:nil];</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        for (NSURLSessionDownloadTask *downloadTask in downloadTasks) &#123;</span><br><span class="line">            [strongSelf addDelegateForDownloadTask:downloadTask progress:nil destination:nil completionHandler:nil];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;];</span><br><span class="line"></span><br><span class="line">    return self;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里目的是想要让并发的请求串行的进行回调。</p>
+<p>如果，对 NSOperationQueue 还不熟悉，可以阅读<a href="http://localhost:4000/2018/12/02/iOS-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E7%9F%A5%E8%AF%86%E6%95%B4%E7%90%86/" target="_blank" rel="noopener">iOS 多线程编程知识整理</a> ：）</p>
+<h3 id="在阅读-Weex-0-18-0-源码-的时候也看到了线程保活的用法"><a href="#在阅读-Weex-0-18-0-源码-的时候也看到了线程保活的用法" class="headerlink" title="在阅读 Weex(0.18.0) 源码 的时候也看到了线程保活的用法"></a>在阅读 <em>Weex(0.18.0) 源码</em> 的时候也看到了线程保活的用法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#define WX_COMPONENT_THREAD_NAME @&quot;com.taobao.weex.component&quot;</span><br><span class="line"></span><br><span class="line">#define WX_BRIDGE_THREAD_NAME @&quot;com.taobao.weex.bridge&quot;</span><br></pre></td></tr></table></figure>
+<h4 id="com-taobao-weex-bridge"><a href="#com-taobao-weex-bridge" class="headerlink" title="com.taobao.weex.bridge"></a>com.taobao.weex.bridge</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line">WeexSDK/Sources/Manager/WXBridgeManager.m</span><br><span class="line">*/</span><br><span class="line">#pragma mark Thread Management</span><br><span class="line"></span><br><span class="line">- (void)_runLoopThread</span><br><span class="line">&#123;</span><br><span class="line">    [[NSRunLoop currentRunLoop] addPort:[NSMachPort port] forMode:NSDefaultRunLoopMode];</span><br><span class="line">    </span><br><span class="line">    while (!_stopRunning) &#123;</span><br><span class="line">        @autoreleasepool &#123;</span><br><span class="line">            [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (NSThread *)jsThread</span><br><span class="line">&#123;</span><br><span class="line">    static dispatch_once_t onceToken;</span><br><span class="line">    dispatch_once(&amp;onceToken, ^&#123;</span><br><span class="line">        </span><br><span class="line">        WXBridgeThread = [[NSThread alloc] initWithTarget:[[self class]sharedManager] selector:@selector(_runLoopThread) object:nil];</span><br><span class="line">        [WXBridgeThread setName:WX_BRIDGE_THREAD_NAME];</span><br><span class="line">        if(WX_SYS_VERSION_GREATER_THAN_OR_EQUAL_TO(@&quot;8.0&quot;)) &#123;</span><br><span class="line">            [WXBridgeThread setQualityOfService:[[NSThread mainThread] qualityOfService]];</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            [WXBridgeThread setThreadPriority:[[NSThread mainThread] threadPriority]];</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        [WXBridgeThread start];</span><br><span class="line">    &#125;);</span><br><span class="line">    </span><br><span class="line">    return WXBridgeThread;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>所有的组件注册都在这个子线程中执行的。这个<code>jsThread</code>是一个单例，全局唯一。这里就给<code>jsThread</code>开启了一个 runloop 。这里是用<code>[NSMachPort port]</code>的方式开启的 runloop，之后再也无法获取到这个<code>port</code>了，而且这个 runloop 不是<code>CFRunloop</code>，所以用<a href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Multithreading/RunLoopManagement/RunLoopManagement.html#//apple_ref/doc/uid/10000057i-CH16-SW1" target="_blank" rel="noopener">官方文档</a>上的那2个方法已经不能停止这个 runloop 了:</p>
+<blockquote>
+<p>There are two ways to make a run loop exit before it has processed an event: </p>
+<ul>
+<li><p>Configure the run loop to run with a timeout value. </p>
+</li>
+<li><p>Tell the run loop to stop.</p>
+<p>ps. Although removing a run loop’s input sources and timers may also cause the run loop to exit, this is not a reliable way to stop a run loop.</p>
+</li>
+</ul>
+</blockquote>
+<p>只能自己通过<code>while</code>的方式来停止。上述代码是一种写法，当然<code>StackOverFlow</code>上面推荐的是下面的写法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">BOOL shouldKeepRunning = YES;        // global </span><br><span class="line">NSRunLoop *rl = [NSRunLoop currentRunLoop]; </span><br><span class="line">while (shouldKeepRunning &amp;&amp; [rl runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]]);</span><br></pre></td></tr></table></figure>
+<h4 id="com-taobao-weex-component"><a href="#com-taobao-weex-component" class="headerlink" title="com.taobao.weex.component"></a>com.taobao.weex.component</h4><p>每次刷新一次，都会先调用<code>Flexbox</code>算法的<code>Layout</code>进行布局，这个布局是在子线程<code>com.taobao.weex.component</code>执行的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line">WeexSDK/Sources/Manager/WXComponentManager.mm</span><br><span class="line">*/</span><br><span class="line">#pragma mark Thread Management</span><br><span class="line"></span><br><span class="line">+ (NSThread *)componentThread</span><br><span class="line">&#123;</span><br><span class="line">    static dispatch_once_t onceToken;</span><br><span class="line">    dispatch_once(&amp;onceToken, ^&#123;</span><br><span class="line">        WXComponentThread = [[NSThread alloc] initWithTarget:[self sharedManager] selector:@selector(_runLoopThread) object:nil];</span><br><span class="line">        [WXComponentThread setName:WX_COMPONENT_THREAD_NAME];</span><br><span class="line">        if(WX_SYS_VERSION_GREATER_THAN_OR_EQUAL_TO(@&quot;8.0&quot;)) &#123;</span><br><span class="line">            [WXComponentThread setQualityOfService:[[NSThread mainThread] qualityOfService]];</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            [WXComponentThread setThreadPriority:[[NSThread mainThread] threadPriority]];</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        [WXComponentThread start];</span><br><span class="line">    &#125;);</span><br><span class="line">    </span><br><span class="line">    return WXComponentThread;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)_runLoopThread</span><br><span class="line">&#123;</span><br><span class="line">    [[NSRunLoop currentRunLoop] addPort:[NSMachPort port] forMode:NSDefaultRunLoopMode];</span><br><span class="line">    </span><br><span class="line">    while (!_stopRunning) &#123;</span><br><span class="line">        @autoreleasepool &#123;</span><br><span class="line">            [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>使用 runloop 实现线程保活。要注意的地方主要有以下点:</p>
+<ul>
+<li>runloop 与 线程之间的关系</li>
+<li>runloop 实现线程保活的原理，注意添加的那个 <code>port</code></li>
+<li>runloop 的启动方式以及彼此之间的关联</li>
+<li>runloop 的退出方式和原理</li>
+</ul>
+<p>欢迎交流指正。</p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ul>
+<li><a href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Multithreading/RunLoopManagement/RunLoopManagement.html#//apple_ref/doc/uid/10000057i-CH16-SW1" target="_blank" rel="noopener">Threading Programming Guide – Runloop</a></li>
+<li><a href="https://github.com/ShannonChenCHN/iOSDevLevelingUp/issues/16" target="_blank" rel="noopener">多线程与 Runloop</a></li>
+<li><a href="https://blog.ibireme.com/2015/05/18/runloop/" target="_blank" rel="noopener">深入理解RunLoop</a></li>
+<li><a href="https://twitter.com/intent/tweet?text=%E6%B7%B1%E5%85%A5%E7%A0%94%E7%A9%B6%20Runloop%20%E4%B8%8E%E7%BA%BF%E7%A8%8B%E4%BF%9D%E6%B4%BB%20%C2%BB&amp;hashtags=&amp;url=https://bestswifter.com/runloop-and-thread/" target="_blank" rel="noopener">深入研究 Runloop 与线程保活</a></li>
+<li><a href="https://www.jianshu.com/p/b5c27669e2c1" target="_blank" rel="noopener">AFNetworking3.0后为什么不再需要常驻线程？</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+            <a href="/tags/多线程/" rel="tag"># 多线程</a>
+          
+            <a href="/tags/runloop/" rel="tag"># runloop</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/11/iOS-多线编程之线程安全/" rel="next" title="iOS 多线编程之线程安全">
+                <i class="fa fa-chevron-left"></i> iOS 多线编程之线程安全
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="karl">
+            
+              <p class="site-author-name" itemprop="name">karl</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">101</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">84</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/likenow" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:fmslikai@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://yujiangshui.com/" title="yujiangshui" target="_blank">yujiangshui</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Runloop-与-线程"><span class="nav-number">2.</span> <span class="nav-text">Runloop 与 线程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Runloop与线程保活"><span class="nav-number">3.</span> <span class="nav-text">Runloop与线程保活</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#在-AFNetworking-2-x-源码-的分析文章中，你可能会看到如下被多次提及的代码片段："><span class="nav-number">3.1.</span> <span class="nav-text">在 AFNetworking(2.x) 源码 的分析文章中，你可能会看到如下被多次提及的代码片段：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在AF3-x下，子线程使用-NSURLSession-时，还需要手动启动-Runloop-来实现线程保活吗？"><span class="nav-number">3.2.</span> <span class="nav-text">在AF3.x下，子线程使用 NSURLSession 时，还需要手动启动 Runloop 来实现线程保活吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在阅读-Weex-0-18-0-源码-的时候也看到了线程保活的用法"><span class="nav-number">3.3.</span> <span class="nav-text">在阅读 Weex(0.18.0) 源码 的时候也看到了线程保活的用法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#com-taobao-weex-bridge"><span class="nav-number">3.3.1.</span> <span class="nav-text">com.taobao.weex.bridge</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#com-taobao-weex-component"><span class="nav-number">3.3.2.</span> <span class="nav-text">com.taobao.weex.component</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-number">5.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2013 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">karl</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
