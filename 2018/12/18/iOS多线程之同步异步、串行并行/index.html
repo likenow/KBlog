@@ -129,7 +129,7 @@
 <meta property="og:site_name" content="Karl&#39;s Blog">
 <meta property="og:description" content="前言自我感觉良好，以为自己对多线程的知识已经掌握了。结果。。。惨不忍睹。。。尴尬到傻笑 在前3篇文章iOS 多线程编程知识整理、iOS 多线编程之线程安全 、iOS Runloop与线程保活 中我整理了 iOS 多线程编程的知识。殊不知，如下的题目就把我卡住： 12345678910111213141516171819202122232425262728- (void)print &amp;#123;">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-12-18T16:39:27.820Z">
+<meta property="og:updated_time" content="2018-12-18T17:17:00.628Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS多线程之同步异步、串行并行">
 <meta name="twitter:description" content="前言自我感觉良好，以为自己对多线程的知识已经掌握了。结果。。。惨不忍睹。。。尴尬到傻笑 在前3篇文章iOS 多线程编程知识整理、iOS 多线编程之线程安全 、iOS Runloop与线程保活 中我整理了 iOS 多线程编程的知识。殊不知，如下的题目就把我卡住： 12345678910111213141516171819202122232425262728- (void)print &amp;#123;">
@@ -465,7 +465,7 @@
 <p>Ps.打印a的任务添加到了主队列，在主线程执行</p>
 </blockquote>
 <blockquote>
-<p>8~16 行 <code>dispatch_sync()</code>提交到队列后，立即返回，17~19 行 任务通过<code>dispatch_sync()</code>函数被添加到优先级是<code>DISPATCH_QUEUE_PRIORITY_BACKGROUND</code>的全局队列，执行完打印输出 e</p>
+<p>8~16 行 <code>dispatch_sync()</code>提交到队列后，立即返回，17~19 行 任务通过<code>dispatch_sync()</code>函数被添加到优先级是<code>DISPATCH_QUEUE_PRIORITY_BACKGROUND</code>的全局队列，会在主线程执行完打印输出 e，才继续往下执行</p>
 <p>Ps. 打印c和d的任务通过<code>dispatch_async()</code>添加到了全局队列，会开启新线程执行</p>
 </blockquote>
 <blockquote>
@@ -475,8 +475,8 @@
 <p>23 行 输出 g</p>
 </blockquote>
 <p>此时有了一个打印顺序：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">b-&gt;e-&gt;g-&gt;xxx-&gt;f</span><br></pre></td></tr></table></figure>
-<p>a、c和d 分别在<code>mainQueue</code>和<code>tempQueue</code>而且在不同的线程，所以执行起来互不相干，他们的打印顺序取决于任务执行的时间。不过我多次执行最终得到了如下的结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">b-&gt;e-&gt;xxx-&gt;f</span><br></pre></td></tr></table></figure>
+<p>a和g、c和d 分别在<code>mainQueue</code>和<code>tempQueue</code>而且在不同的线程，所以执行起来互不相干，他们的打印顺序取决于任务执行的时间。不过我多次执行最终得到了如下的结果：</p>
 <h4 id="打印结果"><a href="#打印结果" class="headerlink" title="打印结果"></a>打印结果</h4><p>我在 <code>Version 10.1 (10B61)</code>、<code>iOS 12.1</code> 模拟器 <code>iPhoneXR</code>上跑出的结果：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">b-&gt;e-&gt;g-&gt;c-&gt;d-&gt;a-&gt;f</span><br></pre></td></tr></table></figure>
 <p>or</p>
