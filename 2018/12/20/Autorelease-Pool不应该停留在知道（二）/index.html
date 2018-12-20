@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next gemini" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="iOS,autorelease pool,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言之前总结过一篇文章Autorelease Pool不应该停留在知道 但是没想到我还是停留在了不知道的境地~~~~脸打的piapia地。只怪自总结学习不到位">
+<meta name="keywords" content="iOS,autorelease pool">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Autorelease Pool不应该停留在知道（二）">
+<meta property="og:url" content="http://yoursite.com/2018/12/20/Autorelease-Pool不应该停留在知道（二）/index.html">
+<meta property="og:site_name" content="Karl&#39;s Blog">
+<meta property="og:description" content="前言之前总结过一篇文章Autorelease Pool不应该停留在知道 但是没想到我还是停留在了不知道的境地~~~~脸打的piapia地。只怪自总结学习不到位">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-12-20T15:24:21.842Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Autorelease Pool不应该停留在知道（二）">
+<meta name="twitter:description" content="前言之前总结过一篇文章Autorelease Pool不应该停留在知道 但是没想到我还是停留在了不知道的境地~~~~脸打的piapia地。只怪自总结学习不到位">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/12/20/Autorelease-Pool不应该停留在知道（二）/">
+
+
+
+
+
+  <title>Autorelease Pool不应该停留在知道（二） | Karl's Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?d714d594e46d4e86189e49fe568d871a";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Karl's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/20/Autorelease-Pool不应该停留在知道（二）/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="karl">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Karl's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Autorelease Pool不应该停留在知道（二）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-20T21:03:54+08:00">
+                2018-12-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>之前总结过一篇文章<a href="https://dnduuhn.com/2018/11/18/AutoreleasePool%E4%B8%8D%E5%BA%94%E8%AF%A5%E5%81%9C%E7%95%99%E5%9C%A8%E7%9F%A5%E9%81%93/" target="_blank" rel="noopener">Autorelease Pool不应该停留在知道</a></p>
+<p>但是没想到我还是停留在了不知道的境地~~~~脸打的piapia地。只怪自总结学习不到位</p>
+<a id="more"></a>
+<h2 id="看下这道题"><a href="#看下这道题" class="headerlink" title="看下这道题"></a>看下这道题</h2><p>这段代码摘自<a href="http://blog.leichunfeng.com/blog/2015/05/31/objective-c-autorelease-pool-implementation-principle/" target="_blank" rel="noopener">Objective-C Autorelease Pool 的实现原理</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">__weak NSString *string_weak_ = nil;</span><br><span class="line"></span><br><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line"></span><br><span class="line">    // 场景 1</span><br><span class="line">    NSString *string = [NSString stringWithFormat:@&quot;leichunfeng&quot;];</span><br><span class="line">    string_weak_ = string;</span><br><span class="line"></span><br><span class="line">    // 场景 2</span><br><span class="line">//    @autoreleasepool &#123;</span><br><span class="line">//        NSString *string = [NSString stringWithFormat:@&quot;leichunfeng&quot;];</span><br><span class="line">//        string_weak_ = string;</span><br><span class="line">//    &#125;</span><br><span class="line"></span><br><span class="line">    // 场景 3</span><br><span class="line">//    NSString *string = nil;</span><br><span class="line">//    @autoreleasepool &#123;</span><br><span class="line">//        string = [NSString stringWithFormat:@&quot;leichunfeng&quot;];</span><br><span class="line">//        string_weak_ = string;</span><br><span class="line">//    &#125;</span><br><span class="line"></span><br><span class="line">    NSLog(@&quot;string: %@&quot;, string_weak_);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)viewWillAppear:(BOOL)animated &#123;</span><br><span class="line">    [super viewWillAppear:animated];</span><br><span class="line">    NSLog(@&quot;string: %@&quot;, string_weak_);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)viewDidAppear:(BOOL)animated &#123;</span><br><span class="line">    [super viewDidAppear:animated];</span><br><span class="line">    NSLog(@&quot;string: %@&quot;, string_weak_);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="打印结果"><a href="#打印结果" class="headerlink" title="打印结果"></a>打印结果</h3><p>我在 <code>Version 10.1 (10B61)</code>、<code>iOS 12.1</code> 模拟器 <code>iPhoneXR</code>上跑出的结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">// 场景1</span><br><span class="line">2018-12-20 21:10:25.755731+0800 AutoreleasePool[5763:233059] string: leichunfeng</span><br><span class="line">2018-12-20 21:10:25.755987+0800 AutoreleasePool[5763:233059] string: leichunfeng</span><br><span class="line">2018-12-20 21:10:25.768497+0800 AutoreleasePool[5763:233059] string: leichunfeng</span><br><span class="line">// 场景2</span><br><span class="line">2018-12-20 21:13:24.017458+0800 AutoreleasePool[5869:236206] string: leichunfeng</span><br><span class="line">2018-12-20 21:13:24.017681+0800 AutoreleasePool[5869:236206] string: leichunfeng</span><br><span class="line">2018-12-20 21:13:24.029524+0800 AutoreleasePool[5869:236206] string: leichunfeng</span><br><span class="line">// 场景3    </span><br><span class="line">2018-12-20 21:14:09.505997+0800 AutoreleasePool[5911:237157] string: leichunfeng</span><br><span class="line">2018-12-20 21:14:09.506218+0800 AutoreleasePool[5911:237157] string: leichunfeng</span><br><span class="line">2018-12-20 21:14:09.520660+0800 AutoreleasePool[5911:237157] string: leichunfeng</span><br></pre></td></tr></table></figure>
+<h2 id="分析一下为什么是上述打印"><a href="#分析一下为什么是上述打印" class="headerlink" title="分析一下为什么是上述打印"></a>分析一下为什么是上述打印</h2><p>定义了一个<code>__weak</code>类型的全局字符串变量<code>string_weak_</code>指向通过 <code>[NSString stringWithFormat:@&quot;leichunfeng&quot;]</code> 创建的一个 <strong>autoreleased</strong> 对象。然后分别在</p>
+<p>1 <code>viewDidLoad</code><br>2 <code>viewWillAppear</code><br>3 <code>viewDidAppear</code></p>
+<p>打印<code>string_weak_</code></p>
+<h3 id="3种场景："><a href="#3种场景：" class="headerlink" title="3种场景："></a>3种场景：</h3><h4 id="场景-1"><a href="#场景-1" class="headerlink" title="场景 1"></a>场景 1</h4><p>当使用 <code>[NSString stringWithFormat:@&quot;leichunfeng&quot;]</code> 创建一个对象时，这个对象的引用计数为 1 ，并且这个对象被系统自动添加到了当前的 <strong>autoreleasepool</strong> 中。</p>
+<p>当使用局部变量 <code>string</code> 指向这个对象时，这个对象的引用计数 <code>+1</code> ，变成了<code>2</code> 。因为在 <strong>ARC</strong> 下 <code>NSString *string</code> 本质上就是 <code>__strong NSString *string</code> 。所以在 <code>viewDidLoad</code> 方法返回前，这个对象是一直存在的，且引用计数为 <code>2</code> 。而当 <code>viewDidLoad</code> 方法返回时，局部变量 <code>string</code> 被回收，指向了 <code>nil</code> 。因此，其所指向对象的引用计数<code>-1</code> ，变成了 <code>1</code> 。</p>
+<p>而在 <code>viewDidLoad</code> <code>viewWillAppear</code> <code>viewDidAppear</code> 3个方法中，我们仍然可以打印出这个对象的值，说明这个对象并没有被释放。前面我们提到了，这个对象是一个 <strong>autoreleased</strong> 对象，<strong>autoreleased</strong> 对象是被添加到了当前最近的 <strong>autoreleasepool</strong> 中的，只有当这个 <strong>autoreleasepool</strong> 自身 <code>drain</code> 的时候，<strong>autoreleasepool</strong> 中的 <code>autoreleased</code> 对象才会被<code>release</code> 。</p>
+<h4 id="场景-2"><a href="#场景-2" class="headerlink" title="场景 2"></a>场景 2</h4><p>同理，当通过 <code>[NSString stringWithFormat:@&quot;leichunfeng&quot;]</code> 创建一个对象时，这个对象的引用计数为<code>1</code> 。而当使用局部变量 <code>string</code> 指向这个对象时，这个对象的引用计数 <code>+1</code> ，变成了<code>2</code> 。而出了当前作用域时，局部变量 <code>string</code> 变成了 <code>nil</code> ，所以其所指向对象的引用计数变成 <code>1</code> 。另外，我们知道当出了 <code>@autoreleasepool {}</code> 的作用域时，其中的<code>autoreleased</code> 对象仍然没有<code>release</code>。</p>
+<h4 id="场景-3"><a href="#场景-3" class="headerlink" title="场景 3"></a>场景 3</h4><p>同理，当出了 <code>@autoreleasepool {}</code> 的作用域时，其中的 autoreleased 对象被 release ，对象的引用计数变成 1 。当出了局部变量 <code>string</code> 的作用域，即 <code>viewDidLoad</code> 方法返回时，<code>string</code> 指向了 <code>nil</code> ，其所指向对象的引用计数变成 0 ，对象最终被释放。</p>
+<p>其中，场景 1 出现得最多，就是不需要我们手动添加 <code>@autoreleasepool {}</code> 的情况，直接使用系统维护的 <strong>autoreleasepool</strong> ；场景 2 就是需要我们手动添加 <code>@autoreleasepool {}</code> 的情况；场景 3 是为了区别场景 2 而引入的，在这种场景下并不能达到出了 <code>@autoreleasepool {}</code> 的作用域时 <code>autoreleased</code> 对象被释放的目的。</p>
+<p><strong>Ps.在当前的实验环境下，场景2和场景3 完全说明了，出了 <code>@autoreleasepool {}</code> 的作用域时 <code>autoreleased</code> 对象并没有被释放。</strong></p>
+<p>那么问题其实就到了，<strong>autoreleasepool</strong> 什么时候 <code>drain</code> ？Autorelease对象什么时候释放？</p>
+<h3 id="About-Autorelease-Pool-Blocks"><a href="#About-Autorelease-Pool-Blocks" class="headerlink" title="About Autorelease Pool Blocks"></a>About Autorelease Pool Blocks</h3><p>An autorelease pool block is marked using <code>@autoreleasepool</code>, as illustrated in the following example:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@autoreleasepool &#123;</span><br><span class="line">    // Code that creates autoreleased objects.</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>At the end of the autorelease pool block, objects that received an <code>autorelease</code> message within the block are sent a <code>release</code> message—an object receives a <code>release</code> message for each time it was sent an <code>autorelease</code> message within the block.</p>
+<p>这个说的，很含蓄啊：<code>Autorelease Pool Blocks</code> 中的对象在收到 <code>autorelease</code> 消息的时候，调用对象的<code>release</code>。<strong>那么是么时候发送 <code>autorelease message</code>?</strong></p>
+<h3 id="NSAutoreleasePool"><a href="#NSAutoreleasePool" class="headerlink" title="NSAutoreleasePool"></a>NSAutoreleasePool</h3><blockquote>
+<p>In a reference-counted environment (as opposed to one which uses garbage collection), an <code>NSAutoreleasePool</code> object contains objects that have received an <a href="apple-reference-documentation://hcpT-2JClH" target="_blank" rel="noopener"><code>autorelease</code></a> message and when drained it sends a <a href="apple-reference-documentation://hcsoHwQn1z" target="_blank" rel="noopener"><code>release</code></a> message to each of those objects. <font color="#DAA520" face="微软雅黑"> Thus, sending <a href="apple-reference-documentation://hcpT-2JClH" target="_blank" rel="noopener"><code>autorelease</code></a> instead of <a href="apple-reference-documentation://hcsoHwQn1z" target="_blank" rel="noopener"><code>release</code></a> to an object extends the lifetime of that object at least until the pool itself is drained (it may be longer if the object is subsequently retained). </font> An object can be put into the same pool several times, in which case it receives a <a href="apple-reference-documentation://hcsoHwQn1z" target="_blank" rel="noopener"><code>release</code></a> message for each time it was put into the pool. </p>
+<p>In a reference counted environment, Cocoa expects there to be an autorelease pool always available. If a pool is not available, autoreleased objects do not get released and you leak memory. In this situation, your program will typically log suitable warning messages.</p>
+<p><font color="#DAA520" face="微软雅黑">The Application Kit creates an autorelease pool on the main thread at the beginning of every cycle of the event loop, and drains it at the end, thereby releasing any autoreleased objects generated while processing an event.</font> If you use the Application Kit, you therefore typically don’t have to create your own pools. If your application creates a lot of temporary autoreleased objects within the event loop, however, it may be beneficial to create “local” autorelease pools to help to minimize the peak memory footprint.</p>
+<p>You create an <code>NSAutoreleasePool</code> object with the usual <code>alloc</code> and <code>init</code> messages and dispose of it with <a href="apple-reference-documentation://hclA50KeES" target="_blank" rel="noopener"><code>drain</code></a> (or <a href="apple-reference-documentation://tc1807014" target="_blank" rel="noopener"><code>release</code></a>—to understand the difference, see <a href="apple-reference-documentation://hcKbUO8Joq#1651537" target="_blank" rel="noopener">Garbage Collection</a>). Since you cannot retain an autorelease pool (or autorelease it—see <a href="apple-reference-documentation://tc1807026" target="_blank" rel="noopener"><code>retain</code></a> and <a href="apple-reference-documentation://tc1807021" target="_blank" rel="noopener"><code>autorelease</code></a>), draining a pool ultimately has the effect of deallocating it. You should always drain an autorelease pool in the same context (invocation of a method or function, or body of a loop) that it was created. See <a href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/MemoryMgmt/Articles/mmAutoreleasePools.html#//apple_ref/doc/uid/20000047" target="_blank" rel="noopener">Using Autorelease Pool Blocks</a> for more details.</p>
+<p>Each thread (including the main thread) maintains its own stack of <code>NSAutoreleasePool</code> objects (see <a href="apple-reference-documentation://hcKbUO8Joq#1651513" target="_blank" rel="noopener">Threads</a>). As new pools are created, they get added to the top of the stack. When pools are deallocated, they are removed from the stack. Autoreleased objects are placed into the top autorelease pool for the current thread. When a thread terminates, it automatically drains all of the autorelease pools associated with itself.</p>
+</blockquote>
+<h3 id="Threads"><a href="#Threads" class="headerlink" title="Threads"></a>Threads</h3><blockquote>
+<p>If you are making Cocoa calls outside of the Application Kit’s main thread—for example if you create a Foundation-only application or if you detach a thread—you need to create your own autorelease pool.</p>
+<p>If your application or thread is long-lived and potentially generates a lot of autoreleased objects, you should periodically drain and create autorelease pools (like the Application Kit does on the main thread); otherwise, autoreleased objects accumulate and your memory footprint grows. If, however, your detached thread does not make Cocoa calls, you do not need to create an autorelease pool.</p>
+</blockquote>
+<h3 id="NSRunloop"><a href="#NSRunloop" class="headerlink" title="NSRunloop"></a>NSRunloop</h3><blockquote>
+<p><strong>Overview</strong></p>
+<p>A <code>NSRunLoop</code> object processes input for sources such as mouse and keyboard events from the window system, <a href="apple-reference-documentation://hcIJBEuKY7" target="_blank" rel="noopener"><code>NSPort</code></a> objects, and <a href="apple-reference-documentation://hcUQrCw1bC" target="_blank" rel="noopener"><code>NSConnection</code></a> objects. A <code>NSRunLoop</code> object also processes <a href="apple-reference-documentation://hcaODPrPmP" target="_blank" rel="noopener"><code>NSTimer</code></a> events.</p>
+<p>Your application neither creates or explicitly manages <code>NSRunLoop</code> objects. Each <a href="apple-reference-documentation://hccRCghG_a" target="_blank" rel="noopener"><code>NSThread</code></a> object—including the application’s main thread—has an <code>NSRunLoop</code> object automatically created for it as needed. If you need to access the current thread’s run loop, you do so with the class method <a href="apple-reference-documentation://hc7RgsSCrv" target="_blank" rel="noopener"><code>currentRunLoop</code></a>.</p>
+<p>Note that from the perspective of <code>NSRunLoop</code>, <a href="apple-reference-documentation://hcaODPrPmP" target="_blank" rel="noopener"><code>NSTimer</code></a> objects are not “input”—they are a special type, and one of the things that means is that they do not cause the run loop to return when they fire.</p>
+<p>Warning</p>
+<p>The <code>NSRunLoop</code> class is generally not considered to be thread-safe and its methods should only be called within the context of the current thread. You should never try to call the methods of an <code>NSRunLoop</code> object running in a different thread, as doing so might cause unexpected results.</p>
+</blockquote>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>从上述文档中，找到了答案。 <code>Application Kit</code> 在每个 <code>event loop</code> 开始时前，在主线程上创建一个自动释放池，并在最后<code>drains</code>，从而释放处理事件时生成的任何自动释放的对象。</p>
+<p>我们上面提到的场景1中创建的 <code>autoreleased</code> 对象就是被系统添加到了自动创建的<code>autoreleasepool</code> 中，并在这个 <code>autoreleasepool</code> 被 <code>drain</code> 时得到释放。同理 场景2 3 通过<code>Autorelease Pool Blocks</code> 创建的自动式释放池也是被 <code>drain</code> 时得到释放。</p>
+<p>上述 场景 1 2 3 打印相同。我的结论是：<strong>打印操作在一个 <code>runloop</code> 中，这个<code>runloop</code> 没有结束，系统不会发送 <code>autorelease 消息</code>。<code>autorelease pool</code> 就不会 <code>drain</code>。</strong></p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ul>
+<li><a href="http://blog.leichunfeng.com/blog/2015/05/31/objective-c-autorelease-pool-implementation-principle/" target="_blank" rel="noopener">Objective-C Autorelease Pool 的实现原理</a></li>
+<li><a href="https://dnduuhn.com/2018/11/18/AutoreleasePool%E4%B8%8D%E5%BA%94%E8%AF%A5%E5%81%9C%E7%95%99%E5%9C%A8%E7%9F%A5%E9%81%93/" target="_blank" rel="noopener">Autorelease Pool不应该停留在知道</a></li>
+<li><a href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/MemoryMgmt/Articles/MemoryMgmt.html#//apple_ref/doc/uid/10000011i" target="_blank" rel="noopener">About Memory Management</a></li>
+<li><a href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/MemoryMgmt/Articles/mmAutoreleasePools.html#//apple_ref/doc/uid/20000047-CJBFBEDI" target="_blank" rel="noopener">Using Autorelease Pool Blocks</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+            <a href="/tags/autorelease-pool/" rel="tag"># autorelease pool</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/18/iOS多线程之同步异步、串行并行/" rel="next" title="iOS多线程之同步异步、串行并行">
+                <i class="fa fa-chevron-left"></i> iOS多线程之同步异步、串行并行
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="karl">
+            
+              <p class="site-author-name" itemprop="name">karl</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">103</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">84</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/likenow" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:fmslikai@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://yujiangshui.com/" title="yujiangshui" target="_blank">yujiangshui</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#看下这道题"><span class="nav-number">2.</span> <span class="nav-text">看下这道题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#打印结果"><span class="nav-number">2.1.</span> <span class="nav-text">打印结果</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分析一下为什么是上述打印"><span class="nav-number">3.</span> <span class="nav-text">分析一下为什么是上述打印</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3种场景："><span class="nav-number">3.1.</span> <span class="nav-text">3种场景：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#场景-1"><span class="nav-number">3.1.1.</span> <span class="nav-text">场景 1</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#场景-2"><span class="nav-number">3.1.2.</span> <span class="nav-text">场景 2</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#场景-3"><span class="nav-number">3.1.3.</span> <span class="nav-text">场景 3</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#About-Autorelease-Pool-Blocks"><span class="nav-number">3.2.</span> <span class="nav-text">About Autorelease Pool Blocks</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NSAutoreleasePool"><span class="nav-number">3.3.</span> <span class="nav-text">NSAutoreleasePool</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Threads"><span class="nav-number">3.4.</span> <span class="nav-text">Threads</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NSRunloop"><span class="nav-number">3.5.</span> <span class="nav-text">NSRunloop</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小结"><span class="nav-number">3.6.</span> <span class="nav-text">小结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-number">4.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2013 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">karl</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
