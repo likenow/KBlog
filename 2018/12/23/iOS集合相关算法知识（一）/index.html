@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next gemini" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="OC,iOS,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言iOS编程当中的经常用到的集合类：  NSArray， NSDictionary， NSSet 以及对应的 Mutable 子类  平时撸码估计很少有人用错，但要做到高效（时间复杂度与空间复杂度）精准（业务准确性与一致性），还需要了解其中的算法知识。而且，这也是很多面试官会问到的，从基础问题到高阶问题的一个切入点。 本文章会稍微铺垫一下。首先，聊到几个概念集合、时间复杂度、空间复杂度帮助对于本">
+<meta name="keywords" content="OC,iOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS集合相关算法知识 - NSArray">
+<meta property="og:url" content="http://yoursite.com/2018/12/23/iOS集合相关算法知识（一）/index.html">
+<meta property="og:site_name" content="Karl&#39;s Blog">
+<meta property="og:description" content="前言iOS编程当中的经常用到的集合类：  NSArray， NSDictionary， NSSet 以及对应的 Mutable 子类  平时撸码估计很少有人用错，但要做到高效（时间复杂度与空间复杂度）精准（业务准确性与一致性），还需要了解其中的算法知识。而且，这也是很多面试官会问到的，从基础问题到高阶问题的一个切入点。 本文章会稍微铺垫一下。首先，聊到几个概念集合、时间复杂度、空间复杂度帮助对于本">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-12-23T14:47:51.610Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS集合相关算法知识 - NSArray">
+<meta name="twitter:description" content="前言iOS编程当中的经常用到的集合类：  NSArray， NSDictionary， NSSet 以及对应的 Mutable 子类  平时撸码估计很少有人用错，但要做到高效（时间复杂度与空间复杂度）精准（业务准确性与一致性），还需要了解其中的算法知识。而且，这也是很多面试官会问到的，从基础问题到高阶问题的一个切入点。 本文章会稍微铺垫一下。首先，聊到几个概念集合、时间复杂度、空间复杂度帮助对于本">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/12/23/iOS集合相关算法知识（一）/">
+
+
+
+
+
+  <title>iOS集合相关算法知识 - NSArray | Karl's Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?d714d594e46d4e86189e49fe568d871a";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Karl's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/23/iOS集合相关算法知识（一）/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="karl">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Karl's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">iOS集合相关算法知识 - NSArray</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-23T15:55:34+08:00">
+                2018-12-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/OC/" itemprop="url" rel="index">
+                    <span itemprop="name">OC</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/OC/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>iOS编程当中的经常用到的集合类：</p>
+<ul>
+<li>NSArray，</li>
+<li>NSDictionary，</li>
+<li>NSSet</li>
+<li>以及对应的 <em>Mutable</em> 子类</li>
+</ul>
+<p>平时撸码估计很少有人用错，但要做到<strong>高效</strong>（时间复杂度与空间复杂度）<strong>精准</strong>（业务准确性与一致性），还需要了解其中的<strong>算法</strong>知识。而且，这也是很多面试官会问到的，从基础问题到高阶问题的一个切入点。</p>
+<p>本文章会稍微铺垫一下。首先，聊到几个概念<strong>集合</strong>、<strong>时间复杂度</strong>、<strong>空间复杂度</strong>帮助对于本文以及接下来文章的理解。然后，着重总结一下iOS的集合类–<strong>NSArray</strong>。</p>
+<a id="more"></a>
+<h2 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h2><h3 id="集合是什么？"><a href="#集合是什么？" class="headerlink" title="集合是什么？"></a>集合是什么？</h3><p>集合，是由一堆无序的、相关联的，且不重复的内存结构【数学中称为元素】组成的组合；</p>
+<ul>
+<li>集合在数学中的表示，<code>S = {1, 5 , 4};</code>  </li>
+<li>没有元素的集合称为空集；  </li>
+<li>包含所有可能元素的集合称为全域，如：四位数字密码的集合，全域就是<code>[0000 －－ 9999]  (10 * 10  * 10 * 10)</code> 种可能所有的数据；  </li>
+<li>两个集合的元素完全相同，称这两个集合相等；  </li>
+<li>集合1中所有的元素在集合2中均有【它们不相等】，则集合1 是集合2 的子集；</li>
+</ul>
+<h3 id="集合的操作集"><a href="#集合的操作集" class="headerlink" title="集合的操作集"></a>集合的操作集</h3><p>集合操作：</p>
+<ul>
+<li>插入</li>
+<li>删除</li>
+<li>交集，指两个集合中相同的元素组合成的集合；</li>
+<li>并集，指两个集合所有不相同的元素组成的集合；</li>
+<li><p>差集，指两个集合除相同元素外剩下元素的集合，分两种情况：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Sd1 = S1 - S2; </span><br><span class="line">Sd2 = S2 - S1;  </span><br><span class="line">/* S1 与 S2 中相同的元素集记为 Si，前者 Sd1 是 S1 与 Si 的交集，后者 Sd2 是 S2 与 Si 的交集；*/</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="时间复杂度"><a href="#时间复杂度" class="headerlink" title="时间复杂度"></a>时间复杂度</h3><h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p><strong>算法时间复杂度的定义：在进行算法分析时，语句总的执行次数<code>T(n)</code>是关于问题规模<code>n</code>的函数，进而分析<code>T(n)</code>随<code>n</code>的变化情况并确定<code>T(n)</code>的数量级。</strong></p>
+<p>算法的时间复杂度，也就是算法的时间量度，记作：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">T(n)= O(f(n))</span><br></pre></td></tr></table></figure>
+<p>它表示随问题规模<code>n</code>的增大，算法执行时间的增长率和<code>f(n)</code>的增长率相同，称作算法的渐近时间复杂度，简称为时间复杂度。其中<code>f(n)</code>是问题规模<code>n</code>的某个函数。</p>
+<h4 id="时间复杂度计算方法"><a href="#时间复杂度计算方法" class="headerlink" title="时间复杂度计算方法"></a>时间复杂度计算方法</h4><ol>
+<li><p>用常数1取代运行时间中的所有加法常数。</p>
+</li>
+<li><p>在修改后的运行次数函数中，只保留最高阶项。</p>
+</li>
+<li><p>如果最高阶项存在且不是1，则去除与这个项相乘的常数。</p>
+</li>
+</ol>
+<p>最后，得到的最后结果就是时间复杂度。</p>
+<h4 id="常见的时间复杂度"><a href="#常见的时间复杂度" class="headerlink" title="常见的时间复杂度"></a>常见的时间复杂度</h4><p>按数量级递增排列，常见的时间复杂度有：</p>
+<p>常数阶<code>O(1)</code>,对数阶<code>O( log n )</code>,线性阶<code>O(n)</code>,线性对数阶<code>O(nlog2n)</code>,平方阶<code>O(n^2)</code>，立方阶<code>O(n^3)</code>,…，<code>k次方阶O(n^k)</code>,<code>指数阶O(2^n)</code>。随着问题规模<code>n</code>的不断增大，上述时间复杂度不断增大，算法的执行效率越低。</p>
+<p>也就是：</p>
+<p>常用的时间复杂度所耗费的时间从小到大依次是：<strong>O(1) &lt; O(logn) &lt; (n) &lt; O(nlogn) &lt; O(n^2) &lt; O(n^3) &lt; O(2^n) &lt; O(n!) &lt; O(n^n)</strong></p>
+<h3 id="算法的空间复杂度"><a href="#算法的空间复杂度" class="headerlink" title="算法的空间复杂度"></a>算法的空间复杂度</h3><h4 id="定义-1"><a href="#定义-1" class="headerlink" title="定义"></a>定义</h4><p><strong>一个程序的空间复杂度是指运行完一个程序所需内存的大小</strong>。利用程序的空间复杂度，可以对程序的运行所需要的内存多少有个预先估计。一个程序执行时除了需要存储空间和存储本身所使用的<strong>指令、常数、变量和输入数据</strong>外，还需要一些对数据进行操作的<strong>工作单元</strong>和存储一些为现实计算所需信息的<strong>辅助空间</strong>。程序执行时所需存储空间包括以下两部分：</p>
+<ul>
+<li>固定部分。这部分空间的大小与输入/输出的数据的个数多少、数值无关。主要包括指令空间（即代码空间）、数据空间（常量、简单变量）等所占的空间。这部分属于静态空间。</li>
+<li>可变空间，这部分空间的主要包括动态分配的空间，以及递归栈所需的空间等。这部分的空间大小与算法有关。</li>
+</ul>
+<h4 id="空间复杂度计算"><a href="#空间复杂度计算" class="headerlink" title="空间复杂度计算"></a>空间复杂度计算</h4><p>算法的空间复杂度通过计算算法所需的存储空间实现，算法的空间复杂度的计算公式记作：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">S(n)=O(f(n))</span><br></pre></td></tr></table></figure>
+<p>其中，<code>n</code>为问题的规模，<code>f(n)</code>为语句关于<code>n</code>所占存储空间的函数。</p>
+<h2 id="NSArray"><a href="#NSArray" class="headerlink" title="NSArray"></a>NSArray</h2><blockquote>
+<p>A static ordered collection of objects.</p>
+</blockquote>
+<p>一个静态有序的对象集合。</p>
+<h3 id="性能"><a href="#性能" class="headerlink" title="性能"></a>性能</h3><blockquote>
+<p>CF-1153.18/CFArray.h</p>
+<p>Computational Complexity</p>
+<p>​    The access time for a value in the array is guaranteed to be at</p>
+<p>​    worst O(lg N) for any implementation, current and future, but will</p>
+<p>​    often be O(1) (constant time). Linear search operations similarly</p>
+<p>​    have a worst case complexity of O(N*lg N), though typically the</p>
+<p>​    bounds will be tighter, and so on. Insertion or deletion operations</p>
+<p>​    will typically be linear in the number of values in the array, but</p>
+<p>​    may be O(N*lg N) clearly in the worst case in some implementations.</p>
+<p>​    There are no favored positions within the array for performance;</p>
+<p>​    that is, it is not necessarily faster to access values with low</p>
+<p>​    indices, or to insert or delete values with high indices, or</p>
+<p>​    whatever.</p>
+</blockquote>
+<p>对于 array 中值的访问时间，不管是在现在还是将来，我们保证在任何一种实现下最坏情况是 <code>O(lg N)</code>（对数阶）。但是通常来说它会是<code>O(1)</code> (常数阶)。线性搜索操作很可能在最坏情况下的复杂度为 <code>O(N*lg N)</code>(线性对数阶)，但通常来说上限会更小一些。插入和删除操作耗时通常和数组中的值的数量成线性关系。但在某些实现的最坏情况下会是 <code>O(N*lg N)</code> 。在数组中，没有对于性能上特别有优势的数据位置，也就是说，为了更快地访问到元素而将其设为在较低的 <code>index</code> 上，或者在较高的 <code>index</code>上进行插入和删除，或者类似的一些做法，是没有必要的。</p>
+<h3 id="数组排序"><a href="#数组排序" class="headerlink" title="数组排序"></a>数组排序</h3><h4 id="乱序"><a href="#乱序" class="headerlink" title="乱序"></a>乱序</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">/*iOS 10.0+*/</span><br><span class="line">- (NSArray&lt;ObjectType&gt; *)shuffledArray;</span><br><span class="line">// Returns a new array that lists this array’s elements in a random order.</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">- (NSArray&lt;ObjectType&gt; *)shuffledArrayWithRandomSource:(GKRandomSource *)randomSource;</span><br><span class="line">// Returns a new array that lists this array’s elements in a random order, using the specified random source.</span><br></pre></td></tr></table></figure>
+<h4 id="逆序"><a href="#逆序" class="headerlink" title="逆序"></a>逆序</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/*iOS 2.0+*/</span><br><span class="line">- (NSEnumerator&lt;ObjectType&gt; *)reverseObjectEnumerator;</span><br><span class="line">// Returns an enumerator object that lets you access each object in the array, in reverse order.</span><br></pre></td></tr></table></figure>
+<h4 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h4><p>有很多各种各样的方法来对一个数组排序。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/*iOS 2.0+*/</span><br><span class="line">- (NSArray&lt;ObjectType&gt; *)sortedArrayUsingSelector:(SEL)comparator;</span><br><span class="line">// Returns an array that lists the receiving array’s elements in ascending order, as determined by the comparison method specified by a given selector.</span><br></pre></td></tr></table></figure>
+<p>如果想更可控，可以使用基于函数指针的排序方法:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">/*iOS 2.0+*/</span><br><span class="line">- (NSData *)sortedArrayHint;</span><br><span class="line">- (NSArray *)sortedArrayUsingFunction:(NSInteger (*)(id, id, void *))comparator</span><br><span class="line">                          context:(void *)context;</span><br><span class="line">- (NSArray *)sortedArrayUsingFunction:(NSInteger (*)(id, id, void *))comparator</span><br><span class="line">                          context:(void *)context hint:(NSData *)hint;</span><br></pre></td></tr></table></figure>
+<p>因为<code>block</code>的引入，也出现了一些基于<code>block</code>的排序方法:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/*iOS 4.0+*/</span><br><span class="line">- (NSArray *)sortedArrayUsingComparator:(NSComparator)cmptr;</span><br><span class="line">- (NSArray *)sortedArrayWithOptions:(NSSortOptions)opts</span><br><span class="line">                usingComparator:(NSComparator)cmptr;</span><br></pre></td></tr></table></figure>
+<h3 id="数组查找"><a href="#数组查找" class="headerlink" title="数组查找"></a>数组查找</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/*iOS 2.0+*/</span><br><span class="line">- (NSUInteger)indexOfObject:(ObjectType)anObject;</span><br><span class="line">// Returns the lowest index whose corresponding array value is equal to a given object.</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Starting at index <code>0</code>, each element of the array is passed as an argument to an <a href="apple-reference-documentation://hcOBzHSzgm" target="_blank" rel="noopener"><code>isEqual:</code></a> message sent to <code>anObject</code> until a match is found or the end of the array is reached. Objects are considered equal if <code>isEqual:</code>(declared in the <a href="apple-reference-documentation://hcG_DhA_-L" target="_blank" rel="noopener"><code>NSObject</code></a> protocol) returns <code>YES</code>.</p>
+</blockquote>
+<p>索引值从 <code>0</code> 开始，数组中的每个元素作为 <code>isEqual:</code> 的入参，直到找到或者到数组索引的末尾。当 <code>isEqual:</code>返回<code>YES</code>的时候，视为对象相等。</p>
+<p>理论上说两个对象的指针如果是指向同一块内存区域，那么他们一定是相等的，一定是指向同一个对象。如果我们重载了isEqual，系统就通过我们的isEqual方法来判断相等性，如果没有重载，那么系统就会通过判断内存地址来判断相等性了。</p>
+<h4 id="二分查找"><a href="#二分查找" class="headerlink" title="二分查找"></a>二分查找</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">/*iOS 4.0+*/</span><br><span class="line">typedef NS_OPTIONS(NSUInteger, NSBinarySearchingOptions) &#123;</span><br><span class="line">    NSBinarySearchingFirstEqual     = (1UL &lt;&lt; 8),</span><br><span class="line">    NSBinarySearchingLastEqual      = (1UL &lt;&lt; 9),</span><br><span class="line">    NSBinarySearchingInsertionIndex = (1UL &lt;&lt; 10),</span><br><span class="line">&#125;;</span><br><span class="line">// Returns the index, within a specified range, of an object compared with elements in the array using a given NSComparator block.</span><br><span class="line">- (NSUInteger)indexOfObject:(id)obj</span><br><span class="line">          inSortedRange:(NSRange)r</span><br><span class="line">                options:(NSBinarySearchingOptions)opts</span><br><span class="line">        usingComparator:(NSComparator)cmp;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>The elements in the array must have already been sorted using the comparator <code>cmp</code>. If the array is not sorted, the result is undefined.</p>
+</blockquote>
+<p>为什么要使用这个方法？类似 <code>containsObject:</code> 和 <code>indexOfObject:</code> 这样的方法从<code>0</code> 索引开始搜索每个对象直到找到目标 — 这样不需要数组被排序，但是却是 <code>O(n)</code>的效率特性。如果使用二分查找的话，需要数组事先被排序，但在查找时只需要 <code>O(log n)</code>的时间。因此，对于 一百万条记录，二分查找法最多只需要<code>21</code>次比较，而传统的线性查找则平均需要<code>500,000</code>次的比较。</p>
+<p>排序的开销也是昂贵的。苹果使用复杂度为 <code>O(n*log n)</code> 的归并排序，所以如果你执行一次 <code>indexOfObject:</code> 的话，就没有必要使用二分查找了。</p>
+<p>通过指定 <code>NSBinarySearchingInsertionIndex</code>，你可以获得正确的插入索引，以确保在插入元素后仍然可以保证数组的顺序。</p>
+<h3 id="枚举"><a href="#枚举" class="headerlink" title="枚举"></a>枚举</h3><p>作为测试，我们来看一个普通的使用场景。从一个数组中过滤出一些元素组成另一个数组。这些测试都包括了枚举的方法以及使用 API 进行过滤的方式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">// 第一种方式，使用 indexesOfObjectsWithOptions:passingTest:</span><br><span class="line">NSIndexSet *indexes = [randomArray indexesOfObjectsWithOptions:NSEnumerationConcurrent</span><br><span class="line">                                               passingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) &#123;</span><br><span class="line">    return testObj(obj);</span><br><span class="line">&#125;];</span><br><span class="line">NSArray *filteredArray = [randomArray objectsAtIndexes:indexes];</span><br><span class="line"></span><br><span class="line">// 使用 predicate 过滤，包括 block 的方式和文本 predicate 的方式</span><br><span class="line">NSArray *filteredArray2 = [randomArray filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id obj, NSDictionary *bindings) &#123;</span><br><span class="line">    return testObj(obj);</span><br><span class="line">&#125;]];</span><br><span class="line"></span><br><span class="line">// 基于 block 的枚举</span><br><span class="line">NSMutableArray *mutableArray = [NSMutableArray array];</span><br><span class="line">[randomArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) &#123;</span><br><span class="line">    if (testObj(obj)) &#123;</span><br><span class="line">        [mutableArray addObject:obj];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;];</span><br><span class="line"></span><br><span class="line">// 传统的枚举</span><br><span class="line">NSMutableArray *mutableArray = [NSMutableArray array];</span><br><span class="line">for (id obj in randomArray) &#123;</span><br><span class="line">    if (testObj(obj)) &#123;</span><br><span class="line">        [mutableArray addObject:obj];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 使用 NSEnumerator，传统学院派</span><br><span class="line">NSMutableArray *mutableArray = [NSMutableArray array];</span><br><span class="line">NSEnumerator *enumerator = [randomArray objectEnumerator];</span><br><span class="line">id obj = nil;</span><br><span class="line">while ((obj = [enumerator nextObject]) != nil) &#123;</span><br><span class="line">    if (testObj(obj)) &#123;</span><br><span class="line">        [mutableArray addObject:obj];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 通过下标使用 objectAtIndex：</span><br><span class="line">NSMutableArray *mutableArray = [NSMutableArray array];</span><br><span class="line">for (NSUInteger idx = 0; idx &lt; randomArray.count; idx++) &#123;</span><br><span class="line">    id obj = randomArray[idx];</span><br><span class="line">    if (testObj(obj)) &#123;</span><br><span class="line">        [mutableArray addObject:obj];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>测试环境：</p>
+<p>MacBook Pro (13-inch, Late 2016, Four Thunderbolt 3 Ports)</p>
+<p>​    2.9 GHz Intel Core i5</p>
+<p>​    8 GB 2133 MHz LPDDR3</p>
+<p>​    MacOS Mojave 10.14.2 </p>
+<p>​        Xcode Version 10.1 (10B61)</p>
+<p>​            Simulator: iPhone XR </p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>枚举方法 / 时间 [ms]</th>
+<th>10.000.000 elements</th>
+<th>10.000 elements</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>indexesOfObjects:WithOptions:passingTest:</code></td>
+<td>1946.65</td>
+<td>2.46</td>
+</tr>
+<tr>
+<td><code>indexesOfObjectsWithOptions:passingTest:</code>，Concurrent</td>
+<td>2488.35</td>
+<td>2.99</td>
+</tr>
+<tr>
+<td><code>filteredArrayUsingPredicate:</code></td>
+<td>2355.98</td>
+<td>2.83</td>
+</tr>
+<tr>
+<td><code>enumerateObjectsUsingBlock:</code></td>
+<td>2297.33</td>
+<td>2.52</td>
+</tr>
+<tr>
+<td><code>for in</code>，<code>NSFastEnumeration</code></td>
+<td>1833.88</td>
+<td>2.65</td>
+</tr>
+<tr>
+<td><code>NSEnumerator</code></td>
+<td>1966.49</td>
+<td>2.30</td>
+</tr>
+<tr>
+<td><code>for(index = 0; index&lt;count;index++)</code></td>
+<td>2299.23</td>
+<td>2.25</td>
+</tr>
+</tbody>
+</table>
+<p>为了更好的理解这里的效率测量，我们首先看一下数组是如何迭代的。</p>
+<p><code>indexesOfObjectsWithOptions:passingTest:</code> 必须每次都执行一次<code>block</code> 因此比传统的使用 <code>NSFastEnumeration</code> 技术的基于 <code>for</code> 循环的枚举要稍微低效一些。开启了并发枚举，速度反而慢了。</p>
+<p>我运行的也是原文<a href="https://www.objc.io/issues/7-foundation/collections/" target="_blank" rel="noopener">NSArray, NSSet, NSOrderedSet, and NSDictionary</a>提供的<a href="https://github.com/steipete/PSTFoundationBenchmark" target="_blank" rel="noopener">Demo</a>，运行在虚拟机器上。这里并没有体现出来的<code>NSEnumerationConcurrent</code> 并发高效。那么我们是不是可以这样认为：<strong>如果只对大量的对象有意义，那么你的集合中的对象数量很少，用哪个方法就真的无关紧要。甚至 <code>NSEnumerationConcurrent</code> 上额外的线程管理实际上会使结果变得更慢</strong>。</p>
+<p><strong>上述，如果不对之处，希望您邮件我。感谢！</strong></p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ul>
+<li><a href="https://cloud.tencent.com/developer/article/1199272" target="_blank" rel="noopener">数据结构：集合</a></li>
+<li><a href="https://blog.csdn.net/qiumengchen12/article/details/45697405" target="_blank" rel="noopener">数据结构——时间复杂度VS空间复杂度</a></li>
+<li><a href="https://objccn.io/issue-7-1/" target="_blank" rel="noopener">基础集合类</a></li>
+<li><a href="https://www.objc.io/issues/7-foundation/collections/" target="_blank" rel="noopener">NSArray, NSSet, NSOrderedSet, and NSDictionary</a></li>
+<li><a href="http://mrpeak.cn/blog/ios-isequal/" target="_blank" rel="noopener">一些NSArray,NSDictionary,NSSet相关的算法知识</a></li>
+<li><a href="https://www.jianshu.com/p/051fb25419ce" target="_blank" rel="noopener">iOS基础集合类NSArray和NSDictionary的性能，排序，枚举</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/OC/" rel="tag"># OC</a>
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/20/Autorelease-Pool不应该停留在知道（二）/" rel="next" title="Autorelease Pool不应该停留在知道（二）">
+                <i class="fa fa-chevron-left"></i> Autorelease Pool不应该停留在知道（二）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="karl">
+            
+              <p class="site-author-name" itemprop="name">karl</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">104</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">84</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/likenow" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:fmslikai@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://yujiangshui.com/" title="yujiangshui" target="_blank">yujiangshui</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#集合"><span class="nav-number">2.</span> <span class="nav-text">集合</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#集合是什么？"><span class="nav-number">2.1.</span> <span class="nav-text">集合是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#集合的操作集"><span class="nav-number">2.2.</span> <span class="nav-text">集合的操作集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#时间复杂度"><span class="nav-number">2.3.</span> <span class="nav-text">时间复杂度</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#定义"><span class="nav-number">2.3.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#时间复杂度计算方法"><span class="nav-number">2.3.2.</span> <span class="nav-text">时间复杂度计算方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#常见的时间复杂度"><span class="nav-number">2.3.3.</span> <span class="nav-text">常见的时间复杂度</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#算法的空间复杂度"><span class="nav-number">2.4.</span> <span class="nav-text">算法的空间复杂度</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#定义-1"><span class="nav-number">2.4.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#空间复杂度计算"><span class="nav-number">2.4.2.</span> <span class="nav-text">空间复杂度计算</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NSArray"><span class="nav-number">3.</span> <span class="nav-text">NSArray</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#性能"><span class="nav-number">3.1.</span> <span class="nav-text">性能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数组排序"><span class="nav-number">3.2.</span> <span class="nav-text">数组排序</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#乱序"><span class="nav-number">3.2.1.</span> <span class="nav-text">乱序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#逆序"><span class="nav-number">3.2.2.</span> <span class="nav-text">逆序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#排序"><span class="nav-number">3.2.3.</span> <span class="nav-text">排序</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数组查找"><span class="nav-number">3.3.</span> <span class="nav-text">数组查找</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#二分查找"><span class="nav-number">3.3.1.</span> <span class="nav-text">二分查找</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#枚举"><span class="nav-number">3.4.</span> <span class="nav-text">枚举</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-number">4.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2013 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">karl</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
