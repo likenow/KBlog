@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next gemini" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="OC,iOS,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言上篇文章iOS集合相关算法知识 - NSArray 介绍了NSArray，本篇文章将继续介绍 NSDictionary和NSSet">
+<meta name="keywords" content="OC,iOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS集合相关算法知识 - NSDictionary 和 NSSet">
+<meta property="og:url" content="http://yoursite.com/2018/12/26/iOS集合相关算法知识-NSDictionary/index.html">
+<meta property="og:site_name" content="Karl&#39;s Blog">
+<meta property="og:description" content="前言上篇文章iOS集合相关算法知识 - NSArray 介绍了NSArray，本篇文章将继续介绍 NSDictionary和NSSet">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://kailee.b0.upaiyun.com/setMainpulation.png">
+<meta property="og:updated_time" content="2019-01-03T14:02:47.026Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS集合相关算法知识 - NSDictionary 和 NSSet">
+<meta name="twitter:description" content="前言上篇文章iOS集合相关算法知识 - NSArray 介绍了NSArray，本篇文章将继续介绍 NSDictionary和NSSet">
+<meta name="twitter:image" content="http://kailee.b0.upaiyun.com/setMainpulation.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/12/26/iOS集合相关算法知识-NSDictionary/">
+
+
+
+
+
+  <title>iOS集合相关算法知识 - NSDictionary 和 NSSet | Karl's Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?d714d594e46d4e86189e49fe568d871a";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Karl's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/26/iOS集合相关算法知识-NSDictionary/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="karl">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Karl's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">iOS集合相关算法知识 - NSDictionary 和 NSSet</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-26T21:07:35+08:00">
+                2018-12-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/OC/" itemprop="url" rel="index">
+                    <span itemprop="name">OC</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/OC/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>上篇文章<a href="https://dnduuhn.com/2018/12/23/iOS%E9%9B%86%E5%90%88%E7%9B%B8%E5%85%B3%E7%AE%97%E6%B3%95%E7%9F%A5%E8%AF%86%EF%BC%88%E4%B8%80%EF%BC%89/" target="_blank" rel="noopener">iOS集合相关算法知识 - NSArray</a> 介绍了<code>NSArray</code>，本篇文章将继续介绍 <code>NSDictionary</code>和<code>NSSet</code></p>
+<a id="more"></a>
+<h2 id="NSDictionary"><a href="#NSDictionary" class="headerlink" title="NSDictionary"></a>NSDictionary</h2><blockquote>
+<p>A static collection of objects associated with unique keys.</p>
+</blockquote>
+<p>一个与唯一键关联的静态对象集合。</p>
+<h3 id="性能"><a href="#性能" class="headerlink" title="性能"></a>性能</h3><blockquote>
+<p>CF-1153.18/CFDictionary.h</p>
+<p>Computational Complexity</p>
+<p>​    The access time for a value in the dictionary is guaranteed to be at</p>
+<p>​    worst O(N) for any implementation, current and future, but will</p>
+<p>​    often be O(1) (constant time). Insertion or deletion operations</p>
+<p>​    will typically be constant time as well, but are O(N*N) in the</p>
+<p>​    worst case in some implementations. Access of values through a key</p>
+<p>​    is faster than accessing values directly (if there are any such</p>
+<p>​    operations). Dictionaries will tend to use significantly more memory</p>
+<p>​    than a array with the same number of values.</p>
+</blockquote>
+<p>对于字典中值的访问时间，不管是在现在还是将来，我们保证在任何一种实现下最坏情况是 <code>O(N)</code>。但通常来说它会是<code>O(1) (常数时间)</code>。<strong>插入和删除</strong>操作一般来说也会是<code>常数时间</code>，但是在某些实现中最坏情况将为 <code>O(N*N)</code>。<strong>通过键来访问值将比直接访问值要快（如果你有这样的操作要做的话）</strong>。对于同样数目的值，字典需要花费比数组多得多的内存空间。</p>
+<h3 id="枚举"><a href="#枚举" class="headerlink" title="枚举"></a>枚举</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">// Using keysOfEntriesWithOptions:passingTest:,optionally concurrent</span><br><span class="line">NSSet *matchingKeys = [randomDict keysOfEntriesWithOptions:NSEnumerationConcurrent </span><br><span class="line">                                               passingTest:^BOOL(id key, id obj, BOOL *stop) </span><br><span class="line">&#123;</span><br><span class="line">    return testObj(obj);</span><br><span class="line">&#125;];</span><br><span class="line">NSArray *keys = matchingKeys.allObjects;</span><br><span class="line">NSArray *values = [randomDict objectsForKeys:keys notFoundMarker:NSNull.null];</span><br><span class="line">__unused NSDictionary *filteredDictionary = [NSDictionary dictionaryWithObjects:values </span><br><span class="line">                                                                        forKeys:keys];    </span><br><span class="line"></span><br><span class="line">// 基于block的枚举(Block-based enumeration.)</span><br><span class="line">NSMutableDictionary *mutableDictionary = [NSMutableDictionary dictionary];</span><br><span class="line">[randomDict enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) &#123;</span><br><span class="line">    if (testObj(obj)) &#123;</span><br><span class="line">        mutableDictionary[key] = obj;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;];</span><br><span class="line"></span><br><span class="line">// NSFastEnumeration</span><br><span class="line">NSMutableDictionary *mutableDictionary = [NSMutableDictionary dictionary];</span><br><span class="line">for (id key in randomDict) &#123;</span><br><span class="line">    id obj = randomDict[key];</span><br><span class="line">    if (testObj(obj)) &#123;</span><br><span class="line">        mutableDictionary[key] = obj;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"> // NSEnumeration</span><br><span class="line"> NSMutableDictionary *mutableDictionary = [NSMutableDictionary dictionary];</span><br><span class="line"> NSEnumerator *enumerator = [randomDict keyEnumerator];</span><br><span class="line"> id key = nil;</span><br><span class="line"> while ((key = [enumerator nextObject]) != nil) &#123;</span><br><span class="line">       id obj = randomDict[key];</span><br><span class="line">       if (testObj(obj)) &#123;</span><br><span class="line">           mutableDictionary[key] = obj;</span><br><span class="line">       &#125;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line">// 基于 C 数组(C-based array enumeration via getObjects:andKeys:)</span><br><span class="line">NSMutableDictionary *mutableDictionary = [NSMutableDictionary dictionary];</span><br><span class="line">id __unsafe_unretained objects[numberOfEntries];</span><br><span class="line">id __unsafe_unretained keys[numberOfEntries];</span><br><span class="line">[randomDict getObjects:objects andKeys:keys];</span><br><span class="line">for (int i = 0; i &lt; numberOfEntries; i++) &#123;</span><br><span class="line">    id obj = objects[i];</span><br><span class="line">    id key = keys[i];</span><br><span class="line">    if (testObj(obj)) &#123;</span><br><span class="line">       mutableDictionary[key] = obj;</span><br><span class="line">    &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>测试环境：</p>
+<p>MacBook Pro (13-inch, Late 2016, Four Thunderbolt 3 Ports)</p>
+<p>​    2.9 GHz Intel Core i5</p>
+<p>​    8 GB 2133 MHz LPDDR3</p>
+<p>​    MacOS Mojave 10.14.2 </p>
+<p>​        Xcode Version 10.1 (10B61)</p>
+<p>​            Simulator: iPhone XR </p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>过滤/枚举方法</th>
+<th>Time [ms], 10.000.000 elements</th>
+<th>10.000 elements</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>keysOfEntriesWithOptions:</code>, concurrent</td>
+<td>2624.72</td>
+<td>2.59</td>
+</tr>
+<tr>
+<td><code>getObjects:andKeys:</code></td>
+<td>2034.00</td>
+<td>2.06</td>
+</tr>
+<tr>
+<td><code>keysOfEntriesWithOptions:</code></td>
+<td>2558.24</td>
+<td>3.08</td>
+</tr>
+<tr>
+<td><code>enumerateKeysAndObjectsUsingBlock:</code></td>
+<td>2471.07</td>
+<td>2.69</td>
+</tr>
+<tr>
+<td><code>NSFastEnumeration</code></td>
+<td>2599.19</td>
+<td>2.61</td>
+</tr>
+<tr>
+<td><code>NSEnumeration</code></td>
+<td>2886.84</td>
+<td>2.61</td>
+</tr>
+</tbody>
+</table>
+<h2 id="NSSet"><a href="#NSSet" class="headerlink" title="NSSet"></a>NSSet</h2><blockquote>
+<p><code>NSSet</code> and its mutable variant <code>NSMutableSet</code> are an unordered collection of objects. Checking for existence is usually an O(1) operation, making this much faster for this use case than <code>NSArray</code>. <code>NSSet</code> can only work efficiently if the hashing method used is balanced; if all objects are in the same hash bucket, then <code>NSSet</code> is not much faster in object-existence checking than <code>NSArray</code>.</p>
+</blockquote>
+<p><code>NSSet</code> 和它的可变变体 <code>NSMutableSet</code> 是无序对象集合。检查一个对象是否存在通常是一个<code>O(1)</code>的操作，使得比 <code>NSArray</code> 快很多。<code>NSSet</code> 只在被使用的哈希方法平衡的情况下能高效的工作；如果所有的对象都在同一个哈希<code>bucket</code>，<code>NSSet</code> 在查找对象是否存在时并不比 <code>NSArray</code> 快多少。</p>
+<p><code>NSSet</code> 还有变体 <code>NSCountedSet</code>，以及非<code>toll-free</code> 计数变体 <code>CFBag</code> / <code>CFMutableBag</code>。</p>
+<p><code>NSSet</code> 会 <code>retain</code> 它其中的对象，但是根据 <code>set</code>的规定，对象应该是不可变的。添加一个对象到 <code>set</code>中随后改变它会导致一些奇怪的问题并破坏<code>set</code>的状态。</p>
+<p><code>NSSet</code> 的方法比 <code>NSArray</code> 少的多。没有排序方法，但有一些方便的枚举方法。重要的方法有 <code>allObjects</code>，将对象转化为 <code>NSArray</code>，<code>anyObject</code> 则返回任意的对象，如果 <code>set</code> 为空，则返回<code>nil</code>。</p>
+<h3 id="Set-操作"><a href="#Set-操作" class="headerlink" title="Set 操作"></a>Set 操作</h3><p><code>NSMutableSet</code> 有几个很强大的方法，例如 <code>intersectSet:</code>，<code>minusSet:</code> 和 <code>unionSet:</code>。</p>
+<p><img src="http://kailee.b0.upaiyun.com/setMainpulation.png" alt=""></p>
+<h3 id="NSSet-性能特征"><a href="#NSSet-性能特征" class="headerlink" title="NSSet 性能特征"></a>NSSet 性能特征</h3><p>苹果在 <code>CFSet.h</code>中没有提供任何关于算法复杂度的注释。</p>
+<blockquote>
+<p>测试环境：</p>
+<p>MacBook Pro (13-inch, Late 2016, Four Thunderbolt 3 Ports)</p>
+<p>​    2.9 GHz Intel Core i5</p>
+<p>​    8 GB 2133 MHz LPDDR3</p>
+<p>​    MacOS Mojave 10.14.2 </p>
+<p>​        Xcode Version 10.1 (10B61)</p>
+<p>​            Simulator: iPhone XR </p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>类 / 时间 [ms]</th>
+<th>10.000.000 elements</th>
+<th>1.000.000 elements</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>NSMutableSet</code>, adding</td>
+<td>6135.44</td>
+<td>449.32</td>
+</tr>
+<tr>
+<td><code>NSMutableArray</code>, adding</td>
+<td>1830.98</td>
+<td>198.44</td>
+</tr>
+<tr>
+<td><code>NSMutableSet</code>, random access</td>
+<td>9.91</td>
+<td>1.50</td>
+</tr>
+<tr>
+<td><code>NSMutableArray</code>, random access</td>
+<td>18.95</td>
+<td>1.72</td>
+</tr>
+</tbody>
+</table>
+<p>这个检测符合我们的预期：<code>NSSet</code> 在每一个被添加的对象上执行 <code>hash</code> 和 <code>isEqual:</code> 方法并管理一系列哈希值，所以在添加元素时耗费了更多的时间。<code>set</code>的随机访问比较难以测试，因为这里执行的都是 <code>anyObject</code>。</p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ul>
+<li><a href="https://www.objc.io/issues/7-foundation/collections/#nsset" target="_blank" rel="noopener">NSArray, NSSet, NSOrderedSet, and NSDictionary</a></li>
+<li><a href="https://objccn.io/issue-7-1/" target="_blank" rel="noopener">基础集合类</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/OC/" rel="tag"># OC</a>
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/23/iOS集合相关算法知识（一）/" rel="next" title="iOS集合相关算法知识 - NSArray">
+                <i class="fa fa-chevron-left"></i> iOS集合相关算法知识 - NSArray
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="karl">
+            
+              <p class="site-author-name" itemprop="name">karl</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">105</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">84</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/likenow" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:fmslikai@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://yujiangshui.com/" title="yujiangshui" target="_blank">yujiangshui</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NSDictionary"><span class="nav-number">2.</span> <span class="nav-text">NSDictionary</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#性能"><span class="nav-number">2.1.</span> <span class="nav-text">性能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#枚举"><span class="nav-number">2.2.</span> <span class="nav-text">枚举</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NSSet"><span class="nav-number">3.</span> <span class="nav-text">NSSet</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Set-操作"><span class="nav-number">3.1.</span> <span class="nav-text">Set 操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NSSet-性能特征"><span class="nav-number">3.2.</span> <span class="nav-text">NSSet 性能特征</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-number">4.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2013 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">karl</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
