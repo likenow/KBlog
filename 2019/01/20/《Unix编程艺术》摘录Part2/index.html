@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next gemini" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Unix,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言《Unix编程艺术》摘录Part1 是1~3章的内容，本文将继续介绍4~7章的内容。继续学习。。。">
+<meta name="keywords" content="Unix">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《Unix编程艺术》摘录Part2">
+<meta property="og:url" content="http://yoursite.com/2019/01/20/《Unix编程艺术》摘录Part2/index.html">
+<meta property="og:site_name" content="Karl&#39;s Blog">
+<meta property="og:description" content="前言《Unix编程艺术》摘录Part1 是1~3章的内容，本文将继续介绍4~7章的内容。继续学习。。。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-01-20T09:37:09.922Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《Unix编程艺术》摘录Part2">
+<meta name="twitter:description" content="前言《Unix编程艺术》摘录Part1 是1~3章的内容，本文将继续介绍4~7章的内容。继续学习。。。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/01/20/《Unix编程艺术》摘录Part2/">
+
+
+
+
+
+  <title>《Unix编程艺术》摘录Part2 | Karl's Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?d714d594e46d4e86189e49fe568d871a";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Karl's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/20/《Unix编程艺术》摘录Part2/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="karl">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Karl's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">《Unix编程艺术》摘录Part2</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-20T14:13:02+08:00">
+                2019-01-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/操作系统/" itemprop="url" rel="index">
+                    <span itemprop="name">操作系统</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><a href="https://dnduuhn.com/2019/01/15/%E3%80%8AUnix%E7%BC%96%E7%A8%8B%E8%89%BA%E6%9C%AF%E3%80%8B%E6%91%98%E5%BD%95Part1/" target="_blank" rel="noopener">《Unix编程艺术》摘录Part1</a> 是1~3章的内容，本文将继续介绍4~7章的内容。继续学习。。。</p>
+<a id="more"></a>
+<h2 id="4-模块性：保持清晰，保持简洁"><a href="#4-模块性：保持清晰，保持简洁" class="headerlink" title="4. 模块性：保持清晰，保持简洁"></a>4. 模块性：保持清晰，保持简洁</h2><p>一开始，一切都是一大块机器码；最早的过程语言首先引入了用子程序划分代码的概念。后来，发明了服务程序库，在多个程序间共享公用函数。后来，我们发明了独立地址空间和可以相互通讯的进程。今天，我们习以为常的把程序系统分布在通过成千上万公里的网络电缆连接的多台主机上。</p>
+<p>用定义清晰的接口把若干简单模块组织起来。</p>
+<h3 id="4-1-封装和最佳模块大小"><a href="#4-1-封装和最佳模块大小" class="headerlink" title="4.1 封装和最佳模块大小"></a>4.1 封装和最佳模块大小</h3><p>封装良好的模块不会过多向外披露自身的细节，不会直接调用其他模块的实现代码，也不会胡乱共享全局数据。</p>
+<p>API：一组严密、定义良好的程序调用和数据结构来通信。</p>
+<p>​    实现层面</p>
+<p>​    设计层面</p>
+<p>定义接口–&gt;编写注释–&gt;编写代码</p>
+<p>编写注释的过程就阐明了代码必须达到的目的。</p>
+<p>软件系统应设计成：有层次分明的嵌套模块组成，而且每个层面上的模块粒度应降至最低。</p>
+<p><code>200-400</code> 逻辑行的代码是”最佳点“，可能的缺陷密度达到最小。</p>
+<p>逻辑行与物理行之间为两倍的折算率，即最佳无量行数建议 <code>400-800</code></p>
+<h3 id="4-2-紧凑性和正交性"><a href="#4-2-紧凑性和正交性" class="headerlink" title="4.2 紧凑性和正交性"></a>4.2 紧凑性和正交性</h3><p>具有最佳尺寸的模块并不意味着代码由高质量。由于受到同样的人类认知限制，语言和API也会产生 <code>Hatton U型曲线</code></p>
+<h4 id="4-2-1-紧凑性：一个设计是否能装进人脑中的特性。"><a href="#4-2-1-紧凑性：一个设计是否能装进人脑中的特性。" class="headerlink" title="4.2.1 紧凑性：一个设计是否能装进人脑中的特性。"></a>4.2.1 紧凑性：一个设计是否能装进人脑中的特性。</h4><p>实际上极少有绝对意义上紧凑的软件设计。如果通常只需要一个参考卡（<code>reference  card</code>）或备忘单（<code>cheat sheet</code>），而不是一本手册，那么可称之为”半紧凑型“</p>
+<blockquote>
+<p>《The Magic Number SEVEN, Plus or Minus Two, Some Limits on Our Capacity For Processing Information》</p>
+<p>《神奇的数字 7，加减2：人类信息处理能力的局限性》</p>
+</blockquote>
+<p>有些问题简直太复杂了，一个紧凑的设计不可能有如此跨度。有时，为了其他优势，如纯性能和适应范围等，也有必要牺牲紧凑性。所以，合理对待紧凑型，设计尽量考虑，中绝不轻易抛弃。</p>
+<h4 id="4-2-2-正交性：是有助于使复杂设计也能紧凑的最重要特性之一。"><a href="#4-2-2-正交性：是有助于使复杂设计也能紧凑的最重要特性之一。" class="headerlink" title="4.2.2 正交性：是有助于使复杂设计也能紧凑的最重要特性之一。"></a>4.2.2 正交性：是有助于使复杂设计也能紧凑的最重要特性之一。</h4><p>在纯粹的正交设计中，任何操作均无副作用，每个动作只改变一件事，不会影响其他。无论你控制的是什么系统，改变每个属性的方法有且只有一个。</p>
+<p>显示器就是正交控制的。eg.你可以独立改变亮度而不影响对比度。</p>
+<p><code>Doug Mcillroy</code>–只做好一件事</p>
+<blockquote>
+<p>《程序员修炼之道》有对正交性精彩的论述</p>
+</blockquote>
+<p>既不产生副作用也不依赖其他代码副作用的的代码，正交性良好。正交性的代码更容易文档化和复用。</p>
+<p>重构：改变代码的结构和组织，而不改变其外在行为。</p>
+<h4 id="4-2-3-SPOT-（Single-Point-Of-Truth）真理的单点性"><a href="#4-2-3-SPOT-（Single-Point-Of-Truth）真理的单点性" class="headerlink" title="4.2.3 SPOT （Single Point Of Truth）真理的单点性"></a>4.2.3 SPOT （Single Point Of Truth）真理的单点性</h4><blockquote>
+<p>Dot’t repeat yourself 不要重复自身 – 《程序员修炼之道》</p>
+</blockquote>
+<blockquote>
+<p>无垃圾，无混淆 No junk，No confusion</p>
+</blockquote>
+<h4 id="4-2-4-紧凑性和强单一中心"><a href="#4-2-4-紧凑性和强单一中心" class="headerlink" title="4.2.4 紧凑性和强单一中心"></a>4.2.4 紧凑性和强单一中心</h4><p>试探法—凭经验则得出的解决方案，在概率上可能正确，但不一定总是正确。</p>
+<h4 id="4-2-5-分离的价值"><a href="#4-2-5-分离的价值" class="headerlink" title="4.2.5 分离的价值"></a>4.2.5 分离的价值</h4><h3 id="4-3-软件是多层的"><a href="#4-3-软件是多层的" class="headerlink" title="4.3 软件是多层的"></a>4.3 软件是多层的</h3><h4 id="4-3-1-自顶向下和自底向上"><a href="#4-3-1-自顶向下和自底向上" class="headerlink" title="4.3.1 自顶向下和自底向上"></a>4.3.1 自顶向下和自底向上</h4><p>自底向上：从具体到抽象</p>
+<p>自顶向下：从抽象到具体</p>
+<p>​    1. 能够精确预知程序的任务</p>
+<p>​    2. 在实现过程中，程序规格不会发生重大变化</p>
+<p>​    3. 在底层，有充分自由来选择程序完成任务的方式</p>
+<p>通常，一方面自顶向下的应用逻辑表达抽象规范；另一方面以函数或库来收集底层的域原语。这样，当高层设计发生变化时，这些域源语仍然可以重用。</p>
+<h4 id="4-3-2-胶合层"><a href="#4-3-2-胶合层" class="headerlink" title="4.3.2 胶合层"></a>4.3.2 胶合层</h4><p>当自顶向下和自底向上发生冲突时，顶层的应用逻辑和底层的域原语集，必须用胶合逻辑层来进行阻抗匹配。（<code>impedance match</code>）</p>
+<p>胶合层必须薄薄一层，用来将东西粘合在一起，但不应该用来隐藏各层的裂痕和不平整。</p>
+<p>如果有许多代码既不属于策略又不属于机制，就很有可能除了增加系统的整体复杂度之外，没有任何其他用处。</p>
+<h4 id="4-3-3-被视为薄胶合层的C语言"><a href="#4-3-3-被视为薄胶合层的C语言" class="headerlink" title="4.3.3 被视为薄胶合层的C语言"></a>4.3.3 被视为薄胶合层的C语言</h4><blockquote>
+<p>《计算机体系：概念和演化》</p>
+</blockquote>
+<p>二进制表示</p>
+<p>平面地址空间</p>
+<p>内存和运行期存储（寄存器）的区分</p>
+<p>通用寄存器</p>
+<p>定长字节的地址解析</p>
+<p>双地址指令</p>
+<p>高位字节优先以及大小一致为4位或6位（已经淘汰）的数据类型</p>
+<blockquote>
+<p>”完美之道，不再无可增加，而在无可删减“</p>
+</blockquote>
+<h3 id="4-4-程序库"><a href="#4-4-程序库" class="headerlink" title="4.4 程序库"></a>4.4 程序库</h3><p>共享库，<code>window</code> 上称为动态链接库</p>
+<p>插件可以用来完成多种专用转换</p>
+<h3 id="4-5-Unix-和-面向对象语言"><a href="#4-5-Unix-和-面向对象语言" class="headerlink" title="4.5 Unix 和 面向对象语言"></a>4.5 Unix 和 面向对象语言</h3><p>薄胶合浅分层</p>
+<p>如何将分离法的优点（将问题从原始的场景中简化、归纳）同代码和设计的薄胶合、浅平透层次结构的优点相结合。</p>
+<h3 id="4-6-模块式编码"><a href="#4-6-模块式编码" class="headerlink" title="4.6 模块式编码"></a>4.6 模块式编码</h3><ul>
+<li>有多少全局变量？</li>
+<li>单个模块的大小是否符合Hatton的”最佳范围“？</li>
+<li>模块内的单个函数是不是太大了？</li>
+<li>代码是不是有内部 API</li>
+<li>API 的入口点是不是超过7个？有没有哪个类有7个以上的方法？数据结构的成员是不是超过7个？</li>
+<li>整个项目中每个模块的入口点数量如何分布？是不是均匀？模块复杂度往往与入口点数量的平方成正比</li>
+</ul>
+<h2 id="5-文本化：好协议产生好实践"><a href="#5-文本化：好协议产生好实践" class="headerlink" title="5. 文本化：好协议产生好实践"></a>5. 文本化：好协议产生好实践</h2><p>数据格式和应用协议文本化的重要性。</p>
+<p>设计将应用数据存储在永久存储器中的文件格式，和在协作程序中（可能会通过网络）传递数据和命令的应用协议。这两种设计的共通之处在于：两者都与内存数据结构的序列化有关。</p>
+<p>为了便于数据的传输和存储，像链表这样的数据结构，其可变历的准空间部署需要平整化或序列化成字节流表达，以便日后能从这个表达中恢复数据结构。序列化（保存）操作有事也称为<strong>列集</strong>，其反向操作（载入）称为<strong>散集</strong></p>
+<h3 id="5-1-文本化的重要性"><a href="#5-1-文本化的重要性" class="headerlink" title="5.1 文本化的重要性"></a>5.1 文本化的重要性</h3><p>使用二进制的唯一正当理由：如果要处理大批量的数据集，因而确实关注能否在介质上获得最大位密度，或是非常关心将数据转化为芯片核心结构所必须的时间或指令开销。</p>
+<h4 id="5-1-1-Unix-口令文件格式"><a href="#5-1-1-Unix-口令文件格式" class="headerlink" title="5.1.1 Unix 口令文件格式"></a>5.1.1 Unix 口令文件格式</h4><h4 id="5-1-2-newsrc-格式"><a href="#5-1-2-newsrc-格式" class="headerlink" title="5.1.2 .newsrc 格式"></a>5.1.2 .newsrc 格式</h4><h4 id="5-1-3-PNG-图形文件格式"><a href="#5-1-3-PNG-图形文件格式" class="headerlink" title="5.1.3 PNG 图形文件格式"></a>5.1.3 PNG 图形文件格式</h4><h3 id="5-2-数据文件源格式"><a href="#5-2-数据文件源格式" class="headerlink" title="5.2 数据文件源格式"></a>5.2 数据文件源格式</h3><p>数据文件元格式是一套句法和词法约定，这套约定或者已经正式标准化，或者已经通过实践得到了充分的确定，已有标准服务库来处理列集和散集操作。</p>
+<h4 id="5-2-1-DSV-格式"><a href="#5-2-1-DSV-格式" class="headerlink" title="5.2.1 DSV 格式"></a>5.2.1 DSV 格式</h4><p><code>Delimiter-Separated Values</code>（分隔符分隔值）</p>
+<p><code>CSV</code> （逗号分隔值），<code>Microsoft</code> 版 <code>CSV</code> 是一个如何设计文本文件格式的反面教材。</p>
+<h4 id="5-2-2-RFC-822-格式"><a href="#5-2-2-RFC-822-格式" class="headerlink" title="5.2.2 RFC 822 格式"></a>5.2.2 RFC 822 格式</h4><p>源自互联网电子邮件信息采用的文本格式；</p>
+<p><code>RFC 2822</code></p>
+<h4 id="5-2-3-Cookie-Jar-格式"><a href="#5-2-3-Cookie-Jar-格式" class="headerlink" title="5.2.3 Cookie-Jar 格式"></a>5.2.3 Cookie-Jar 格式</h4><p>是 <code>fortune(1)</code>程序为随机引用数据库而使用的一种格式。适用记录只是一堆非结构化文本的情况。</p>
+<h4 id="5-2-4-Record-Jar-格式"><a href="#5-2-4-Record-Jar-格式" class="headerlink" title="5.2.4 Record-Jar 格式"></a>5.2.4 Record-Jar 格式</h4><p><code>cookie-jar</code> 记录分隔符和<code>RFC 822</code>记录源格式结合的非常好，产生一种<code>Record-Jar</code> 格式。</p>
+<p>适合于那些类似 <code>DSV</code>文件、但又有可变字段数目而且可能伴随无结构文本的字段属性关系集合。</p>
+<h4 id="5-2-5-XML"><a href="#5-2-5-XML" class="headerlink" title="5.2.5 XML"></a>5.2.5 XML</h4><p>尖括号<code>&lt;&gt;</code>的标签和 <code>&amp;</code>记号引导字面值序列。</p>
+<p>适合那些<code>RFC 822</code> 元格式不太好处理、有复杂递归或嵌套数据结构的格式。</p>
+<p><code>PYX</code> 格式，面向行的 <code>XML</code> 转换。</p>
+<blockquote>
+<p>keep it simple, stupid!</p>
+</blockquote>
+<p><code>XML</code> 不能与 Unix 常规工具很好的配合使用。需要<code>XML</code> 解析器</p>
+<h4 id="5-2-6-Windows-INI-格式"><a href="#5-2-6-Windows-INI-格式" class="headerlink" title="5.2.6 Windows INI 格式"></a>5.2.6 Windows INI 格式</h4><p>如果数据围绕指定的记录或部分能够分成<code>”名称-属性对“</code>两层组织结构，<code>.INI</code>格式非常适用。</p>
+<h4 id="5-2-7-Unix-文本文件格式的约定"><a href="#5-2-7-Unix-文本文件格式的约定" class="headerlink" title="5.2.7 Unix 文本文件格式的约定"></a>5.2.7 Unix 文本文件格式的约定</h4><ul>
+<li>如果可能，以新行符结束的每一行只存一个记录。<ul>
+<li>习惯上忽略行尾的空白</li>
+</ul>
+</li>
+<li>如果可能，每行不超过80个字符</li>
+<li>使用 <code>#</code>引入注释</li>
+<li>支持反斜杠约定<ul>
+<li><code>\n</code> 表示新行</li>
+<li><code>\r</code> 表示回车</li>
+<li><code>\t</code> 表示制表符</li>
+<li><code>\b</code> 表示退格</li>
+<li><code>\f</code> 表示走纸</li>
+<li><code>\e</code> 表示<strong>ASCII escape(27)</strong></li>
+<li><code>\nnn</code>或<code>\onnn</code>或<code>\0nnn</code> 表示八进制值为nnn的字符</li>
+<li><code>\xnn</code> 表示十六进值值为nn的字符</li>
+<li><code>\dnnn</code> 表示十进制值为nnn的字符</li>
+<li><code>\unnn</code> 表示十六进制的Unicode字面值</li>
+<li><code>\\</code>表示反斜杠</li>
+</ul>
+</li>
+<li>在每一条记录的格式中，使用冒号或任何连续的空白作为字段分隔符。</li>
+<li>不要过分区别 <code>tab</code>和<code>whitespace</code><ul>
+<li>允许使用连续的 <code>tab</code>和<code>whitespace</code>作为分隔符非常有效</li>
+</ul>
+</li>
+<li>优先选用十六进制而不是八进制 </li>
+<li>对于复杂的记录，使用”节（stanza）“格式：一个记录若有多行，就是用<code>%%\n</code>或<code>%\n</code>作为记录分隔符</li>
+<li>在节格式中，要么每行一个记录字段，要么将记录格式和RFC 822 电子邮件头类似，用冒号终止的字段名关键字作为引导字段。</li>
+<li>在节格式中，支持连续航。</li>
+<li>要么包含一个版本号，要么将格式设计成相互独立的自描述字节块。<ul>
+<li>无需立即破坏旧代码就可以增加新的块类型</li>
+</ul>
+</li>
+<li>注意浮点数取整问题。</li>
+<li>不要仅对文件的一部分进行压缩或者二进制编码。</li>
+</ul>
+<h4 id="5-2-8-文件压缩的利弊"><a href="#5-2-8-文件压缩的利弊" class="headerlink" title="5.2.8 文件压缩的利弊"></a>5.2.8 文件压缩的利弊</h4><p>压缩工具可以扫描所有数据，然后找到信息中的所有重复部分进行压缩。</p>
+<p>将表现形式的设计和具体压缩的方法分离。</p>
+<p>压缩，在某种程度上损坏了透明性。</p>
+<p>方案的最优解取决于：对存储经济型、可显性或让浏览工具编写起来尽可能简单等问题的权衡考虑。</p>
+<h3 id="5-3-应用协议设计"><a href="#5-3-应用协议设计" class="headerlink" title="5.3 应用协议设计"></a>5.3 应用协议设计</h3><p>段对端（<code>end-to-end</code>）设计守则。</p>
+<blockquote>
+<p>《系统设计中的端对端论》(End-to-End Arguments in System Design)</p>
+</blockquote>
+<h4 id="5-3-1-SMTP-一个简单的套接字协议（简单邮件传送协议）"><a href="#5-3-1-SMTP-一个简单的套接字协议（简单邮件传送协议）" class="headerlink" title="5.3.1 SMTP 一个简单的套接字协议（简单邮件传送协议）"></a>5.3.1 SMTP 一个简单的套接字协议（简单邮件传送协议）</h4><h4 id="5-3-2-POP3-邮局协议（Post-Office-Protocol）"><a href="#5-3-2-POP3-邮局协议（Post-Office-Protocol）" class="headerlink" title="5.3.2 POP3 邮局协议（Post Office Protocol）"></a>5.3.2 POP3 邮局协议（Post Office Protocol）</h4><p><code>SMTP</code> 是邮件发送者启动事务处理的”推“协议，而 <code>POP3</code>是邮件接收者启动事务处理的”拉“协议。</p>
+<p>不连续访问互联网的用户可以让他们的邮件存放在一个邮箱机器上，然后使用<code>POP3</code>连接将邮件通过网线接收到自己的电脑上。</p>
+<p><code>POP3</code> 与 <code>SMTP</code> 最明显的不同是：</p>
+<ul>
+<li><code>POP3</code> 使用状态标记，<code>SMTP</code>使用<code>3位</code>数的状态码</li>
+<li>请求的语义不同</li>
+</ul>
+<h4 id="5-3-3-IMAP-互联网消息访问协议"><a href="#5-3-3-IMAP-互联网消息访问协议" class="headerlink" title="5.3.3 IMAP 互联网消息访问协议"></a>5.3.3 IMAP 互联网消息访问协议</h4><p><code>IMAP</code> 对有效载荷部分的分割方法略有不同，它不是用一个点号来结束，而是将有效载荷的长度直接放在有效载荷之前发送。这稍稍增加了服务器的负担（消息必须提前完成组合，无法在初始化后流转），但使客户端工作更容易了—客户端可以提前知道，需要分配多少存储空间作为整个处理消息的缓冲区。</p>
+<p>每个响应都标上了由请求提供的序列标签。这个特性使<code>IMAP</code>命令无需等待响应就可以流向服务器端；然后客户端的状态机就能够在回来时直接解析响应和有效数据载荷，这样可以减少等待时间。</p>
+<h3 id="5-4-应用协议元格式"><a href="#5-4-应用协议元格式" class="headerlink" title="5.4 应用协议元格式"></a>5.4 应用协议元格式</h3><h4 id="5-4-1-经典的互联网应用元协议"><a href="#5-4-1-经典的互联网应用元协议" class="headerlink" title="5.4.1 经典的互联网应用元协议"></a>5.4.1 经典的互联网应用元协议</h4><blockquote>
+<p>Marshall Rose 的 RFC 3117 《论应用协议的设计》（On the Design of Application Protocols）</p>
+</blockquote>
+<ul>
+<li>文本格式</li>
+<li>单行请求和响应，但有效数据载荷可以多行<ul>
+<li>有效数据载荷要么是8位组数据作为前导，要么以<code>\r\n</code>作为结束符</li>
+<li>有效数据载荷在字节上已被补齐</li>
+</ul>
+</li>
+<li>所有以句点<code>.</code>开始的行前面需要另加一个句点，接收方既负责识别结束符有负责去除补齐字节</li>
+<li>应答行由状态码和后接人可识别的消息构成</li>
+</ul>
+<h4 id="5-4-2-作为通用应用协议的-HTTP"><a href="#5-4-2-作为通用应用协议的-HTTP" class="headerlink" title="5.4.2 作为通用应用协议的 HTTP"></a>5.4.2 作为通用应用协议的 HTTP</h4><p>自从万维网在1993年左右吸引到足量用户以来，应用协议的设计者越来越倾向于在 HTTP 上构建专属协议，并使用网页服务器作为通用服务平台。</p>
+<p>HTTP 请求采用类似<code>RFC-822/MIME</code>格式的消息：通常，消息头包含识别和认证信息，第一行是对通用资源指示符（<code>URI</code>）指定的某个资源的方法调用。</p>
+<p><code>URI</code>最重要的形式是 <code>URL</code>（<code>Uniform Resource Locator</code>），即统一资源定位符。</p>
+<p><code>URL</code>通过服务类型、主机名称和在主机上的位置对资源进行识别。</p>
+<p>HTTP 响应只是一种<code>RFC-822/MIME</code>消息，可以包含由客户端解释的任意内容。</p>
+<blockquote>
+<p>RFC 3205 《论使用 HTTP作为底层》（On the Use of HTTP As a Substrate）</p>
+</blockquote>
+<h5 id="5-4-2-1-实例分析：-CDDB-freedb-org-数据库"><a href="#5-4-2-1-实例分析：-CDDB-freedb-org-数据库" class="headerlink" title="5.4.2.1 实例分析： CDDB/freedb.org 数据库"></a>5.4.2.1 实例分析： CDDB/freedb.org 数据库</h5><p>基于 TCP/IP 的自定义应用协议的查询服务需要：</p>
+<ul>
+<li>分配一个新的 TCP/IP 端口号</li>
+<li>从成千上万的防火墙上争取到通路</li>
+</ul>
+<p>而，如果服务基于 HTTP作为简单的 <code>CGI</code>（<code>Common Gateway Interface</code>）查询毫不费力。</p>
+<h5 id="5-4-2-2-实例分析：互联网打印协议（Internet-Printing-Protocol）"><a href="#5-4-2-2-实例分析：互联网打印协议（Internet-Printing-Protocol）" class="headerlink" title="5.4.2.2 实例分析：互联网打印协议（Internet Printing Protocol）"></a>5.4.2.2 实例分析：互联网打印协议（Internet Printing Protocol）</h5><p><code>IPP</code> 使用 HTTP 1.1 作为传输协议</p>
+<blockquote>
+<p>《互联网打印协议模型和结构基本原理》(Rationale fot the Structure of the Model and Protocol for the Internet Printing Protocol)</p>
+</blockquote>
+<p><code>RFC 2568</code> 的 4.2 节解释了做出这种选择的理由</p>
+<h4 id="5-4-3-BEEP：块可扩展交换协议"><a href="#5-4-3-BEEP：块可扩展交换协议" class="headerlink" title="5.4.3 BEEP：块可扩展交换协议"></a>5.4.3 BEEP：块可扩展交换协议</h4><p>BEEP 的特点：</p>
+<ul>
+<li>既支持客户端/服务器模式</li>
+<li>又支持对等网模式（<code>peer-to-peer</code>）</li>
+</ul>
+<h4 id="5-4-4-XML-RPC-SOAP-和-Jabber"><a href="#5-4-4-XML-RPC-SOAP-和-Jabber" class="headerlink" title="5.4.4 XML-RPC SOAP 和 Jabber"></a>5.4.4 XML-RPC SOAP 和 Jabber</h4><p><code>SOAP</code>（<code>Simple Object Access Protocol</code>，简单对象访问协议）用于远程过程调用</p>
+<p><code>Jabber</code> 用于即时消息和在线状态报告</p>
+<h2 id="6-透明性：来点儿光"><a href="#6-透明性：来点儿光" class="headerlink" title="6 透明性：来点儿光"></a>6 透明性：来点儿光</h2><h4 id="6-1-1-audacity"><a href="#6-1-1-audacity" class="headerlink" title="6.1.1 audacity"></a>6.1.1 audacity</h4><h4 id="6-1-2-fetchmail-的-v"><a href="#6-1-2-fetchmail-的-v" class="headerlink" title="6.1.2 fetchmail 的 -v"></a>6.1.2 fetchmail 的 -v</h4><h4 id="6-1-3-GCC"><a href="#6-1-3-GCC" class="headerlink" title="6.1.3 GCC"></a>6.1.3 GCC</h4><h4 id="6-1-4-kmail"><a href="#6-1-4-kmail" class="headerlink" title="6.1.4 kmail"></a>6.1.4 kmail</h4><h4 id="6-1-5-SNG（Scriptable-Network-Graphics）"><a href="#6-1-5-SNG（Scriptable-Network-Graphics）" class="headerlink" title="6.1.5 SNG（Scriptable Network Graphics）"></a>6.1.5 SNG（Scriptable Network Graphics）</h4><h4 id="6-1-6-Terminfo-数据库"><a href="#6-1-6-Terminfo-数据库" class="headerlink" title="6.1.6 Terminfo 数据库"></a>6.1.6 Terminfo 数据库</h4><h4 id="6-1-7-freeciv-数据文件"><a href="#6-1-7-freeciv-数据文件" class="headerlink" title="6.1.7 freeciv 数据文件"></a>6.1.7 freeciv 数据文件</h4><p>服务器会忽略它不知道如何使用的属性名。这使得可能在不中断启动解析的前提下对服务器还没有使用的属性进行声明。这意味着<strong>游戏数据（策略）的开发和服务引擎（机制）的开发可以分离出来</strong>。</p>
+<p>另一方面，这也意味着启动解析不会理会属性名简单的拼写错误。这种不声不响的”不作为“似乎违反了补救原则。</p>
+<p>要解决这个冲突，应注意：使用登记表数据是服务器的工作，但是仔细检查数据的任务可以移交给另一个程序，每次修改登记表时，由编辑人员运行这个程序。</p>
+<h3 id="6-2-为透明性和可显性而设计"><a href="#6-2-为透明性和可显性而设计" class="headerlink" title="6.2 为透明性和可显性而设计"></a>6.2 为透明性和可显性而设计</h3><h4 id="6-2-1-透明性之禅"><a href="#6-2-1-透明性之禅" class="headerlink" title="6.2.1 透明性之禅"></a>6.2.1 透明性之禅</h4><p>要追求代码的透明性，最有效的方法就是：不要在具体操作的代码上叠放太多的抽象层。</p>
+<h4 id="6-2-2-为透明性和可显性而编码"><a href="#6-2-2-为透明性和可显性而编码" class="headerlink" title="6.2.2 为透明性和可显性而编码"></a>6.2.2 为透明性和可显性而编码</h4><h4 id="6-2-3-透明性和避免过度保护"><a href="#6-2-3-透明性和避免过度保护" class="headerlink" title="6.2.3 透明性和避免过度保护"></a>6.2.3 透明性和避免过度保护</h4><p>隐藏细节和无法访问细节有着重要区别</p>
+<p>不能展示其行为的程序使故障检测困难得多。</p>
+<p>调试和探测开关的存在与否视为良好程序的标志。</p>
+<h4 id="6-2-4-透明性和可编辑的表现形式"><a href="#6-2-4-透明性和可编辑的表现形式" class="headerlink" title="6.2.4 透明性和可编辑的表现形式"></a>6.2.4 透明性和可编辑的表现形式</h4><p>把表现形式的损失降到最小</p>
+<p>能够在可编辑的文本格式和二进制格式之间来回进行无损转换。– <strong>文本化器</strong></p>
+<p>如果二进制对象是动态生成的，或者非常大，那么用文本化器转化所有状态可能不实际或者根本不可能。在这种情况下，对应的任务是编写一个浏览器。</p>
+<h4 id="6-2-5-透明性、故障诊断和故障恢复"><a href="#6-2-5-透明性、故障诊断和故障恢复" class="headerlink" title="6.2.5 透明性、故障诊断和故障恢复"></a>6.2.5 透明性、故障诊断和故障恢复</h4><p>透明的系统更容易实施恢复措施，而且，经常是，首先更能抵抗bug的破坏。</p>
+<h3 id="6-3-为可维护性而设计"><a href="#6-3-为可维护性而设计" class="headerlink" title="6.3 为可维护性而设计"></a>6.3 为可维护性而设计</h3><p>活代码：周围存在一个非常活跃的开发社团。</p>
+<p>睡代码：经常因为对作者而言，维护代码的痛苦超过了代码本身的效用。</p>
+<p>死代码：睡得太久，重新实现一段等价代码更容易。</p>
+<h2 id="7-多道程序设计：分离进程为独立的功能"><a href="#7-多道程序设计：分离进程为独立的功能" class="headerlink" title="7 多道程序设计：分离进程为独立的功能"></a>7 多道程序设计：分离进程为独立的功能</h2><p>Unix 提倡把程序分解成更简单的子进程，并专注考虑这些子进程间的接口。</p>
+<p>Unix 强调用定义良好的进程间通信或共享文件来联通小型进程。</p>
+<ul>
+<li>降低进程生成开销</li>
+<li>提供方法简化进程间通信<ul>
+<li>shell 执行模块</li>
+<li>I/O 重定向</li>
+<li>管道</li>
+<li>消息传递</li>
+<li>套接字</li>
+</ul>
+</li>
+<li>提倡使用能由管道和套接字传递的简单、透明的文本数据格式</li>
+</ul>
+<p><strong>协议逻辑</strong></p>
+<h3 id="7-1-从性能调整中分离复杂度控制"><a href="#7-1-从性能调整中分离复杂度控制" class="headerlink" title="7.1 从性能调整中分离复杂度控制"></a>7.1 从性能调整中分离复杂度控制</h3><p>线程提高了全局复杂度</p>
+<h3 id="7-2-Unix-IPC-方法的分类"><a href="#7-2-Unix-IPC-方法的分类" class="headerlink" title="7.2 Unix IPC 方法的分类"></a>7.2 Unix IPC 方法的分类</h3><h4 id="7-2-1-把任务转给专门程序"><a href="#7-2-1-把任务转给专门程序" class="headerlink" title="7.2.1 把任务转给专门程序"></a>7.2.1 把任务转给专门程序</h4><h5 id="7-2-1-1-实例分析：mutt-邮件用户代理"><a href="#7-2-1-1-实例分析：mutt-邮件用户代理" class="headerlink" title="7.2.1.1 实例分析：mutt 邮件用户代理"></a>7.2.1.1 实例分析：mutt 邮件用户代理</h5><h4 id="7-2-2-管道、重定向和过滤器"><a href="#7-2-2-管道、重定向和过滤器" class="headerlink" title="7.2.2 管道、重定向和过滤器"></a>7.2.2 管道、重定向和过滤器</h4><p>Malcolm Douglas McIlroy 发明的管道结构</p>
+<ul>
+<li>标准输入</li>
+<li>标准输出</li>
+</ul>
+<p>通常，这些数据流分别和用户的键盘和显示器相连。但是 Unix shell 普遍支持重定向操作，可以把这些标准输入输出流连接到文件。</p>
+<p>管道的主要缺点是：单向性。管道线的成员除了终止外（这种情况，前一阶段的程序会在下一个写操作时得到 <code>SIGPIPE</code> 信号）不可能回传控制信息。因此，传输数据的协议简化为接收端的输入格式。</p>
+<h5 id="7-2-2-1-实例分析：为分页程序建立管道"><a href="#7-2-2-1-实例分析：为分页程序建立管道" class="headerlink" title="7.2.2.1 实例分析：为分页程序建立管道"></a>7.2.2.1 实例分析：为分页程序建立管道</h5><p><code>ps|more</code> </p>
+<p><code>more</code> -&gt;<code>less</code></p>
+<h5 id="7-2-2-2-实例分析：制作单词表"><a href="#7-2-2-2-实例分析：制作单词表" class="headerlink" title="7.2.2.2 实例分析：制作单词表"></a>7.2.2.2 实例分析：制作单词表</h5><p>通过管道相连的程序来协作</p>
+<h5 id="7-2-2-3-实例分析：pic2graph"><a href="#7-2-2-3-实例分析：pic2graph" class="headerlink" title="7.2.2.3 实例分析：pic2graph"></a>7.2.2.3 实例分析：pic2graph</h5><p>管道和过滤器怎样使程序适应非预期的用法。</p>
+<h5 id="7-2-2-4-实例分析：bc-1-和-dc-1"><a href="#7-2-2-4-实例分析：bc-1-和-dc-1" class="headerlink" title="7.2.2.4 实例分析：bc(1) 和 dc(1)"></a>7.2.2.4 实例分析：bc(1) 和 dc(1)</h5><p>尽管 <code>bc(1)</code>目前的GNU实现版本不依赖其他程序，其经典版本却通过管道把命令传递给 <code>dc(1)</code>。在这种分工中，<code>bc(1)</code>完成变量代入和函数展示，并将中缀表示法转换为逆波兰表示法—但实际上本身并不完成计算，相反，把输入表达式转换成<code>RPN</code>形式传递给 <code>dc(1)</code>，由<code>dc(1)</code>来完成计算。</p>
+<h5 id="7-2-2-5-反例分析：为什么-fetchmail-不是管线"><a href="#7-2-2-5-反例分析：为什么-fetchmail-不是管线" class="headerlink" title="7.2.2.5 反例分析：为什么 fetchmail 不是管线"></a>7.2.2.5 反例分析：为什么 fetchmail 不是管线</h5><p>管线是单向的</p>
+<h4 id="7-2-3-包装器"><a href="#7-2-3-包装器" class="headerlink" title="7.2.3 包装器"></a>7.2.3 包装器</h4><p>和 <code>shellout</code>相对的是包装器。</p>
+<p>包装器之所以存在，常常源于要指定参数来修改被调用程序的行为。</p>
+<h5 id="7-2-3-1-实例分析：备份脚本"><a href="#7-2-3-1-实例分析：备份脚本" class="headerlink" title="7.2.3.1 实例分析：备份脚本"></a>7.2.3.1 实例分析：备份脚本</h5><p><code>tar -czvf /dev/st0 &quot;$@&quot;</code></p>
+<h4 id="7-2-4-安全性包装器与-Bernstein-链"><a href="#7-2-4-安全性包装器与-Bernstein-链" class="headerlink" title="7.2.4 安全性包装器与 Bernstein 链"></a>7.2.4 安全性包装器与 Bernstein 链</h4><p>安全性包装器可调用守门程序检查某类凭证，然后根据返回的状态值有条件的执行另一个程序。</p>
+<p><code>Bernstein 链</code>是一个专用化的安全性包装器技法。</p>
+<h4 id="7-2-5-从进程"><a href="#7-2-5-从进程" class="headerlink" title="7.2.5 从进程"></a>7.2.5 从进程</h4><p>在编写主/从进程对时，一个好的方法是，让主进程支持命令行开关或环境变量来允许调用者设置自己的从进程命令。</p>
+<h5 id="7-2-5-1-实例分析：scp-和-ssh"><a href="#7-2-5-1-实例分析：scp-和-ssh" class="headerlink" title="7.2.5.1 实例分析：scp 和 ssh"></a>7.2.5.1 实例分析：scp 和 ssh</h5><p><code>scp(1)</code>安全拷贝命令把<code>ssh(1)</code>作为从进程调用，从<code>ssh</code>的标准输出中截取足够的信息，然后把报告重新组织成为 ASII 动画形式的进度条。</p>
+<h4 id="7-2-6-对等进程间通讯"><a href="#7-2-6-对等进程间通讯" class="headerlink" title="7.2.6 对等进程间通讯"></a>7.2.6 对等进程间通讯</h4><h5 id="7-2-6-1-临时文件"><a href="#7-2-6-1-临时文件" class="headerlink" title="7.2.6.1 临时文件"></a>7.2.6.1 临时文件</h5><p>把临时文件作为协作程序之间的通信中转站使用，是最古老的IPC技法。虽然存在一些缺点，但临时文件在shell脚本以及一些一次性程序中仍然非常有用。</p>
+<ol>
+<li>把临时文件作为IPC技法使用最明显的问题是:</li>
+</ol>
+<ul>
+<li>如果进程在临时文件可被删除前中断，则往往会遗留垃圾数据。</li>
+</ul>
+<ol start="2">
+<li>另一个隐蔽风险是：<ul>
+<li>如果程序的多个实例都使用同一个名字作为临时文件名，则会产生冲突。</li>
+</ul>
+</li>
+</ol>
+<p>这就是为什么shell脚本的惯例是在临时文件名中包含<code>$$</code>符号的原因；这个 shell 变量将被展开为载入 shell 的进程 ID，从而有效保证了文件名的唯一性。（Perl 也支持同样的技巧）</p>
+<ol start="3">
+<li>如果攻击程序知道临时文件将要写入的位置，就可以覆盖掉那个文件，很可能读取生产者进程的数据，或者通过在文件中插入修改或假造的数据哄骗消费者进程。</li>
+</ol>
+<p>撇开这些缺点，临时文件仍然还有一席之地。因为他们很同意创建，很灵活，与那些复杂的方法相比，没那么容易产生死锁和竞争。</p>
+<p>子进程的调用约定可能要求子进程必须得到一个文件来操作。</p>
+<h5 id="7-2-6-2-信号"><a href="#7-2-6-2-信号" class="headerlink" title="7.2.6.2 信号"></a>7.2.6.2 信号</h5><p>Unix 信号是一种软中断形式：每个信号都对接收进程产生默认作用（通常是杀掉它）。进程可以声明信号处理程序，让信号处理程序覆盖信号的默认行为；处理程序是一个与接受信号异步执行的函数。</p>
+<p>信号被设计进Unix，最初是作为操作系统就某些错误或关键事件通知程序的一种机制，并不是作为 IPC 功能设计进来的。</p>
+<h5 id="7-2-6-3-系统守护程序和常规信号"><a href="#7-2-6-3-系统守护程序和常规信号" class="headerlink" title="7.2.6.3 系统守护程序和常规信号"></a>7.2.6.3 系统守护程序和常规信号</h5><h5 id="7-2-6-4-实例分析：fetchmail-的信号使用"><a href="#7-2-6-4-实例分析：fetchmail-的信号使用" class="headerlink" title="7.2.6.4 实例分析：fetchmail 的信号使用"></a>7.2.6.4 实例分析：fetchmail 的信号使用</h5><p><code>fetchmail</code> 实用程序通常被配置成在后台运行的守护程序，无需用户干预就能定期从运行控制文件定义的所有远程站点收集邮件，并传送给<code>端口25</code>的本地<code>SMTP</code>监听程序。</p>
+<h5 id="7-2-6-5-套接字"><a href="#7-2-6-5-套接字" class="headerlink" title="7.2.6.5 套接字"></a>7.2.6.5 套接字</h5><p>套接字作为一种封装网络数据访问的方法。通过套接字通信的两个程序通常都存在双向字节流。</p>
+<p>字节流既是按序的，又是可靠地。</p>
+<p>在创建套接字的时候，可以指定协议簇来告诉网络层如何解释套接字的名称。</p>
+<p>人们通常认为套接字和互联网有关，是一种在不同主机上运行的程序之间传递数据的方法，这是 <code>AF_INET</code> 套接字簇。在这个套接字簇中，地址被解释为主机地址和服务编号对。然而，<code>AF_UNIX</code>（也称之为 <code>AF_LOCAL</code>）协议簇支持同样的套接字抽象，作为在同一台机器上两个进程之间的通信方式。</p>
+<h6 id="7-2-6-5-1-实例分析：PostgreSQL"><a href="#7-2-6-5-1-实例分析：PostgreSQL" class="headerlink" title="7.2.6.5.1 实例分析：PostgreSQL"></a>7.2.6.5.1 实例分析：PostgreSQL</h6><p>当用户运行 <code>PostgreSQL</code> 时，该客户端启动一个和<code>postmanager</code>的<strong>会话</strong>并与之进行 SQL 事务处理。服务器程序可以一次处理好几个客户端回话，并且对这些请求排队，所以他们不会互相干扰。</p>
+<h6 id="7-2-6-5-2-实例分析：Freeciv"><a href="#7-2-6-5-2-实例分析：Freeciv" class="headerlink" title="7.2.6.5.2 实例分析：Freeciv"></a>7.2.6.5.2 实例分析：Freeciv</h6><p>客户端和服务器的划分</p>
+<p><code>Freeciv</code>游戏的运行状态由服务器进程，即游戏引擎来维护。玩家运行 GUI 客户端，通过包协议和服务器交换信息和命令。所有的游戏逻辑都在服务器端处理，GUI的细节在客户端处理，不同的客户端支持不同的界面风格。</p>
+<p>这是多人在线游戏非常典型的一种结构。包协议使用<code>TCP/IP</code>进行传输，因此服务器可以处理运行在不同互联网主机上的客户端。其它那些更像实时模拟(特别是仿真视角射击游戏)的游戏会用原始的互联网数据报协议<code>UDP</code> ，并且牺牲了包发送的不确定性来降低延迟。在这种游戏中，用户通常连续的发送控制动作，所以零星的信号丢失是可以忍受的，按时延迟确实致命的。</p>
+<h5 id="7-2-6-6-共享内存"><a href="#7-2-6-6-共享内存" class="headerlink" title="7.2.6.6 共享内存"></a>7.2.6.6 共享内存</h5><p>共享内存要求生产者和消费者必须在同一硬件上。</p>
+<p>如果通信进程能够访问同一个物理内存，则共享内存将是他么之间最快的信息传递方法。</p>
+<p>共享内存可能以各种 API 的面貌呈现，但是在现代Unix中，共享内存的实现通常依靠使用<code>mmap(2)</code>，把文件映射成可以供多个进程共享的内存。<code>POSIX</code> 定义了具有 API 的 <code>shm_open(3)</code>功能，支持把文件作为共享内存使用，这通常是对操作系统的提示，告诉他无需把伪文件数据刷到磁盘上。</p>
+<h3 id="7-3-要避免的问题和方法"><a href="#7-3-要避免的问题和方法" class="headerlink" title="7.3 要避免的问题和方法"></a>7.3 要避免的问题和方法</h3><h4 id="7-3-1-废弃的Unix-IPC-方法"><a href="#7-3-1-废弃的Unix-IPC-方法" class="headerlink" title="7.3.1 废弃的Unix IPC 方法"></a>7.3.1 废弃的Unix IPC 方法</h4><blockquote>
+<p>《Unix 网络编程》（Unix Network Programming）</p>
+</blockquote>
+<h5 id="7-3-1-1-System-V-IPC"><a href="#7-3-1-1-System-V-IPC" class="headerlink" title="7.3.1.1 System V IPC"></a>7.3.1.1 System V IPC</h5><p>基于共享内存的消息传递机制</p>
+<h5 id="7-3-1-2-Streams"><a href="#7-3-1-2-Streams" class="headerlink" title="7.3.1.2 Streams"></a>7.3.1.2 Streams</h5><p><code>Streams Networking</code>网络流</p>
+<p>特性：把协议转换模块推到内核处理线中，这样用户进程通过全双工通道”看到“的设备实际上被过滤掉了。</p>
+<p>Linux 和其他开源 Unix 实际上已经抛弃了<code>STREAMS</code>。</p>
+<h4 id="7-3-2-远程过程调用"><a href="#7-3-2-远程过程调用" class="headerlink" title="7.3.2 远程过程调用"></a>7.3.2 远程过程调用</h4><blockquote>
+<p>《对远程过程调用范式的批评》（Critique of the Remote Procedure Call Paradigm[Tanenaum-Van Renesse ]）</p>
+</blockquote>
+<p><code>RPC</code>接口往往产生更糟糕的延迟问题：</p>
+<ul>
+<li>无法准确预估出一个指定调用会涉及多少数据的列集和散集</li>
+<li><code>RPC</code> 模型往往鼓励程序员把网络交易视为无成本行为</li>
+</ul>
+<h4 id="7-3-3-线程–恐吓或威胁"><a href="#7-3-3-线程–恐吓或威胁" class="headerlink" title="7.3.3 线程–恐吓或威胁"></a>7.3.3 线程–恐吓或威胁</h4><p>从复杂度控制的角度来看，相对拥有独立地址空间的轻量级进程，线程是个糟糕的替代。线程时那些进程生成昂贵、<code>IPC</code> 功能薄弱的操作系统所特有的概念。</p>
+<p>从定义上看，尽管进程的子线程通常具有独立的局部变量栈，他们却共享统一全局内存。在这个共享地址空间管理竞争和临界区的任务非常困难，而且成为增加整体复杂度和滋生<code>bug</code>的温床。可以这样去做，但是随着锁定机制复杂度的增加，意外交互作用所造成的竞争和死锁机会也相应增加。</p>
+<p>线程成为滋生<code>bug</code>温床源于他们太容易知道过多彼此的内部状态。与有着独立地址空间、必须通过明确IPC进行通信的进程不同，线程没有自动封装。这样，基于线程的程序不仅产生普通的竞争问题，而且产生了新一类<code>bug</code>：<strong>时序依赖</strong>，要重现这些问题都极其困难，遑论修复。</p>
+<p>线程编程开始越来越像是对共享内存的有约束应用了。</p>
+<blockquote>
+<p>《为什么线程是个馊主意》（Why Threads are a Bad Idea）</p>
+</blockquote>
+<h3 id="7-4-在设计层次上的进程划分"><a href="#7-4-在设计层次上的进程划分" class="headerlink" title="7.4 在设计层次上的进程划分"></a>7.4 在设计层次上的进程划分</h3><p>第一个要注意的是：临时文件、交互性更强的主/从进程关系、套接字、<code>RPC</code> 和其他一些双向<code>RPC</code>方法在某种程度上是等价的–他们都只不过是程序在生命期呢交换数据的方法。</p>
+<p>所以评估他们引起的程序复杂度开销，以及给设计造成的不透明度。</p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ul>
+<li>《The Art of UNIX Programming》（《Unix 编程艺术》）[美]Eric S. Raymond（埃瑞克.S.理曼德）著 姜宏 何源 蔡晓骏</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Unix/" rel="tag"># Unix</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/19/程序员自装修系列-Part1/" rel="next" title="程序员自装修系列--Part1">
+                <i class="fa fa-chevron-left"></i> 程序员自装修系列--Part1
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="karl">
+            
+              <p class="site-author-name" itemprop="name">karl</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">109</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">85</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/likenow" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:fmslikai@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://yujiangshui.com/" title="yujiangshui" target="_blank">yujiangshui</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-模块性：保持清晰，保持简洁"><span class="nav-number">2.</span> <span class="nav-text">4. 模块性：保持清晰，保持简洁</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-封装和最佳模块大小"><span class="nav-number">2.1.</span> <span class="nav-text">4.1 封装和最佳模块大小</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-紧凑性和正交性"><span class="nav-number">2.2.</span> <span class="nav-text">4.2 紧凑性和正交性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-1-紧凑性：一个设计是否能装进人脑中的特性。"><span class="nav-number">2.2.1.</span> <span class="nav-text">4.2.1 紧凑性：一个设计是否能装进人脑中的特性。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-2-正交性：是有助于使复杂设计也能紧凑的最重要特性之一。"><span class="nav-number">2.2.2.</span> <span class="nav-text">4.2.2 正交性：是有助于使复杂设计也能紧凑的最重要特性之一。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-3-SPOT-（Single-Point-Of-Truth）真理的单点性"><span class="nav-number">2.2.3.</span> <span class="nav-text">4.2.3 SPOT （Single Point Of Truth）真理的单点性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-4-紧凑性和强单一中心"><span class="nav-number">2.2.4.</span> <span class="nav-text">4.2.4 紧凑性和强单一中心</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-5-分离的价值"><span class="nav-number">2.2.5.</span> <span class="nav-text">4.2.5 分离的价值</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-软件是多层的"><span class="nav-number">2.3.</span> <span class="nav-text">4.3 软件是多层的</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-3-1-自顶向下和自底向上"><span class="nav-number">2.3.1.</span> <span class="nav-text">4.3.1 自顶向下和自底向上</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-3-2-胶合层"><span class="nav-number">2.3.2.</span> <span class="nav-text">4.3.2 胶合层</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-3-3-被视为薄胶合层的C语言"><span class="nav-number">2.3.3.</span> <span class="nav-text">4.3.3 被视为薄胶合层的C语言</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-程序库"><span class="nav-number">2.4.</span> <span class="nav-text">4.4 程序库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-5-Unix-和-面向对象语言"><span class="nav-number">2.5.</span> <span class="nav-text">4.5 Unix 和 面向对象语言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-6-模块式编码"><span class="nav-number">2.6.</span> <span class="nav-text">4.6 模块式编码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-文本化：好协议产生好实践"><span class="nav-number">3.</span> <span class="nav-text">5. 文本化：好协议产生好实践</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-文本化的重要性"><span class="nav-number">3.1.</span> <span class="nav-text">5.1 文本化的重要性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#5-1-1-Unix-口令文件格式"><span class="nav-number">3.1.1.</span> <span class="nav-text">5.1.1 Unix 口令文件格式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-1-2-newsrc-格式"><span class="nav-number">3.1.2.</span> <span class="nav-text">5.1.2 .newsrc 格式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-1-3-PNG-图形文件格式"><span class="nav-number">3.1.3.</span> <span class="nav-text">5.1.3 PNG 图形文件格式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-数据文件源格式"><span class="nav-number">3.2.</span> <span class="nav-text">5.2 数据文件源格式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#5-2-1-DSV-格式"><span class="nav-number">3.2.1.</span> <span class="nav-text">5.2.1 DSV 格式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-2-2-RFC-822-格式"><span class="nav-number">3.2.2.</span> <span class="nav-text">5.2.2 RFC 822 格式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-2-3-Cookie-Jar-格式"><span class="nav-number">3.2.3.</span> <span class="nav-text">5.2.3 Cookie-Jar 格式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-2-4-Record-Jar-格式"><span class="nav-number">3.2.4.</span> <span class="nav-text">5.2.4 Record-Jar 格式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-2-5-XML"><span class="nav-number">3.2.5.</span> <span class="nav-text">5.2.5 XML</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-2-6-Windows-INI-格式"><span class="nav-number">3.2.6.</span> <span class="nav-text">5.2.6 Windows INI 格式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-2-7-Unix-文本文件格式的约定"><span class="nav-number">3.2.7.</span> <span class="nav-text">5.2.7 Unix 文本文件格式的约定</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-2-8-文件压缩的利弊"><span class="nav-number">3.2.8.</span> <span class="nav-text">5.2.8 文件压缩的利弊</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-3-应用协议设计"><span class="nav-number">3.3.</span> <span class="nav-text">5.3 应用协议设计</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#5-3-1-SMTP-一个简单的套接字协议（简单邮件传送协议）"><span class="nav-number">3.3.1.</span> <span class="nav-text">5.3.1 SMTP 一个简单的套接字协议（简单邮件传送协议）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-3-2-POP3-邮局协议（Post-Office-Protocol）"><span class="nav-number">3.3.2.</span> <span class="nav-text">5.3.2 POP3 邮局协议（Post Office Protocol）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-3-3-IMAP-互联网消息访问协议"><span class="nav-number">3.3.3.</span> <span class="nav-text">5.3.3 IMAP 互联网消息访问协议</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-4-应用协议元格式"><span class="nav-number">3.4.</span> <span class="nav-text">5.4 应用协议元格式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#5-4-1-经典的互联网应用元协议"><span class="nav-number">3.4.1.</span> <span class="nav-text">5.4.1 经典的互联网应用元协议</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-4-2-作为通用应用协议的-HTTP"><span class="nav-number">3.4.2.</span> <span class="nav-text">5.4.2 作为通用应用协议的 HTTP</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#5-4-2-1-实例分析：-CDDB-freedb-org-数据库"><span class="nav-number">3.4.2.1.</span> <span class="nav-text">5.4.2.1 实例分析： CDDB/freedb.org 数据库</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-4-2-2-实例分析：互联网打印协议（Internet-Printing-Protocol）"><span class="nav-number">3.4.2.2.</span> <span class="nav-text">5.4.2.2 实例分析：互联网打印协议（Internet Printing Protocol）</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-4-3-BEEP：块可扩展交换协议"><span class="nav-number">3.4.3.</span> <span class="nav-text">5.4.3 BEEP：块可扩展交换协议</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-4-4-XML-RPC-SOAP-和-Jabber"><span class="nav-number">3.4.4.</span> <span class="nav-text">5.4.4 XML-RPC SOAP 和 Jabber</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-透明性：来点儿光"><span class="nav-number">4.</span> <span class="nav-text">6 透明性：来点儿光</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#6-1-1-audacity"><span class="nav-number">4.0.1.</span> <span class="nav-text">6.1.1 audacity</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-1-2-fetchmail-的-v"><span class="nav-number">4.0.2.</span> <span class="nav-text">6.1.2 fetchmail 的 -v</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-1-3-GCC"><span class="nav-number">4.0.3.</span> <span class="nav-text">6.1.3 GCC</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-1-4-kmail"><span class="nav-number">4.0.4.</span> <span class="nav-text">6.1.4 kmail</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-1-5-SNG（Scriptable-Network-Graphics）"><span class="nav-number">4.0.5.</span> <span class="nav-text">6.1.5 SNG（Scriptable Network Graphics）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-1-6-Terminfo-数据库"><span class="nav-number">4.0.6.</span> <span class="nav-text">6.1.6 Terminfo 数据库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-1-7-freeciv-数据文件"><span class="nav-number">4.0.7.</span> <span class="nav-text">6.1.7 freeciv 数据文件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-2-为透明性和可显性而设计"><span class="nav-number">4.1.</span> <span class="nav-text">6.2 为透明性和可显性而设计</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#6-2-1-透明性之禅"><span class="nav-number">4.1.1.</span> <span class="nav-text">6.2.1 透明性之禅</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-2-2-为透明性和可显性而编码"><span class="nav-number">4.1.2.</span> <span class="nav-text">6.2.2 为透明性和可显性而编码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-2-3-透明性和避免过度保护"><span class="nav-number">4.1.3.</span> <span class="nav-text">6.2.3 透明性和避免过度保护</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-2-4-透明性和可编辑的表现形式"><span class="nav-number">4.1.4.</span> <span class="nav-text">6.2.4 透明性和可编辑的表现形式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-2-5-透明性、故障诊断和故障恢复"><span class="nav-number">4.1.5.</span> <span class="nav-text">6.2.5 透明性、故障诊断和故障恢复</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-3-为可维护性而设计"><span class="nav-number">4.2.</span> <span class="nav-text">6.3 为可维护性而设计</span></a></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#7-多道程序设计：分离进程为独立的功能"><span class="nav-number">5.</span> <span class="nav-text">7 多道程序设计：分离进程为独立的功能</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#7-1-从性能调整中分离复杂度控制"><span class="nav-number">5.1.</span> <span class="nav-text">7.1 从性能调整中分离复杂度控制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-2-Unix-IPC-方法的分类"><span class="nav-number">5.2.</span> <span class="nav-text">7.2 Unix IPC 方法的分类</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#7-2-1-把任务转给专门程序"><span class="nav-number">5.2.1.</span> <span class="nav-text">7.2.1 把任务转给专门程序</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#7-2-1-1-实例分析：mutt-邮件用户代理"><span class="nav-number">5.2.1.1.</span> <span class="nav-text">7.2.1.1 实例分析：mutt 邮件用户代理</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-2-2-管道、重定向和过滤器"><span class="nav-number">5.2.2.</span> <span class="nav-text">7.2.2 管道、重定向和过滤器</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#7-2-2-1-实例分析：为分页程序建立管道"><span class="nav-number">5.2.2.1.</span> <span class="nav-text">7.2.2.1 实例分析：为分页程序建立管道</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#7-2-2-2-实例分析：制作单词表"><span class="nav-number">5.2.2.2.</span> <span class="nav-text">7.2.2.2 实例分析：制作单词表</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#7-2-2-3-实例分析：pic2graph"><span class="nav-number">5.2.2.3.</span> <span class="nav-text">7.2.2.3 实例分析：pic2graph</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#7-2-2-4-实例分析：bc-1-和-dc-1"><span class="nav-number">5.2.2.4.</span> <span class="nav-text">7.2.2.4 实例分析：bc(1) 和 dc(1)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#7-2-2-5-反例分析：为什么-fetchmail-不是管线"><span class="nav-number">5.2.2.5.</span> <span class="nav-text">7.2.2.5 反例分析：为什么 fetchmail 不是管线</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-2-3-包装器"><span class="nav-number">5.2.3.</span> <span class="nav-text">7.2.3 包装器</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#7-2-3-1-实例分析：备份脚本"><span class="nav-number">5.2.3.1.</span> <span class="nav-text">7.2.3.1 实例分析：备份脚本</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-2-4-安全性包装器与-Bernstein-链"><span class="nav-number">5.2.4.</span> <span class="nav-text">7.2.4 安全性包装器与 Bernstein 链</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-2-5-从进程"><span class="nav-number">5.2.5.</span> <span class="nav-text">7.2.5 从进程</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#7-2-5-1-实例分析：scp-和-ssh"><span class="nav-number">5.2.5.1.</span> <span class="nav-text">7.2.5.1 实例分析：scp 和 ssh</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-2-6-对等进程间通讯"><span class="nav-number">5.2.6.</span> <span class="nav-text">7.2.6 对等进程间通讯</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#7-2-6-1-临时文件"><span class="nav-number">5.2.6.1.</span> <span class="nav-text">7.2.6.1 临时文件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#7-2-6-2-信号"><span class="nav-number">5.2.6.2.</span> <span class="nav-text">7.2.6.2 信号</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#7-2-6-3-系统守护程序和常规信号"><span class="nav-number">5.2.6.3.</span> <span class="nav-text">7.2.6.3 系统守护程序和常规信号</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#7-2-6-4-实例分析：fetchmail-的信号使用"><span class="nav-number">5.2.6.4.</span> <span class="nav-text">7.2.6.4 实例分析：fetchmail 的信号使用</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#7-2-6-5-套接字"><span class="nav-number">5.2.6.5.</span> <span class="nav-text">7.2.6.5 套接字</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#7-2-6-5-1-实例分析：PostgreSQL"><span class="nav-number">5.2.6.5.1.</span> <span class="nav-text">7.2.6.5.1 实例分析：PostgreSQL</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#7-2-6-5-2-实例分析：Freeciv"><span class="nav-number">5.2.6.5.2.</span> <span class="nav-text">7.2.6.5.2 实例分析：Freeciv</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#7-2-6-6-共享内存"><span class="nav-number">5.2.6.6.</span> <span class="nav-text">7.2.6.6 共享内存</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-3-要避免的问题和方法"><span class="nav-number">5.3.</span> <span class="nav-text">7.3 要避免的问题和方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#7-3-1-废弃的Unix-IPC-方法"><span class="nav-number">5.3.1.</span> <span class="nav-text">7.3.1 废弃的Unix IPC 方法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#7-3-1-1-System-V-IPC"><span class="nav-number">5.3.1.1.</span> <span class="nav-text">7.3.1.1 System V IPC</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#7-3-1-2-Streams"><span class="nav-number">5.3.1.2.</span> <span class="nav-text">7.3.1.2 Streams</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-3-2-远程过程调用"><span class="nav-number">5.3.2.</span> <span class="nav-text">7.3.2 远程过程调用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-3-3-线程–恐吓或威胁"><span class="nav-number">5.3.3.</span> <span class="nav-text">7.3.3 线程–恐吓或威胁</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-4-在设计层次上的进程划分"><span class="nav-number">5.4.</span> <span class="nav-text">7.4 在设计层次上的进程划分</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-number">6.</span> <span class="nav-text">参考文献</span></a></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2013 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">karl</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
