@@ -121,18 +121,21 @@
 
 
 
-<meta name="description" content="Xcode 6 遇到的问题 去掉了pch文件。如果你想有pch需要在building setting中的precompile header设置下路径$(SRCROOT)/xxx/xxxx.pch, 然后将Precompile Prefix Header为YES，预编译后的pch文件会被缓存起来，可以提高编译速度。pch是预编译文件,我们的一些头文件导入会写到这里如Foundation.h  模拟器">
+<meta name="description" content="$(SRCROOT) 和 $(PROJECT_DIR)What the different between SRCROOT and PROJECT_DIR?   Exchangeable in practice, while the documentation makes these subtle theoretical distinctions:  SRCROOTDirectory path.">
 <meta name="keywords" content="工具,XCode">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS开发工具XCode的使用与遇到的问题">
 <meta property="og:url" content="http://yoursite.com/2015/09/21/2015-9-21-iOS开发工具XCode的使用与遇到的问题/index.html">
 <meta property="og:site_name" content="Karl&#39;s Blog">
-<meta property="og:description" content="Xcode 6 遇到的问题 去掉了pch文件。如果你想有pch需要在building setting中的precompile header设置下路径$(SRCROOT)/xxx/xxxx.pch, 然后将Precompile Prefix Header为YES，预编译后的pch文件会被缓存起来，可以提高编译速度。pch是预编译文件,我们的一些头文件导入会写到这里如Foundation.h  模拟器">
+<meta property="og:description" content="$(SRCROOT) 和 $(PROJECT_DIR)What the different between SRCROOT and PROJECT_DIR?   Exchangeable in practice, while the documentation makes these subtle theoretical distinctions:  SRCROOTDirectory path.">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-10-28T08:40:14.473Z">
+<meta property="og:image" content="http://yoursite.com/2015/09/21/assets/2015-xcode-1.png">
+<meta property="og:image" content="http://yoursite.com/2015/09/21/assets/2020-xcode-1.png">
+<meta property="og:updated_time" content="2020-05-27T14:03:51.689Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS开发工具XCode的使用与遇到的问题">
-<meta name="twitter:description" content="Xcode 6 遇到的问题 去掉了pch文件。如果你想有pch需要在building setting中的precompile header设置下路径$(SRCROOT)/xxx/xxxx.pch, 然后将Precompile Prefix Header为YES，预编译后的pch文件会被缓存起来，可以提高编译速度。pch是预编译文件,我们的一些头文件导入会写到这里如Foundation.h  模拟器">
+<meta name="twitter:description" content="$(SRCROOT) 和 $(PROJECT_DIR)What the different between SRCROOT and PROJECT_DIR?   Exchangeable in practice, while the documentation makes these subtle theoretical distinctions:  SRCROOTDirectory path.">
+<meta name="twitter:image" content="http://yoursite.com/2015/09/21/assets/2015-xcode-1.png">
 
 
 
@@ -394,7 +397,26 @@
       
 
       
-        <h2 id="Xcode-6-遇到的问题"><a href="#Xcode-6-遇到的问题" class="headerlink" title="Xcode 6 遇到的问题"></a>Xcode 6 遇到的问题</h2><ul>
+        <h2 id="SRCROOT-和-PROJECT-DIR"><a href="#SRCROOT-和-PROJECT-DIR" class="headerlink" title="$(SRCROOT) 和 $(PROJECT_DIR)"></a><code>$(SRCROOT)</code> 和 <code>$(PROJECT_DIR)</code></h2><p><a href="https://stackoverflow.com/questions/36323031/what-the-different-between-srcroot-and-project-dir/40739356" target="_blank" rel="noopener">What the different between SRCROOT and PROJECT_DIR?
+</a></p>
+<blockquote>
+<p>Exchangeable in practice, while the documentation makes these subtle theoretical distinctions:</p>
+<ol>
+<li>SRCROOT<br>Directory path. Identifies the directory containing the target’s source files: contains the path to the project file that defines the target.<br>SOURCE_ROOT is an undocumented alias to SRCROOT</li>
+<li>PROJECT_DIR<br>Identifies the directory containing the project (.xcodeproj)<br>$(PROJECT_DIR)/build is used as the create the default value for:<br>Intermediate Build Files Path OBJROOT<br>Build Products Path SYMROOT<br>Typically these paths are not set per target, but are set per-project or per-user.</li>
+<li>PROJECT_FILE_PATH<br>Identifies the project itself.<br>Equivalent to $(PROJECT_DIR)/$(PROJECT_NAME).xcodeproj<br>Conceptually different (#1 is about the project which defines the target while #2 is about the project independently of any target), they are always pointing to the same location since you are, in essence, always building a target.<br>References</li>
+</ol>
+<ul>
+<li>Xcode 8.3 Build Settings reference</li>
+<li>Xcode Build System Guide (Retired 2016-09-29)</li>
+</ul>
+</blockquote>
+<p><img src="../assets/2015-xcode-1.png" alt=""></p>
+<h2 id="Library-Search-Paths-Header-Search-Paths"><a href="#Library-Search-Paths-Header-Search-Paths" class="headerlink" title="Library Search Paths / Header Search Paths"></a>Library Search Paths / Header Search Paths</h2><blockquote>
+<p>I’m looking for a documentation, too. But I made the experience, that <code>$(inherited)</code> can be used to inherit build settings from the project level to the target level. When you define library or header search paths at the project level you can use <code>$(inherited)</code> in the target build settings to use these search paths in the search paths of the project targets.</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$(inherited) &quot;$(SRCROOT)/.a文件所在的文件名&quot;</span><br><span class="line"></span><br><span class="line">// 如果有多个.a文件格式就像这样</span><br><span class="line"></span><br><span class="line">$(inherited) &quot;$(SRCROOT)/xxxx&quot; &quot;$(SRCROOT)/xx&quot;</span><br><span class="line"></span><br><span class="line">如果取的是相对是绝对路径那么工程移到别的地方就有可能导致运行出错。所以要改成相对路径</span><br></pre></td></tr></table></figure>
+<h2 id="Xcode-6-遇到的问题"><a href="#Xcode-6-遇到的问题" class="headerlink" title="Xcode 6 遇到的问题"></a>Xcode 6 遇到的问题</h2><ul>
 <li>去掉了<code>pch</code>文件。如果你想有<code>pch</code>需要在<code>building setting</code>中的<code>precompile header</code>设置下路径<code>$(SRCROOT)/xxx/xxxx.pch</code>, 然后将<code>Precompile Prefix Header</code>为<code>YES</code>，预编译后的<code>pch</code>文件会被缓存起来，可以提高编译速度。<code>pch</code>是预编译文件,我们的一些头文件导入会写到这里如<code>Foundation.h</code> </li>
 <li>模拟器路径的变更<ul>
 <li><code>/Users/username/Library/Developer/CoreSimulator</code></li>
@@ -419,23 +441,29 @@
 </ul>
 </li>
 </ul>
-<h2 id="Xcode-7-遇到额问题"><a href="#Xcode-7-遇到额问题" class="headerlink" title="Xcode 7 遇到额问题"></a>Xcode 7 遇到额问题</h2><ul>
-<li><p><code>does not contain bitcode</code> 。在<code>Build Setting</code>里面搜索<code>bitcode</code>,把<code>Enable Bitcode</code> 更改位<code>NO</code>.</p>
-</li>
-<li><p>网络请求失败：<code>App Transport Security has blocked a cleartext HTTP (http://) resource load since it is insecure. Temporary exceptions can be configured via your app&#39;s Info.plist file.</code></p>
-<ul>
-<li>原因：<code>iOS9</code>默认使用<code>HTTPS</code>请求。解决：暂时退回<code>http</code>请求：在工程的<code>Info.plist</code>文件里添加<code>NSAppTransportSecurity</code>字典类型的，添加一个元素：<code>key</code>为<code>NSAllowsArbitraryLoads</code>，值为<code>YES</code></li>
-</ul>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;key&gt;NSAppTransportSecurity&lt;/key&gt;</span><br><span class="line">&lt;dict&gt;</span><br><span class="line">	&lt;key&gt;NSAllowsArbitraryLoads&lt;/key&gt;</span><br><span class="line">	&lt;true/&gt;</span><br><span class="line">&lt;/dict&gt;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><code>iOS 9</code> 使用 <code>URL scheme</code>必须将其加入<strong>白名单</strong></p>
-<ul>
+<h2 id="Xcode-7-遇到的问题"><a href="#Xcode-7-遇到的问题" class="headerlink" title="Xcode 7 遇到的问题"></a>Xcode 7 遇到的问题</h2><h3 id="does-not-contain-bitcode"><a href="#does-not-contain-bitcode" class="headerlink" title="does not contain bitcode"></a>does not contain bitcode</h3><p>在<code>Build Setting</code>里面搜索<code>bitcode</code>,把<code>Enable Bitcode</code> 更改位<code>NO</code></p>
+<h4 id="Bitcode"><a href="#Bitcode" class="headerlink" title="Bitcode"></a>Bitcode</h4><p>LLVM 是目前苹果采用的编译器工具链，Bitcode 是 LLVM 编译器的<strong>中间代码</strong>的一种编码LLVM的前端可以理解为C/C++/OC/Swift等编程语言，LLVM的后端可以理解为各个芯片平台上的汇编指令或者可执行机器指令数据，那么，BitCode就是位于这两者直接的中间码。 </p>
+<p>LLVM的编译工作原理是前端负责把项目程序源代码翻译成 Bitcode 中间码，然后再根据不同目标机器芯片平台转换为相应的汇编指令以及翻译为机器码。这样设计就可以让LLVM成为了一个编译器架构，可以轻而易举的在LLVM架构之上发明新的语言(前端)，以及在 LLVM 架构下面支持新的CPU(后端)指令输出，虽然Bitcode仅仅只是一个中间码不能在任何平台上运行，但是它可以转化为任何被支持的CPU架构，包括现在还没被发明的CPU架构，也就是说现在打开Bitcode功能提交一个App到应用商店，以后如果苹果新出了一款手机并CPU也是全新设计的，在苹果后台服务器一样可以从这个App的 Bitcode 开始编译转化为新CPU上的可执行程序，可供新手机用户下载运行这个App。</p>
+<p>上传到服务器的bitcode给苹果带来更好处是:<br>以后新设计了新指令集的新CPU，可以继续从这份bitcode开始编译出新CPU上执行的可执行文件，以供用户下载安装。</p>
+<p>但是bitcode给开发者带来的不便之处就是:<br>没用bitcode之前，当应用程序奔溃后，开发者可以根据获取的的奔溃日志再配上上传到苹果服务器的二进制文件的调试符号表信息DSYM可以还原程序运行过程到奔溃时后调用栈信息，对问题进行定位排查。但是用了bitcode之后，用户安装的二进制不是开发者这边生成的，而是苹果服务器经过优化后生成的，其对应的调试符号信息丢失了，也就无法进行前面说的还原奔溃现场找原因了。</p>
+<h3 id="网络请求失败：App-Transport-Security-has-blocked-a-cleartext-HTTP-http-resource-load-since-it-is-insecure-Temporary-exceptions-can-be-configured-via-your-app-39-s-Info-plist-file"><a href="#网络请求失败：App-Transport-Security-has-blocked-a-cleartext-HTTP-http-resource-load-since-it-is-insecure-Temporary-exceptions-can-be-configured-via-your-app-39-s-Info-plist-file" class="headerlink" title="网络请求失败：App Transport Security has blocked a cleartext HTTP (http://) resource load since it is insecure. Temporary exceptions can be configured via your app&#39;s Info.plist file."></a>网络请求失败：<code>App Transport Security has blocked a cleartext HTTP (http://) resource load since it is insecure. Temporary exceptions can be configured via your app&#39;s Info.plist file.</code></h3><p>原因：<code>iOS9</code>默认使用<code>HTTPS</code>请求。解决：暂时退回<code>http</code>请求：在工程的<code>Info.plist</code>文件里添加<code>NSAppTransportSecurity</code>字典类型的，添加一个元素：<code>key</code>为<code>NSAllowsArbitraryLoads</code>，值为<code>YES</code></p>
+  <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;key&gt;NSAppTransportSecurity&lt;/key&gt;</span><br><span class="line">&lt;dict&gt;</span><br><span class="line">	&lt;key&gt;NSAllowsArbitraryLoads&lt;/key&gt;</span><br><span class="line">	&lt;true/&gt;</span><br><span class="line">&lt;/dict&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="iOS-9-使用-URL-scheme必须将其加入白名单"><a href="#iOS-9-使用-URL-scheme必须将其加入白名单" class="headerlink" title="iOS 9 使用 URL scheme必须将其加入白名单"></a><code>iOS 9</code> 使用 <code>URL scheme</code>必须将其加入<strong>白名单</strong></h3><ul>
 <li><code>canOpenURL: failed for URL: &quot;mqqopensdkapiV2://qqapp&quot; - error: &quot;This app is not allowed to query for schememqqopensdkapiV2”</code></li>
 <li>解决方法：<code>Info.plist</code>文件中添加一个<code>key</code>为<code>LSApplicationQueriesSchemes</code>的数组值，里面包含需要添加白名单的<code>string</code>类型的<code>scheme</code>。在项目中使用了qq，微信等分享登录功能，需要添加对应的key</li>
 </ul>
-</li>
-<li><p>系统<code>framework</code>问题，升级之后<code>framework</code>全变红了（并不影响程序运行），替换成<code>9.0</code>版本的<code>framework</code>即可，旧版本的<code>.dylib</code>后缀库文件在<code>Xcode7</code>中已经换成<code>.tbd</code>了，相应进行替换即可</p>
-</li>
+<ul>
+<li>系统<code>framework</code>问题，升级之后<code>framework</code>全变红了（并不影响程序运行），替换成<code>9.0</code>版本的<code>framework</code>即可，旧版本的<code>.dylib</code>后缀库文件在<code>Xcode7</code>中已经换成<code>.tbd</code>了，相应进行替换即可</li>
+</ul>
+<h2 id="XCode-10-遇到的问题"><a href="#XCode-10-遇到的问题" class="headerlink" title="XCode 10 遇到的问题"></a>XCode 10 遇到的问题</h2><blockquote>
+<p>ld: library not found for -lstdc++.6.0.9<br>clang: error: linker command failed with exit code 1 (use -v to see invocation)<br>linker command failed with exit code 1 (use -v to see invocation)</p>
+</blockquote>
+<p><strong>解决：</strong></p>
+<p>把以下3个文件copy到<br><code>/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/usr/lib</code> 目录</p>
+<ul>
+<li>libstdc++.6.0.9.tbd</li>
+<li>libstdc++.6.tbd</li>
+<li>libstdc++.tbd</li>
 </ul>
 <h2 id="Xcode更新后-无法跳转和查看注释"><a href="#Xcode更新后-无法跳转和查看注释" class="headerlink" title="Xcode更新后,无法跳转和查看注释"></a>Xcode更新后,无法跳转和查看注释</h2><p>本来默认有跳转功能,但是更新后一直都是<code>Symbol not found</code>,原因是工程的索引文件在更新后被破坏了,必须到<code>~/Library/Developer/Xcode/DerivedData</code>下把相应的工程的文件夹给删除就行了.删除之后再<code>rebuild</code>一次,就可以看到索引了.<code>Xcode</code>经常出一些莫名其妙的问题。</p>
 <h2 id="让使用ARC机制的代码不使用ARC机制"><a href="#让使用ARC机制的代码不使用ARC机制" class="headerlink" title="让使用ARC机制的代码不使用ARC机制"></a>让使用ARC机制的代码不使用ARC机制</h2><p><strong>导航文件–&gt; 选中<code>Targets</code>–&gt; 选择 <code>Build Phases</code> –&gt; 展开<code>Compile Sources</code></strong></p>
@@ -526,12 +554,18 @@
 </tr>
 </tbody>
 </table>
+<h2 id="could-not-find-developer-disk-image"><a href="#could-not-find-developer-disk-image" class="headerlink" title="could not find developer disk image"></a>could not find developer disk image</h2><p><strong>解决</strong><br>将你对应缺少的 Disk Image 版本放入</p>
+<blockquote>
+<p>/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/DeviceSupport</p>
+</blockquote>
+<p><img src="../assets/2020-xcode-1.png" alt=""></p>
 <h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ul>
 <li><p><a href="https://blog.csdn.net/phunxm/article/details/17044337" target="_blank" rel="noopener">Xcode操作流</a></p>
 </li>
 <li><p><a href="https://blog.csdn.net/simon699/article/details/39398453" target="_blank" rel="noopener">Xcode6 模拟器路径【修改】</a></p>
 </li>
 <li><a href="https://blog.csdn.net/he15023306643/article/details/48684229" target="_blank" rel="noopener">升级Xcode7后遇到的一些问题</a></li>
+<li><a href="http://xelz.info/blog/2018/11/24/all-you-need-to-know-about-bitcode/" target="_blank" rel="noopener">关于bitcode, 知道这些就够了</a></li>
 </ul>
 
       
@@ -656,7 +690,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">114</span>
+                  <span class="site-state-item-count">122</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -741,7 +775,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Xcode-6-遇到的问题"><span class="nav-number">1.</span> <span class="nav-text">Xcode 6 遇到的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Xcode-7-遇到额问题"><span class="nav-number">2.</span> <span class="nav-text">Xcode 7 遇到额问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Xcode更新后-无法跳转和查看注释"><span class="nav-number">3.</span> <span class="nav-text">Xcode更新后,无法跳转和查看注释</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#让使用ARC机制的代码不使用ARC机制"><span class="nav-number">4.</span> <span class="nav-text">让使用ARC机制的代码不使用ARC机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Xcode-常用快捷键"><span class="nav-number">5.</span> <span class="nav-text">Xcode 常用快捷键</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-number">6.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#SRCROOT-和-PROJECT-DIR"><span class="nav-number">1.</span> <span class="nav-text">$(SRCROOT) 和 $(PROJECT_DIR)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Library-Search-Paths-Header-Search-Paths"><span class="nav-number">2.</span> <span class="nav-text">Library Search Paths / Header Search Paths</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Xcode-6-遇到的问题"><span class="nav-number">3.</span> <span class="nav-text">Xcode 6 遇到的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Xcode-7-遇到的问题"><span class="nav-number">4.</span> <span class="nav-text">Xcode 7 遇到的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#does-not-contain-bitcode"><span class="nav-number">4.1.</span> <span class="nav-text">does not contain bitcode</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Bitcode"><span class="nav-number">4.1.1.</span> <span class="nav-text">Bitcode</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#网络请求失败：App-Transport-Security-has-blocked-a-cleartext-HTTP-http-resource-load-since-it-is-insecure-Temporary-exceptions-can-be-configured-via-your-app-39-s-Info-plist-file"><span class="nav-number">4.2.</span> <span class="nav-text">网络请求失败：App Transport Security has blocked a cleartext HTTP (http://) resource load since it is insecure. Temporary exceptions can be configured via your app&#39;s Info.plist file.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#iOS-9-使用-URL-scheme必须将其加入白名单"><span class="nav-number">4.3.</span> <span class="nav-text">iOS 9 使用 URL scheme必须将其加入白名单</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#XCode-10-遇到的问题"><span class="nav-number">5.</span> <span class="nav-text">XCode 10 遇到的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Xcode更新后-无法跳转和查看注释"><span class="nav-number">6.</span> <span class="nav-text">Xcode更新后,无法跳转和查看注释</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#让使用ARC机制的代码不使用ARC机制"><span class="nav-number">7.</span> <span class="nav-text">让使用ARC机制的代码不使用ARC机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Xcode-常用快捷键"><span class="nav-number">8.</span> <span class="nav-text">Xcode 常用快捷键</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#could-not-find-developer-disk-image"><span class="nav-number">9.</span> <span class="nav-text">could not find developer disk image</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-number">10.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
             
 
           </div>

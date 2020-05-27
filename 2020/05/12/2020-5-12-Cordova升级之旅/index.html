@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next gemini" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="iOS,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="记录一次 Cordova 的升级之旅背景： Updating Apps that Use Web ViewsDecember 23, 2019 If your app still embeds web content using the deprecated UIWebView API, we strongly encourage you to update to WKWebView as soo">
+<meta name="keywords" content="iOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="记录一次 Cordova 的升级之旅">
+<meta property="og:url" content="http://yoursite.com/2020/05/12/2020-5-12-Cordova升级之旅/index.html">
+<meta property="og:site_name" content="Karl&#39;s Blog">
+<meta property="og:description" content="记录一次 Cordova 的升级之旅背景： Updating Apps that Use Web ViewsDecember 23, 2019 If your app still embeds web content using the deprecated UIWebView API, we strongly encourage you to update to WKWebView as soo">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2020/05/12/assets/image-20200115112443562.png">
+<meta property="og:image" content="http://yoursite.com/2020/05/12/assets/image-20200115112127200.png">
+<meta property="og:image" content="http://yoursite.com/2020/05/12/assets/image-20200116181552454.png">
+<meta property="og:image" content="http://yoursite.com/2020/05/12/assets/image-20200417134502535.png">
+<meta property="og:image" content="http://yoursite.com/2020/05/12/assets/image-20200417134539877.png">
+<meta property="og:image" content="http://yoursite.com/2020/05/12/assets/image-20200417134811158.png">
+<meta property="og:image" content="http://yoursite.com/2020/05/12/assets/image-20200427110931791.png">
+<meta property="og:image" content="http://yoursite.com/2020/05/12/assets/image-20200430090353302.png">
+<meta property="og:image" content="http://yoursite.com/2020/05/12/assets/image-20200429165909159.png">
+<meta property="og:updated_time" content="2020-05-27T14:35:39.646Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="记录一次 Cordova 的升级之旅">
+<meta name="twitter:description" content="记录一次 Cordova 的升级之旅背景： Updating Apps that Use Web ViewsDecember 23, 2019 If your app still embeds web content using the deprecated UIWebView API, we strongly encourage you to update to WKWebView as soo">
+<meta name="twitter:image" content="http://yoursite.com/2020/05/12/assets/image-20200115112443562.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/05/12/2020-5-12-Cordova升级之旅/">
+
+
+
+
+
+  <title>记录一次 Cordova 的升级之旅 | Karl's Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?d714d594e46d4e86189e49fe568d871a";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Karl's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/12/2020-5-12-Cordova升级之旅/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="karl">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Karl's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">记录一次 Cordova 的升级之旅</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-12T12:21:07+08:00">
+                2020-05-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="记录一次-Cordova-的升级之旅"><a href="#记录一次-Cordova-的升级之旅" class="headerlink" title="记录一次 Cordova 的升级之旅"></a>记录一次 Cordova 的升级之旅</h1><h2 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h2><blockquote>
+<h2 id="Updating-Apps-that-Use-Web-Views"><a href="#Updating-Apps-that-Use-Web-Views" class="headerlink" title="Updating Apps that Use Web Views"></a><a href="https://developer.apple.com/news/?id=12232019b" target="_blank" rel="noopener">Updating Apps that Use Web Views</a></h2><p>December 23, 2019</p>
+<p>If your app still embeds web content using the deprecated UIWebView API, we strongly encourage you to update to WKWebView as soon as possible for improved security and reliability. WKWebView ensures that compromised web content doesn’t affect the rest of an app by limiting web processing to the app’s web view. And it’s supported in iOS and macOS, and by Mac Catalyst.The App Store will no longer accept new apps using UIWebView as of April 2020 and app updates using UIWebView as of December 2020.</p>
+</blockquote>
+<h2 id="现状"><a href="#现状" class="headerlink" title="现状"></a>现状</h2><ol>
+<li><p>源码集成的方式集成了 Cordova 3.5 版本。Cordova 4.0.0 以后，有重大更新，组织架构发生巨大变化。 目前是 5.x版本。ps. 我们对源码集成的 Cordova 3.5 做过少许改动，但是没有记录。只能通过代码对比确认。</p>
+</li>
+<li><p>Sencha Touch 2.3 官方已经不再维护。</p>
+</li>
+</ol>
+<a id="more"></a>
+<p>我们工程的组织：</p>
+<p><img src="../assets/image-20200115112443562.png" alt="image-20200115112443562"></p>
+<h2 id="资料："><a href="#资料：" class="headerlink" title="资料："></a>资料：</h2><p>1.<a href="https://docs.sencha.com/touch/2.3.1/#!/guide/whats_new" target="_blank" rel="noopener">Sencha Touch 2.3</a></p>
+<p><img src="../assets/image-20200115112127200.png" alt="image-20200115112127200"></p>
+<ol start="2">
+<li><p><a href="https://github.com/apache/cordova-ios/pull/663" target="_blank" rel="noopener">Removed all UIWebView code. </a></p>
+</li>
+<li><p>网上查阅的资料：</p>
+</li>
+</ol>
+<ul>
+<li><p><a href="https://cordova.apache.org/docs/en/latest/" target="_blank" rel="noopener">Cordova</a></p>
+</li>
+<li><p><a href="https://cordova.apache.org/docs/en/9.x/guide/overview/index.html" target="_blank" rel="noopener">Cordova OverView</a></p>
+</li>
+<li><p><a href="https://cordova.apache.org/docs/en/latest/guide/platforms/ios/webview.html" target="_blank" rel="noopener">iOS WebViews</a></p>
+</li>
+<li><p><a href="https://github.com/apache/cordova-ios" target="_blank" rel="noopener">cordova-ios</a></p>
+</li>
+<li><p><a href="https://shazronatadobe.wordpress.com/2015/03/03/wkwebview-and-apache-cordova/" target="_blank" rel="noopener">WKWebView and Apache Cordova</a></p>
+</li>
+<li><p><a href="https://www.jianshu.com/p/e659cff182e1" target="_blank" rel="noopener">现有Hybird项目升级改造Cordova，Cordova设计思想分享</a></p>
+</li>
+<li><p><a href="https://www.jianshu.com/p/a6dd9b7c4ea7" target="_blank" rel="noopener">已有iOS项目集成Cordova(PhoneGap)</a></p>
+</li>
+</ul>
+<h2 id="思路："><a href="#思路：" class="headerlink" title="思路："></a>思路：</h2><p>一 升级（Cordova 3.5–&gt;5.x）</p>
+<blockquote>
+<p> 升级跨度比较大，尤其是 4.0.0 以后，有重大更新。Cordova 框架升级，会导致所有的插件需要相应升级处理。而且不保证 Sencha Touch 是否可以继续运行良好。</p>
+</blockquote>
+<p>二 在Cordova 3.5 版本的源码基础上 替换 UIWebView 为 WKWebView</p>
+<p><img src="../assets/image-20200116181552454.png" alt="image-20200116181552454"></p>
+<blockquote>
+<p><code>UIWebView 升级</code>  <code>WKWebView</code>，两者代理方法，执行 js 的方法，属性，回调 以及关键的 <code>native</code> 交互方式已经发生变化，反推Cordova 也还是要改动。毕竟不是Cordova 的核心作者，贸然出手估计也改不好。个人觉得千万别乱改人家的东西！</p>
+</blockquote>
+<h3 id="我的思路："><a href="#我的思路：" class="headerlink" title="我的思路："></a>我的思路：</h3><p>整体上评估这个方案，Cordova 社区不太活跃，实施的可能性还是有的，但既然是重构大家更愿意使用社区活跃稳定更新维护的技术框架作为解决方案。可能会带来的几个大问题：</p>
+<ul>
+<li>cordova 包括 Cordova Native 和 Cordova js，两端都要升级这一点毋庸置疑。</li>
+<li>所有自定义插件调用方式修改</li>
+<li>修改继承自Cordova <code>CDVViewController</code>类的子类（例如：<code>LKLWebViewxxx</code>）</li>
+<li>工程本身的一些问题 ps. 这个和工程耦合比较大，这里不赘述</li>
+</ul>
+<hr>
+<h2 id="尝试："><a href="#尝试：" class="headerlink" title="尝试："></a>尝试：</h2><p>先看一下，现在  Cordova 脚手架创建的工程。</p>
+<ol>
+<li>脚手架创建一个 Cordova 项目，工程组织。如下：</li>
+</ol>
+<p><img src="../assets/image-20200417134502535.png" alt="image-20200417134502535"></p>
+<blockquote>
+<p>iOS platform</p>
+</blockquote>
+<p><img src="../assets/image-20200417134539877.png" alt="image-20200417134539877"></p>
+<blockquote>
+<p>iOS project</p>
+</blockquote>
+<p><img src="../assets/image-20200417134811158.png" alt="image-20200417134811158"></p>
+<h2 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h2><p>使用 Cordova 最新的库，然后替换我们工程里边的老版本。</p>
+<blockquote>
+<p>我们工程中有而现有 Cordova 库没有的类<br><img src="../assets/image-20200427110931791.png" alt="image-20200427110931791"></p>
+</blockquote>
+<blockquote>
+<p>我删除的类<br><img src="../assets/image-20200430090353302.png" alt="image-20200430090353302"></p>
+</blockquote>
+<blockquote>
+<p>继承图<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">XXXMessageWebViewController</span><br><span class="line">       /|\</span><br><span class="line">        |  </span><br><span class="line">XXXExternalWebViewController / XXXInternalWebViewController</span><br><span class="line">       /|\</span><br><span class="line">        |</span><br><span class="line">XXXBaseWebAppViewController</span><br><span class="line">  |---------------------------------------------|</span><br><span class="line">  | - setEntry // 页面载入的入口(本地和远程)        |</span><br><span class="line">  | - viewDidLoad                               |</span><br><span class="line">  | // 设置入口                                   |</span><br><span class="line">  | // 注册 request和lanucher 插件                |</span><br><span class="line">  |---------------------------------------------</span><br><span class="line">       /|\</span><br><span class="line">        |</span><br><span class="line">XXXCoreWebAppViewController</span><br><span class="line">       /|\</span><br><span class="line">        |</span><br><span class="line">XXXCDVViewController</span><br><span class="line">       /|\</span><br><span class="line">        |</span><br><span class="line">CDVViewController</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<h3 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h3><h4 id="插件js-不加载问题"><a href="#插件js-不加载问题" class="headerlink" title="插件js 不加载问题"></a>插件js 不加载问题</h4><p><img src="../assets/image-20200429165909159.png" alt="image-20200429165909159"></p>
+<p>我已开始找了很长时间，一直没找到，在哪儿加载的这个js，后来在 <code>cordova.js</code></p>
+<p>里边找到了</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Tries to load all plugins' js-modules.</span></span><br><span class="line"><span class="comment">// This is an async process, but onDeviceReady is blocked on onPluginsReady.</span></span><br><span class="line"><span class="comment">// onPluginsReady is fired when there are no plugins to load, or they are all done.</span></span><br><span class="line">exports.load = <span class="function"><span class="keyword">function</span> (<span class="params">callback</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> pathPrefix = findCordovaPath();</span><br><span class="line">  <span class="keyword">if</span> (pathPrefix === <span class="literal">null</span>) &#123;</span><br><span class="line">  	<span class="built_in">console</span>.log(<span class="string">'Could not find cordova.js script tag. Plugin loading may fail.'</span>);</span><br><span class="line">  	pathPrefix = <span class="string">''</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  injectIfNecessary(<span class="string">'cordova/plugin_list'</span>, pathPrefix + <span class="string">'cordova_plugins.js'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> moduleList = <span class="built_in">require</span>(<span class="string">'cordova/plugin_list'</span>);</span><br><span class="line">    handlePluginsObject(pathPrefix, moduleList, callback);</span><br><span class="line">  &#125;, callback);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h4 id="别忘了设置-user-agent"><a href="#别忘了设置-user-agent" class="headerlink" title="!!! 别忘了设置 user agent"></a>!!! 别忘了设置 user agent</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">// 修改userAgent</span><br><span class="line">- (void)addToWebViewUserAgent:(NSString *)addAgent</span><br><span class="line">&#123;</span><br><span class="line">    static dispatch_once_t onceToken;</span><br><span class="line">    dispatch_once(&amp;onceToken, ^&#123;</span><br><span class="line">        WKWebView *webView = [WKWebView new];</span><br><span class="line">        [webView evaluateJavaScript:@&quot;navigator.userAgent&quot; completionHandler:^(id _Nullable oldAgent, NSError * _Nullable error) &#123;</span><br><span class="line">            if (![oldAgent isKindOfClass:[NSString class]]) &#123;</span><br><span class="line">                // 为了避免没有获取到oldAgent，所以设置一个默认的userAgent</span><br><span class="line">                // Mozilla/5.0 (iPhone; CPU iPhone OS 12_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148</span><br><span class="line">                oldAgent = [NSString stringWithFormat:@&quot;Mozilla/5.0 (%@; CPU iPhone OS %@ like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148/xxx&quot;, [[UIDevice currentDevice] model], [[[UIDevice currentDevice] systemVersion] stringByReplacingOccurrencesOfString:@&quot;.&quot; withString:@&quot;_&quot;]];</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            //自定义user-agent</span><br><span class="line">            if (![oldAgent hasSuffix:addAgent]) &#123;</span><br><span class="line">                NSString *freshAgent = [oldAgent stringByAppendingFormat:@&quot;/%@&quot;,addAgent];</span><br><span class="line">                 [[NSUserDefaults standardUserDefaults] registerDefaults:@&#123;@&quot;UserAgent&quot;: freshAgent, @&quot;User-Agent&quot;: freshAgent&#125;];</span><br><span class="line">                // 一定要设置customUserAgent，否则执行navigator.userAgent拿不到oldAgent</span><br><span class="line">                webView.customUserAgent = freshAgent;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;];</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="加载路径问题"><a href="#加载路径问题" class="headerlink" title="加载路径问题"></a>加载路径问题</h4><p>重写 <code>CDVCommandDelegateImpl</code> 中的方法，指定你要的路径即可</p>
+<p><code>- (NSString*)pathForResource:(NSString*)resourcepath;</code></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/04/15/2020-4-15-CordovaJs/" rel="next" title="Cordova Js">
+                <i class="fa fa-chevron-left"></i> Cordova Js
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/05/17/2020-5-17-了解SQLite/" rel="prev" title="了解SQLite">
+                了解SQLite <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="karl">
+            
+              <p class="site-author-name" itemprop="name">karl</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">122</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">87</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/likenow" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:fmslikai@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://yujiangshui.com/" title="yujiangshui" target="_blank">yujiangshui</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#记录一次-Cordova-的升级之旅"><span class="nav-number">1.</span> <span class="nav-text">记录一次 Cordova 的升级之旅</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景："><span class="nav-number">1.1.</span> <span class="nav-text">背景：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Updating-Apps-that-Use-Web-Views"><span class="nav-number">1.2.</span> <span class="nav-text">Updating Apps that Use Web Views</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#现状"><span class="nav-number">1.3.</span> <span class="nav-text">现状</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#资料："><span class="nav-number">1.4.</span> <span class="nav-text">资料：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#思路："><span class="nav-number">1.5.</span> <span class="nav-text">思路：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#我的思路："><span class="nav-number">1.5.1.</span> <span class="nav-text">我的思路：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#尝试："><span class="nav-number">1.6.</span> <span class="nav-text">尝试：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实战"><span class="nav-number">1.7.</span> <span class="nav-text">实战</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#遇到的问题"><span class="nav-number">1.7.1.</span> <span class="nav-text">遇到的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#插件js-不加载问题"><span class="nav-number">1.7.1.1.</span> <span class="nav-text">插件js 不加载问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#别忘了设置-user-agent"><span class="nav-number">1.7.1.2.</span> <span class="nav-text">!!! 别忘了设置 user agent</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#加载路径问题"><span class="nav-number">1.7.1.3.</span> <span class="nav-text">加载路径问题</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2013 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">karl</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

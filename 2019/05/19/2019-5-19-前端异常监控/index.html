@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next gemini" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="iOS,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前端异常监控一般而言，一个监控系统，大致可分为：日志采集、日志存储、统计与分析、报告和警告。  采集阶段：收集异常日志，先在本地做一定的处理，采取一定的方案上报到服务器。  存储阶段：后端接收前端上报的异常日志，经过一定处理，按照一定的存储方案存储。  分析阶段：分为机器自动分析和人工分析。机器自动分析，通过预设的条件和算法，对存储的日志信息进行统计和筛选，发现问题，触发报警。人工分析，通过提供一">
+<meta name="keywords" content="iOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端异常监控">
+<meta property="og:url" content="http://yoursite.com/2019/05/19/2019-5-19-前端异常监控/index.html">
+<meta property="og:site_name" content="Karl&#39;s Blog">
+<meta property="og:description" content="前端异常监控一般而言，一个监控系统，大致可分为：日志采集、日志存储、统计与分析、报告和警告。  采集阶段：收集异常日志，先在本地做一定的处理，采取一定的方案上报到服务器。  存储阶段：后端接收前端上报的异常日志，经过一定处理，按照一定的存储方案存储。  分析阶段：分为机器自动分析和人工分析。机器自动分析，通过预设的条件和算法，对存储的日志信息进行统计和筛选，发现问题，触发报警。人工分析，通过提供一">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-05-27T14:35:39.646Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="前端异常监控">
+<meta name="twitter:description" content="前端异常监控一般而言，一个监控系统，大致可分为：日志采集、日志存储、统计与分析、报告和警告。  采集阶段：收集异常日志，先在本地做一定的处理，采取一定的方案上报到服务器。  存储阶段：后端接收前端上报的异常日志，经过一定处理，按照一定的存储方案存储。  分析阶段：分为机器自动分析和人工分析。机器自动分析，通过预设的条件和算法，对存储的日志信息进行统计和筛选，发现问题，触发报警。人工分析，通过提供一">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/05/19/2019-5-19-前端异常监控/">
+
+
+
+
+
+  <title>前端异常监控 | Karl's Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?d714d594e46d4e86189e49fe568d871a";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Karl's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/19/2019-5-19-前端异常监控/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="karl">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Karl's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">前端异常监控</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-19T12:21:07+08:00">
+                2019-05-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前端异常监控"><a href="#前端异常监控" class="headerlink" title="前端异常监控"></a>前端异常监控</h2><p>一般而言，一个监控系统，大致可分为：日志采集、日志存储、统计与分析、报告和警告。</p>
+<ul>
+<li><p>采集阶段：收集异常日志，先在本地做一定的处理，采取一定的方案上报到服务器。</p>
+</li>
+<li><p>存储阶段：后端接收前端上报的异常日志，经过一定处理，按照一定的存储方案存储。</p>
+</li>
+<li><p>分析阶段：分为机器自动分析和人工分析。机器自动分析，通过预设的条件和算法，对存储的日志信息进行统计和筛选，发现问题，触发报警。人工分析，通过提供一个可视化的数据面板，让系统用户可以看到具体的日志数据，根据信息，发现异常问题根源。</p>
+</li>
+<li><p>报警阶段：分为告警和预警。告警按照一定的级别自动报警，通过设定的渠道，按照一定的触发规则进行。预警则在异常发生前，提前预判，给出警告。</p>
+</li>
+</ul>
+<a id="more"></a>
+<h3 id="前端产生异常的原因主要分5类："><a href="#前端产生异常的原因主要分5类：" class="headerlink" title="前端产生异常的原因主要分5类："></a>前端产生异常的原因主要分5类：</h3><table>
+<thead>
+<tr>
+<th><strong>原因</strong></th>
+<th><strong>案例</strong></th>
+<th><strong>频率</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>逻辑错误</td>
+<td>1)    业务逻辑判断条件错误 2)    事件绑定顺序错误 3)    调用栈时序错误 4)    错误的操作js对象</td>
+<td>经常</td>
+</tr>
+<tr>
+<td>数据类型错误</td>
+<td>1)    将null视作对象读取property 2)    将undefined视作数组进行遍历 3)    将字符串形式的数字直接用于加运算 4)    函数参数未传</td>
+<td>经常</td>
+</tr>
+<tr>
+<td>语法句法错误</td>
+<td></td>
+<td>较少</td>
+</tr>
+<tr>
+<td>网络错误</td>
+<td>1)    慢 2)    服务端未返回数据但仍200，前端按正常进行数据遍历 3)    提交数据时网络中断 4)    服务端500错误时前端未做任何错误处理</td>
+<td>偶尔</td>
+</tr>
+<tr>
+<td>系统错误</td>
+<td>1)    内存不够用 2)    磁盘塞满 3)    壳不支持API 4)    不兼容</td>
+<td>较少</td>
+</tr>
+</tbody>
+</table>
+<h2 id="异常采集"><a href="#异常采集" class="headerlink" title="异常采集"></a>异常采集</h2><h3 id="1-全局捕获"><a href="#1-全局捕获" class="headerlink" title="1. 全局捕获"></a>1. 全局捕获</h3><h4 id="捕获方式"><a href="#捕获方式" class="headerlink" title="捕获方式"></a>捕获方式</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @param &#123;String&#125;  msg    错误信息</span></span><br><span class="line"><span class="comment"> * @param &#123;String&#125;  url    出错文件</span></span><br><span class="line"><span class="comment"> * @param &#123;Number&#125;  row    行号</span></span><br><span class="line"><span class="comment"> * @param &#123;Number&#125;  col    列号</span></span><br><span class="line"><span class="comment"> * @param &#123;Object&#125;  error  错误详细信息</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"> <span class="built_in">window</span>.onerror = <span class="function"><span class="keyword">function</span> (<span class="params">msg, url, row, col, error</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'我知道错误了'</span>);</span><br><span class="line">  <span class="built_in">console</span>.log(&#123;</span><br><span class="line">    msg,  url,  row, col, error</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;;</span><br><span class="line">error;</span><br></pre></td></tr></table></figure>
+<p>可以捕获：</p>
+<ul>
+<li>运行时错误（含异步错误）</li>
+<li>语法异常（SyntaxError）</li>
+</ul>
+<p><strong>小结</strong></p>
+<ol>
+<li><code>Chrome</code>中对于跨域脚本所报的异常，虽然<code>onerror</code>能够捕获，但统一报<code>Script Error</code>。若要得到正确的错误信息，则要配置跨域资源共享<code>CORS</code>才可以。</li>
+<li><code>window.onerror</code>实际上采用的事件冒泡的机制捕获异常，并且在冒泡(<code>bubble</code>)阶段时才触发，因此像<strong>网络请求异常</strong>这些不会冒泡的异常是无法捕获的。</li>
+<li><code>Promise.reject</code>产生的未被<code>catch</code>的异常，<code>window.onerror</code>也是无能为力。</li>
+</ol>
+<h3 id="2-单点捕获"><a href="#2-单点捕获" class="headerlink" title="2. 单点捕获"></a>2. 单点捕获</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>...catch</span><br></pre></td></tr></table></figure>
+<p>可以捕获：</p>
+<ul>
+<li>”同步代码“运行时错误</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> 无法获取如setTimeout、Promise等异步代码的异常，也就是说try/catch仅能捕获当前任务的异常，setTimeout等异步代码是在下一个EventLoop中执行</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    error        <span class="comment">// 异步错误</span></span><br><span class="line">  &#125;)</span><br><span class="line">&#125; <span class="keyword">catch</span>(e) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'我感知不到错误'</span>);</span><br><span class="line">  <span class="built_in">console</span>.log(e);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Promise-reject"><a href="#Promise-reject" class="headerlink" title="Promise.reject"></a>Promise.reject</h4><p>通过Promise来处理复杂的<strong>异步流程控制</strong>让我们得心应手，但倘若其中出现异常或<code>Promise</code>实例状态变为<code>rejected</code>时，会是怎样一个状况，我们又可以如何处理呢？</p>
+<ol>
+<li>调用<code>Promise.reject</code>类方法</li>
+<li>在工厂方法中调用<code>reject</code>方法</li>
+<li>在工厂方法或then回调函数中抛异常</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 方式1</span></span><br><span class="line"><span class="built_in">Promise</span>.reject(<span class="string">"anything you want"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 方式2</span></span><br><span class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve, reject</span>) </span>&#123; reject(<span class="string">"anything you want"</span>) &#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 方式3</span></span><br><span class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span></span>&#123; <span class="keyword">throw</span> <span class="string">"anything you want"</span> &#125;)</span><br><span class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">r</span>) </span>&#123; r(<span class="built_in">Error</span>(<span class="string">"anything you want"</span> ) &#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123; <span class="keyword">throw</span> e &#125;)</span><br></pre></td></tr></table></figure>
+<p> 当Promise实例从pending转变为rejected时，和之前谈论到异常一样，要么被捕获处理，要么继续抛出直到成为<code>Uncaught(in promise) Error</code>为止。</p>
+<h5 id="异常发生前就catch掉"><a href="#异常发生前就catch掉" class="headerlink" title="异常发生前就catch掉"></a>异常发生前就<code>catch</code>掉</h5><p> 若在异常发生前我们已经调用<code>catch</code>方法来捕获异常，那么则相安无事</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve, reject</span>)</span>&#123;</span><br><span class="line">  setTimeout(reject, <span class="number">0</span>)</span><br><span class="line">&#125;).catch(<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"catch"</span>)</span><br><span class="line">  <span class="keyword">return</span> <span class="string">"bingo"</span></span><br><span class="line">&#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params">x</span>)</span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(x)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 回显 bingo</span></span><br></pre></td></tr></table></figure>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>在实际的使用过程中，<code>onerror</code> 主要是来捕获预料之外的错误，而<code>try-catch</code> 则是用来在可预见情况下监控特定的错误，两者结合使用更加高效。</p>
+<h2 id="实战项目"><a href="#实战项目" class="headerlink" title="实战项目"></a>实战项目</h2><h3 id="Weex（Vue-Native）"><a href="#Weex（Vue-Native）" class="headerlink" title="Weex（Vue Native）"></a>Weex（Vue Native）</h3><p>首先，<code>Weex</code> 这种 <code>DSL</code> 对应的是 <code>Native</code>代码，显然不能用<code>JavaScript</code>或者 <code>Vue</code> 那一套异常监控。所以，最终事项的方案是依靠<code>Native</code>代码对<code>JavaScript</code> 运行环境的报错进行捕捉上送，或者再传递给页面的 JavaScript 提交错误信息。</p>
+<p><code>Weex</code>的异常分为2种，渲染异常和<code>js</code>执行异常。源码都会调到如下：</p>
+<ol>
+<li>Android 当中获取错误信息:</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">  * Report exception occurred when weex instance is running. Exception &lt;strong&gt;may not&lt;/strong&gt;</span></span><br><span class="line"><span class="comment">  * cause user-noticeable failure of weex.</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line"> <span class="function"><span class="keyword">void</span> <span class="title">onException</span><span class="params">(WXSDKInstance instance, String errCode, String msg)</span></span>;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>iOS 当中获取错误数据的相关代码：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (void)commitAppMonitorAlarm:(NSString *)pageName monitorPoint:(NSString *)monitorPoint success:(BOOL)success errorCode:(NSString *)errorCode errorMsg:(NSString *)errorMsg arg:(NSString *)arg;</span><br></pre></td></tr></table></figure>
+<h3 id="Sencha-Touch"><a href="#Sencha-Touch" class="headerlink" title="Sencha Touch"></a>Sencha Touch</h3><h3 id="HTML"><a href="#HTML" class="headerlink" title="HTML"></a>HTML</h3><p>这两种是可以尝试使用 js 异常监控的方案处理的。</p>
+<p>以 <code>Sencha Touch</code>为例，因为都是 <code>SAP</code> 所以，需要在每个页面的 <code>init</code> 方法中添加 <code>onerror</code> 监控，具体的函数块，可以 <code>try-catch</code></p>
+<h2 id="具体的实施"><a href="#具体的实施" class="headerlink" title="具体的实施"></a>具体的实施</h2><h3 id="1-采集"><a href="#1-采集" class="headerlink" title="1. 采集"></a>1. 采集</h3><ol>
+<li>目前的代码中，<code>try-catch</code> 相对较少，如果一个一个页面的加势必繁琐而且真正带来的收益不见得打；有没有一种方式：最后输出压缩文件的时候往文件块以及function块加入了<code>try-catch</code>，同时为每个块加入编号，这样出错的时候我们在日志里边就能看到是哪个块有问题。需要调研</li>
+<li>是否存在跨域问题，需要调研</li>
+<li>因为线上的代码是经过压缩混淆过得所以错误位置不准确。需要调研 <code>sourceMap</code></li>
+</ol>
+<h3 id="2-上送"><a href="#2-上送" class="headerlink" title="2. 上送"></a>2. 上送</h3><ol>
+<li>通过 <code>Ajax</code></li>
+<li><code>img</code> 标签</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">report</span>(<span class="params">msg, level</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> reportUrl = <span class="string">"http://localhost:8055/report"</span>;</span><br><span class="line">    <span class="keyword">new</span> Image().src = reportUrl + <span class="string">'?msg='</span> + msg;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>通过 <code>Native</code></li>
+</ol>
+<p>ps. 上送的频率、收集到的日志的合并 等学习 <code>AVOS</code> 的设计</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/04/《Python-基础教程第三版》摘录Part2/" rel="next" title="《Python 基础教程第三版》摘录Part2">
+                <i class="fa fa-chevron-left"></i> 《Python 基础教程第三版》摘录Part2
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/12/03/2019-12-3-一直用的Git真的了解吗/" rel="prev" title="一直用的 Git 真的了解吗？">
+                一直用的 Git 真的了解吗？ <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="karl">
+            
+              <p class="site-author-name" itemprop="name">karl</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">122</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">87</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/likenow" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:fmslikai@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://yujiangshui.com/" title="yujiangshui" target="_blank">yujiangshui</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前端异常监控"><span class="nav-number">1.</span> <span class="nav-text">前端异常监控</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#前端产生异常的原因主要分5类："><span class="nav-number">1.1.</span> <span class="nav-text">前端产生异常的原因主要分5类：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#异常采集"><span class="nav-number">2.</span> <span class="nav-text">异常采集</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-全局捕获"><span class="nav-number">2.1.</span> <span class="nav-text">1. 全局捕获</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#捕获方式"><span class="nav-number">2.1.1.</span> <span class="nav-text">捕获方式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-单点捕获"><span class="nav-number">2.2.</span> <span class="nav-text">2. 单点捕获</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Promise-reject"><span class="nav-number">2.2.1.</span> <span class="nav-text">Promise.reject</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#异常发生前就catch掉"><span class="nav-number">2.2.1.1.</span> <span class="nav-text">异常发生前就catch掉</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小结"><span class="nav-number">2.3.</span> <span class="nav-text">小结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实战项目"><span class="nav-number">3.</span> <span class="nav-text">实战项目</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Weex（Vue-Native）"><span class="nav-number">3.1.</span> <span class="nav-text">Weex（Vue Native）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Sencha-Touch"><span class="nav-number">3.2.</span> <span class="nav-text">Sencha Touch</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTML"><span class="nav-number">3.3.</span> <span class="nav-text">HTML</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#具体的实施"><span class="nav-number">4.</span> <span class="nav-text">具体的实施</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-采集"><span class="nav-number">4.1.</span> <span class="nav-text">1. 采集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-上送"><span class="nav-number">4.2.</span> <span class="nav-text">2. 上送</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2013 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">karl</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

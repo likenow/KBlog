@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next gemini" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="iOS,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="iOS中事件的传递和响应 假设场景是用户点击了屏幕上某个视图   谁可以响应这个事件？ 如何找到响应对象？ 对象如何响应？ 什么是传递链？ 什么是响应链？ 链是怎形成的？">
+<meta name="keywords" content="iOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS中事件的传递和响应">
+<meta property="og:url" content="http://yoursite.com/2020/05/27/2020-5-27-iOS中事件的响应和传递/index.html">
+<meta property="og:site_name" content="Karl&#39;s Blog">
+<meta property="og:description" content="iOS中事件的传递和响应 假设场景是用户点击了屏幕上某个视图   谁可以响应这个事件？ 如何找到响应对象？ 对象如何响应？ 什么是传递链？ 什么是响应链？ 链是怎形成的？">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2020/05/27/assets/2020-nsobject-hierarchy.jpeg">
+<meta property="og:image" content="http://yoursite.com/2020/05/27/assets/2020-iosevent-1.png">
+<meta property="og:updated_time" content="2020-05-27T14:35:39.646Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS中事件的传递和响应">
+<meta name="twitter:description" content="iOS中事件的传递和响应 假设场景是用户点击了屏幕上某个视图   谁可以响应这个事件？ 如何找到响应对象？ 对象如何响应？ 什么是传递链？ 什么是响应链？ 链是怎形成的？">
+<meta name="twitter:image" content="http://yoursite.com/2020/05/27/assets/2020-nsobject-hierarchy.jpeg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/05/27/2020-5-27-iOS中事件的响应和传递/">
+
+
+
+
+
+  <title>iOS中事件的传递和响应 | Karl's Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?d714d594e46d4e86189e49fe568d871a";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Karl's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/27/2020-5-27-iOS中事件的响应和传递/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="karl">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Karl's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">iOS中事件的传递和响应</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-27T12:21:07+08:00">
+                2020-05-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="iOS中事件的传递和响应"><a href="#iOS中事件的传递和响应" class="headerlink" title="iOS中事件的传递和响应"></a>iOS中事件的传递和响应</h1><blockquote>
+<p>假设场景是用户点击了屏幕上某个视图</p>
+</blockquote>
+<ol>
+<li>谁可以响应这个事件？</li>
+<li>如何找到响应对象？</li>
+<li>对象如何响应？</li>
+<li>什么是传递链？</li>
+<li>什么是响应链？</li>
+<li>链是怎形成的？</li>
+</ol>
+<a id="more"></a>
+<h2 id="UIResponder"><a href="#UIResponder" class="headerlink" title="UIResponder"></a>UIResponder</h2><blockquote>
+<p>An abstract interface for responding to and handling events.</p>
+</blockquote>
+<h3 id="Managing-the-Responder-Chain"><a href="#Managing-the-Responder-Chain" class="headerlink" title="Managing the Responder Chain"></a><span id="mtrc">Managing the Responder Chain</span></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">nextResponder</span><br><span class="line">    Returns the next responder in the responder chain, or nil if there is no next responder.</span><br><span class="line"></span><br><span class="line">isFirstResponder</span><br><span class="line">    Returns a Boolean value indicating whether this object is the first responder.</span><br><span class="line"></span><br><span class="line">canBecomeFirstResponder</span><br><span class="line">    Returns a Boolean value indicating whether this object can become the first responder.</span><br><span class="line"></span><br><span class="line">- becomeFirstResponder</span><br><span class="line">    Asks UIKit to make this object the first responder in its window.</span><br><span class="line"></span><br><span class="line">canResignFirstResponder</span><br><span class="line">    Returns a Boolean value indicating whether the receiver is willing to relinquish first-responder status.</span><br><span class="line"></span><br><span class="line">- resignFirstResponder</span><br><span class="line">    Notifies this object that it has been asked to relinquish its status as first responder in its window.</span><br></pre></td></tr></table></figure>
+<h3 id="Responding-to-Touch-Events"><a href="#Responding-to-Touch-Events" class="headerlink" title="Responding to Touch Events"></a><span id="rtte">Responding to Touch Events</span></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- touchesBegan:withEvent:</span><br><span class="line">    Tells this object that one or more new touches occurred in a view or window.</span><br><span class="line"></span><br><span class="line">- touchesMoved:withEvent:</span><br><span class="line">    Tells the responder when one or more touches associated with an event changed.</span><br><span class="line"></span><br><span class="line">- touchesEnded:withEvent:</span><br><span class="line">    Tells the responder when one or more fingers are raised from a view or window.</span><br><span class="line"></span><br><span class="line">- touchesCancelled:withEvent:</span><br><span class="line">    Tells the responder when a system event (such as a system alert) cancels a touch sequence.</span><br><span class="line"></span><br><span class="line">- touchesEstimatedPropertiesUpdated:</span><br><span class="line">    Tells the responder that updated values were received for previously estimated properties or that an update is no longer expected.</span><br></pre></td></tr></table></figure>
+<p><code>UIResponder</code> 决定了对象具有响应处理的能力，而用户看到的视图是 <code>UIView</code> , <code>UIView</code>提供了可视载体和点击坐标关联的能力</p>
+<p><em>这里也就回答了问题1</em></p>
+<p><img src="../assets/2020-nsobject-hierarchy.jpeg" alt=""></p>
+<h2 id="查找响应者"><a href="#查找响应者" class="headerlink" title="查找响应者"></a>查找响应者</h2><p>点击屏幕会产生一个触摸事件，系统监测到触摸事件后，会把事件包装成一个 <code>UIEvent</code>，传递到我们当前的 <code>UIApplication</code> 任务队列当中，然后 <code>UIApplication</code> 把事件传递给 <code>KeyWindow</code>， <code>KeyWindow</code> 会使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// Returns the farthest descendant of the receiver in the view hierarchy (including itself) that contains a specified point.</span><br><span class="line">// 返回包含指定点的视图层次结构中接收者的最远后代（包括自身）</span><br><span class="line">- hitTest: withEvent:</span><br><span class="line"></span><br><span class="line">// Returns a Boolean value indicating whether the receiver contains the specified point.</span><br><span class="line">- pointInside: withEvent:</span><br></pre></td></tr></table></figure>
+<p>从方法调用我们已经可以看出，点击被包装成一个点击事件 <code>UIEvent</code> ，<code>UIEvent</code> 不断流转的过程即事件传递过程如下：</p>
+<p><code>-hitTest:withEvent:</code> 方法通过调用每个子视图的 <code>-hitTest:withEvent:</code> 方法来确定哪个子视图应接收触摸事件，从而遍历视图层次结构。如果 <code>-pointInside: withEvent:</code> 返回 <code>YES</code>，然后类似地遍历子视图的层次结构，直到找到包含指定点的最前面的视图。</p>
+<p>这个过程可以总结为：查找点击坐标落点位置在其可视区域内且具备处理事件能力的对象–响应者。</p>
+<blockquote>
+<p>This method traverses the view hierarchy by calling the pointInside:withEvent: method of each subview to determine which subview should receive a touch event. If pointInside:withEvent: returns YES, then the subview’s hierarchy is similarly traversed until the frontmost view containing the specified point is found. If a view does not contain the point, its branch of the view hierarchy is ignored. You rarely need to call this method yourself, but you might override it to hide touch events from subviews.<br>This method ignores view objects that are hidden, that have disabled user interactions, or have an alpha level less than 0.01. This method does not take the view’s content into account when determining a hit. Thus, a view can still be returned even if the specified point is in a transparent portion of that view’s content.<br>Points that lie outside the receiver’s bounds are never reported as hits, even if they actually lie within one of the receiver’s subviews. This can occur if the current view’s clipsToBounds property is set to NO and the affected subview extends beyond the view’s bounds.</p>
+</blockquote>
+<p>根据，上述描述的代码实现：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- (<span class="built_in">UIView</span> *)hitTest:(<span class="built_in">CGPoint</span>)point withEvent:(<span class="built_in">UIEvent</span> *)event &#123;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">if</span> (!<span class="keyword">self</span>.userInteractionEnabled || [<span class="keyword">self</span> isHidden] || <span class="keyword">self</span>.alpha &lt;= <span class="number">0.1</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">nil</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> ([<span class="keyword">self</span> pointInside: point withEvent: event]) &#123;</span><br><span class="line">        __block <span class="built_in">UIView</span> *hit = <span class="literal">nil</span>;</span><br><span class="line">        [<span class="keyword">self</span>.subviews enumerateObjectsWithOptions: <span class="built_in">NSEnumerationReverse</span> usingBlock:^(__kindof <span class="built_in">UIView</span> * _Nonnull obj, <span class="built_in">NSUInteger</span> idx, <span class="built_in">BOOL</span> * _Nonnull stop) &#123;</span><br><span class="line">            <span class="built_in">CGPoint</span> currentPoint = [<span class="keyword">self</span> convertPoint: point toView: obj];</span><br><span class="line">            hit = [obj hitTest: currentPoint withEvent: event];</span><br><span class="line">            <span class="keyword">if</span> (hit) &#123;</span><br><span class="line">                *stop = <span class="literal">YES</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;];</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> (hit) &#123;</span><br><span class="line">            <span class="keyword">return</span> hit;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">self</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">nil</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述回答了 <em>如何找到响应对象？</em></p>
+<blockquote>
+<p>想让谁成为最合适的view就重写谁自己的父控件的hitTest:withEvent:方法返回指定的子控件，或者重写自己的hitTest:withEvent:方法 return self。但是，建议在父控件的hitTest:withEvent:中返回子控件作为最合适的view！</p>
+</blockquote>
+<h2 id="响应链-和-传递链"><a href="#响应链-和-传递链" class="headerlink" title="响应链 和 传递链"></a>响应链 和 传递链</h2><p><a href="#mtrc">Managing the Responder Chain</a></p>
+<blockquote>
+<p>The UIResponder class does not store or set the next responder automatically, so this method returns nil by default. Subclasses must override this method and return an appropriate next responder. For example, UIView implements this method and returns the UIViewController object that manages it (if it has one) or its superview (if it doesn’t). UIViewController similarly implements the method and returns its view’s superview. UIWindow returns the application object. The shared UIApplication object normally returns nil, but it returns its app delegate if that object is a subclass of UIResponder and has not already been called to handle the event.</p>
+</blockquote>
+<p><img src="../assets/2020-iosevent-1.png" alt=""></p>
+<p>上图流程：</p>
+<ol>
+<li><p>当 <code>initial view</code> 调用其 <code>nextResponder</code> 会返回其 <code>superView</code>;</p>
+</li>
+<li><p>如果当前的 <code>view</code> 为<code>UIViewController</code>的 <code>view</code> 被添加到其他 <code>view</code> 上，那么调用 <code>nextResponder</code> 会返回当前的<code>UIViewController</code>，而这个<code>UIViewController</code>的<code>nextResponder</code>为<code>view</code>的<code>superView</code>；<em>如右图</em></p>
+</li>
+<li><p>如果当前的<code>UIViewController</code>的<code>view</code>没有添加到任何其他<code>view</code>上，当前的<code>UIViewController</code>的<code>nextResponder</code>为<code>nil</code>；<em>如左图</em></p>
+</li>
+<li><p>如果当前<code>application</code>的<code>keyWindow</code>的<code>rootViewController</code>为<code>UINavigationController</code>(或<code>UITabViewController</code>)，那么通过调用<code>UINavigationController</code>(或<code>UITabViewController</code>)的<code>nextResponder</code>得到<code>keyWinodw</code>；</p>
+</li>
+<li><p><code>keyWinodw</code>的<code>nextResponder</code>为<code>UIApplication</code>，<code>UIApplication</code>的<code>nextResponder</code>为<code>AppDelegate</code>，<code>AppDelegate</code>的<code>nextResponder</code>为<code>nil</code>。</p>
+</li>
+</ol>
+<p>“链”这个概念简单描述为如下的结构：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// a 指向 b ...</span><br><span class="line">a -&gt; b -&gt; c -&gt; ... -&gt; n</span><br></pre></td></tr></table></figure>
+<p>所以，上图的<strong>响应链</strong>：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">左图： initial view -&gt; view -&gt; view的Controller -&gt; window  -&gt; application</span><br><span class="line"></span><br><span class="line">右图： initial view -&gt; view -&gt; view的controller -&gt; view -&gt; viewController  -&gt; window  -&gt; application</span><br></pre></td></tr></table></figure></p>
+<p><strong>传递链</strong> 正好是一个反方向的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">左图： initial view &lt;- view &lt;- view的Controller &lt;- window  &lt;- application</span><br><span class="line"></span><br><span class="line">右图： initial view &lt;- view &lt;- view的controller &lt;- view &lt;- viewController  &lt;- window  &lt;- application</span><br></pre></td></tr></table></figure>
+<p>流程描述：</p>
+<ol>
+<li>我们点击屏幕产生触摸事件，系统将这个事件加入到一个由<code>UIApplication</code>管理的事件队列中，<code>UIApplication</code>会从消息队列里取事件分发下去，首先传给<code>UIWindow</code></li>
+<li>在<code>UIWindow</code>中就会调用<code>hitTest:withEvent:</code>方法去返回一个最终响应的视图</li>
+<li>在<code>hitTest:withEvent:</code>方法中就会去调用<code>pointInside: withEvent:</code>去判断当前点击的<code>point</code>是否在<code>UIWindow</code>范围内，如果是的话，就会去遍历它的子视图来查找最终响应的子视图</li>
+<li>遍历的方式是使用<strong>倒序</strong>的方式来遍历子视图，也就是说最后添加的子视图会最先遍历（ps.降低循环次数，提高效率），在每一个视图中都回去调用它的<code>hitTest:withEvent:</code>方法，可以理解为是一个递归调用</li>
+<li>最终会返回一个响应视图，如果返回视图有值，那么这个视图就作为最终响应视图，结束整个事件传递；如果没有值，那么就会将<code>UIWindow</code>作为响应者</li>
+</ol>
+<p>我们看到，所谓的链 是 <code>UIResponder</code> 属性 nextResponder 串联起来抽象出来的概念。</p>
+<h2 id="事件处理"><a href="#事件处理" class="headerlink" title="事件处理"></a>事件处理</h2><p><a href="#rtte">Responding to Touch Events</a></p>
+<p>响应者继承响应方法，就只做了一件事，就是将事件沿着响应链向上传递<code>[self.nextResponder touchesBegan:touches withEvent:event]</code>，所以当一个<code>view</code>或者<code>controller</code>里面没有重写<code>touch</code>事件，那么这个事件就会一直传递下去，直到<code>UIApplication</code>，这也就是事件往上<strong>冒泡</strong>的原理。如果<code>view</code>重写了<code>touch</code>方法，我们一般会看到的效果是，这个<code>view</code>响应了事件之后，事件就被<strong>截断</strong>了，它的<code>nextResponder</code>不会收到这个事件，这个时候如果想事件继续传递下去，可以调用<code>[super touchesBegan:touches withEvent:event]</code>，不建议直接调<code>[self.nextResponder touchesBegan:touches withEvent:event]</code>。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a href="https://developer.apple.com/documentation/uikit/touches_presses_and_gestures/using_responders_and_the_responder_chain_to_handle_events?language=objc" target="_blank" rel="noopener">Using Responders and the Responder Chain to Handle Events</a></li>
+<li><a href="https://developer.apple.com/documentation/uikit/touches_presses_and_gestures?language=objc" target="_blank" rel="noopener">Touches, Presses, and Gestures</a></li>
+<li><a href="https://developer.apple.com/documentation/uikit/uiresponder/1621099-nextresponder?language=objc" target="_blank" rel="noopener">nextResponder</a></li>
+<li><a href="https://zhoon.github.io/ios/2015/04/12/ios-event.html" target="_blank" rel="noopener">深入浅出iOS事件机制</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/05/17/2020-5-17-了解SQLite/" rel="next" title="了解SQLite">
+                <i class="fa fa-chevron-left"></i> 了解SQLite
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/05/27/2020-5-27-hexoEnd/" rel="prev" title="我把博客文章都整理到GitHub了">
+                我把博客文章都整理到GitHub了 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="karl">
+            
+              <p class="site-author-name" itemprop="name">karl</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">122</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">87</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/likenow" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:fmslikai@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://yujiangshui.com/" title="yujiangshui" target="_blank">yujiangshui</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#iOS中事件的传递和响应"><span class="nav-number">1.</span> <span class="nav-text">iOS中事件的传递和响应</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#UIResponder"><span class="nav-number">1.1.</span> <span class="nav-text">UIResponder</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Managing-the-Responder-Chain"><span class="nav-number">1.1.1.</span> <span class="nav-text">Managing the Responder Chain</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Responding-to-Touch-Events"><span class="nav-number">1.1.2.</span> <span class="nav-text">Responding to Touch Events</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查找响应者"><span class="nav-number">1.2.</span> <span class="nav-text">查找响应者</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#响应链-和-传递链"><span class="nav-number">1.3.</span> <span class="nav-text">响应链 和 传递链</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事件处理"><span class="nav-number">1.4.</span> <span class="nav-text">事件处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">1.5.</span> <span class="nav-text">参考资料</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2013 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">karl</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

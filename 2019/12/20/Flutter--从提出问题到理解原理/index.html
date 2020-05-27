@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next gemini" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="iOS,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Flutter–从提出问题到原理探索（一）好奇 &amp;amp; 疑问我的好奇与疑问： flutter 是如何在iOS/Android 上跑起来的？专业点儿描述的话就是 flutter 是如何被编译运行到设备上的？ Flutter如何做到Debug模式Hot Reload快速生效变更，Release模式原生体验的呢？ Flutter工程和我们的Android/iOS工程有何差别，关系如何，又是如何嵌入A">
+<meta name="keywords" content="iOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Flutter--从提出问题到原理探索（一）">
+<meta property="og:url" content="http://yoursite.com/2019/12/20/Flutter--从提出问题到理解原理/index.html">
+<meta property="og:site_name" content="Karl&#39;s Blog">
+<meta property="og:description" content="Flutter–从提出问题到原理探索（一）好奇 &amp;amp; 疑问我的好奇与疑问： flutter 是如何在iOS/Android 上跑起来的？专业点儿描述的话就是 flutter 是如何被编译运行到设备上的？ Flutter如何做到Debug模式Hot Reload快速生效变更，Release模式原生体验的呢？ Flutter工程和我们的Android/iOS工程有何差别，关系如何，又是如何嵌入A">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2019/12/20/assets/image-20191218112803994.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/20/assets/image-20191218091427069.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/20/assets/image-20191218091746808.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/20/assets/image-20191218154107873.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/20/assets/image-20191218154613973.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/20/assets/image-20191218154949581.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/20/assets/image-20191218155614243.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/20/assets/image-20191218175710963.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/20/assets/image-20191218163718100.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/20/assets/image-20191218164054578.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/20/assets/image-20191218180150831.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/20/assets/image-20191218174735965.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/20/assets/image-20191218175600530.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/20/assets/image-20191218180120807.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/20/assets/image-20191219111557092.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/20/assets/image-20191219153632559.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/20/assets/image-20191219114428981.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/20/assets/image-20191219135313857.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/20/assets/image-20191219153222051.png">
+<meta property="og:updated_time" content="2020-05-27T14:35:39.646Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Flutter--从提出问题到原理探索（一）">
+<meta name="twitter:description" content="Flutter–从提出问题到原理探索（一）好奇 &amp;amp; 疑问我的好奇与疑问： flutter 是如何在iOS/Android 上跑起来的？专业点儿描述的话就是 flutter 是如何被编译运行到设备上的？ Flutter如何做到Debug模式Hot Reload快速生效变更，Release模式原生体验的呢？ Flutter工程和我们的Android/iOS工程有何差别，关系如何，又是如何嵌入A">
+<meta name="twitter:image" content="http://yoursite.com/2019/12/20/assets/image-20191218112803994.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/12/20/Flutter--从提出问题到理解原理/">
+
+
+
+
+
+  <title>Flutter--从提出问题到原理探索（一） | Karl's Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?d714d594e46d4e86189e49fe568d871a";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Karl's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/20/Flutter--从提出问题到理解原理/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="karl">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Karl's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Flutter--从提出问题到原理探索（一）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-20T12:21:07+08:00">
+                2019-12-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Flutter–从提出问题到原理探索（一）"><a href="#Flutter–从提出问题到原理探索（一）" class="headerlink" title="Flutter–从提出问题到原理探索（一）"></a>Flutter–从提出问题到原理探索（一）</h1><h2 id="好奇-amp-疑问"><a href="#好奇-amp-疑问" class="headerlink" title="好奇 &amp; 疑问"></a>好奇 &amp; 疑问</h2><h3 id="我的好奇与疑问："><a href="#我的好奇与疑问：" class="headerlink" title="我的好奇与疑问："></a>我的好奇与疑问：</h3><ol>
+<li>flutter 是如何在iOS/Android 上跑起来的？专业点儿描述的话就是 flutter 是如何被编译运行到设备上的？</li>
+<li>Flutter如何做到Debug模式Hot Reload快速生效变更，Release模式原生体验的呢？</li>
+<li>Flutter工程和我们的Android/iOS工程有何差别，关系如何，又是如何嵌入Android/iOS的呢？</li>
+<li>Flutter的渲染和事件传递机制如何工作？</li>
+<li>在使用Flutter的时候，如果发现了engine的bug，如何去修改和生效？</li>
+<li>构建缓慢或出错又如何去定位，修改和生效呢？</li>
+</ol>
+<a id="more"></a>
+<h3 id="抱着上述疑问，我开始了对-Flutter-的进一步了解。先说一下我的思考核查资料的历程："><a href="#抱着上述疑问，我开始了对-Flutter-的进一步了解。先说一下我的思考核查资料的历程：" class="headerlink" title="抱着上述疑问，我开始了对 Flutter 的进一步了解。先说一下我的思考核查资料的历程："></a>抱着上述疑问，我开始了对 Flutter 的进一步了解。先说一下我的思考核查资料的历程：</h3><ol>
+<li>看了 flutter 官方网站</li>
+<li>创建了一个 flutter 工程</li>
+<li>看这个工程的目录组织结构，对比自己熟悉的平台的工程</li>
+<li>分别在 iOS 和 Android 上 run 了一下工程</li>
+<li>体验了hot reload</li>
+<li>打包了一下这个Sample工程</li>
+<li>查看打出的包的内容</li>
+<li>网上查找一些关于 flutter 运行原理的资料<ol>
+<li>中间牵扯到概念的查找</li>
+<li>盲区的查找</li>
+<li>英文文档的理解对比一些翻译，查找理解的出入</li>
+<li>记录这些资料</li>
+</ol>
+</li>
+<li>组合+理解 形成自己的文章</li>
+</ol>
+<h2 id="Flutter-架构图"><a href="#Flutter-架构图" class="headerlink" title="Flutter 架构图"></a>Flutter 架构图</h2><p><img src="../assets/image-20191218112803994.png" alt="image-20191218112803994"></p>
+<p>image from <a href="https://github.com/flutter/flutter/wiki/The-Engine-architecture" target="_blank" rel="noopener">technical-overview</a></p>
+<blockquote>
+<p>Flutter’s engine takes core technologies, Skia, a 2D graphics rendering library, and Dart, a VM for a garbage-collected object-oriented language, and hosts them in a shell. Different platforms have different shells, for example we have shells for <a href="https://github.com/flutter/engine/tree/master/shell/platform/android" target="_blank" rel="noopener">Android</a> and <a href="https://github.com/flutter/engine/tree/master/shell/platform/darwin" target="_blank" rel="noopener">iOS</a>. We also have an <a href="https://github.com/flutter/engine/tree/master/shell/platform/embedder" target="_blank" rel="noopener">embedder API</a> which allows Flutter’s engine to be used as a library (see <a href="https://github.com/flutter/flutter/wiki/Custom-Flutter-Engine-Embedders" target="_blank" rel="noopener">Custom Flutter Engine Embedders</a>).</p>
+<p>The shells implement platform-specific code such as communicating with IMEs (on-screen keyboards) and the system’s application lifecycle events.</p>
+<p>The Dart VM implements the normal Dart core libraries, plus an additional library called <code>dart:ui</code> to provide low-level access to Skia features and the shell. The shells can also communicate directly to Dart code via <a href="https://flutter.io/platform-channels/" target="_blank" rel="noopener">Platform Channels</a> which bypass the engine.</p>
+</blockquote>
+<h2 id="Flutter-工程结构"><a href="#Flutter-工程结构" class="headerlink" title="Flutter 工程结构"></a>Flutter 工程结构</h2><h3 id="创建一个demo工程"><a href="#创建一个demo工程" class="headerlink" title="创建一个demo工程"></a>创建一个demo工程</h3><p><code>flutter create my_app</code></p>
+<p><img src="../assets/image-20191218091427069.png" alt="image-20191218091427069"></p>
+<p><img src="../assets/image-20191218091746808.png" alt="image-20191218091746808"></p>
+<blockquote>
+<p>事实上 flutter 下的 iOS/Android 工程本质上依然是一个标准的 iOS/Android 的工程，</p>
+<ul>
+<li>对于 iOS flutter 通过在 BuildPhase 中添加 shell 来生成和嵌入 App.framework 和 Flutter.framework</li>
+<li>对于 Android flutter 通过 gradle 来添加 flutter.jar 和 <code>vm_snapshot_data</code> <code>vm_snapshot_instr</code> <code>isolate_snapshot_data</code> <code>isolate_snapshot_instr</code></li>
+</ul>
+<p>来将 Flutter 相关代码编译和嵌入原生 App 而已</p>
+</blockquote>
+<h3 id="RUN-一下（命令行运行）"><a href="#RUN-一下（命令行运行）" class="headerlink" title="RUN 一下（命令行运行）"></a>RUN 一下（命令行运行）</h3><p>flutter 提供了3中运行模式</p>
+<blockquote>
+<ul>
+<li>Use <a href="https://flutter.dev/docs/testing/build-modes#debug" target="_blank" rel="noopener">debug</a> mode during development, when you want to use <a href="https://flutter.dev/docs/development/tools/hot-reload" target="_blank" rel="noopener">hot reload</a>.</li>
+<li>Use <a href="https://flutter.dev/docs/testing/build-modes#profile" target="_blank" rel="noopener">profile</a> mode when you want to analyze performance.</li>
+<li>Use <a href="https://flutter.dev/docs/testing/build-modes#release" target="_blank" rel="noopener">release</a> mode when you are ready to release your app.</li>
+</ul>
+</blockquote>
+<p>执行run命令（默认debug模式），此时我只连了 三星手机，结果因为 gradle 同步超时终止了</p>
+<p><img src="../assets/image-20191218154107873.png" alt="image-20191218154107873"></p>
+<p>这次连了iphone和三星手机，run 的时候让我指定一个，我指定 iPhone 然后run 起来了</p>
+<p><img src="../assets/image-20191218154613973.png" alt="image-20191218154613973"></p>
+<p>简单修改，然后刷新，都是几百毫秒</p>
+<p><img src="../assets/image-20191218154949581.png" alt="image-20191218154949581"></p>
+<p>看下工程目录文件变化</p>
+<p><img src="../assets/image-20191218155614243.png" alt="image-20191218155614243"></p>
+<p><img src="../assets/image-20191218175710963.png" alt="image-20191218175710963"></p>
+<p>run Android 手机</p>
+<p><img src="../assets/image-20191218163718100.png" alt="image-20191218163718100"></p>
+<p><img src="../assets/image-20191218164054578.png" alt="image-20191218164054578"></p>
+<p><img src="../assets/image-20191218180150831.png" alt="image-20191218180150831"></p>
+<p><code>flutter run --release</code></p>
+<p>aot</p>
+<p><img src="../assets/image-20191218174735965.png" alt="image-20191218174735965"></p>
+<p>iOS</p>
+<p><img src="../assets/image-20191218175600530.png" alt="image-20191218175600530"></p>
+<p>Android</p>
+<p><img src="../assets/image-20191218180120807.png" alt="image-20191218180120807"></p>
+<h2 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h2><p>以上执行 <code>flutter run</code> 和 <code>flutter run --release</code> 命令，我们看到了演示效果，看到了工程目录文件的变化，通过现象我想说明一个被雪藏了的过程<strong>编译和链接</strong>。</p>
+<p>flutter 使用 Dart 作为编程语言，自然脱不了干系。</p>
+<h3 id="dart-的编译模式"><a href="#dart-的编译模式" class="headerlink" title="dart 的编译模式"></a>dart 的编译模式</h3><ul>
+<li><p><strong>Script</strong>：最常见的 JIT 模式，可以直接在虚拟机中执行 Dart 源码，像解释型语言一样使用。</p>
+<p>通过执行 <code>dart xxx.dart</code> 就可以运行，写一些临时脚本，非常方便。</p>
+</li>
+<li><p><strong>Script/Kernel Snapshot</strong>：JIT模式，和上一个不同的是，这种模式执行的是 <a href="https://github.com/dart-lang/sdk/tree/master/pkg/kernel" target="_blank" rel="noopener">Kernel AST</a> 的二进制数据，这里不包含解析后的类和函数，编译后的代码，所以它们可以在不同的平台之间移植。AST 这里载入的是已经 token化的 dart源代码，提前执行了上一步的 <code>lexer</code>(词法分析)步骤。Dart Kernel 是 Dart 程序中的一种中间语言，更多的资料可阅读 <a href="https://github.com/dart-lang/sdk/wiki/Kernel-Documentation" target="_blank" rel="noopener">Kernel Documentation</a>。</p>
+</li>
+<li><p><strong>Application Snapshot</strong>：JIT 模式，这里执行的是已经解析过的类和函数，所以它会运行起来会更快。但是这不是平台无关，它只能针对 32位 或者 64位 架构运行。</p>
+</li>
+<li><p><strong>AOT</strong>：AOT模式，直接将 dart源码编译出 <code>.S</code> 文件，然后通过汇编器生成对应架构的代码。</p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">模式/比较项</th>
+<th style="text-align:center">编译模式</th>
+<th style="text-align:center">区分架构</th>
+<th style="text-align:center">打包大小</th>
+<th style="text-align:center">动态化</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Script</td>
+<td style="text-align:center">JIT</td>
+<td style="text-align:center">否</td>
+<td style="text-align:center">小</td>
+<td style="text-align:center">是</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">Script/Kernel Snapshot</td>
+<td style="text-align:center">JIT</td>
+<td style="text-align:center">否</td>
+<td style="text-align:center">很小</td>
+<td style="text-align:center">是</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">Application Snapshot</td>
+<td style="text-align:center">JIT</td>
+<td style="text-align:center">是</td>
+<td style="text-align:center">比较大</td>
+<td style="text-align:center">是（注意架构）</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">AOT</td>
+<td style="text-align:center">AOT</td>
+<td style="text-align:center">是</td>
+<td style="text-align:center">比较大</td>
+<td style="text-align:center">否</td>
+</tr>
+</tbody>
+</table>
+<p><img src="../assets/image-20191219111557092.png" alt="image-20191219111557092"></p>
+<h3 id="Flutter-build"><a href="#Flutter-build" class="headerlink" title="Flutter build"></a>Flutter build</h3><p><img src="../assets/image-20191219153632559.png" alt="image-20191219153632559"></p>
+<p>Flutter 采用了 Dart，根据Dart的编译模式，考量 Android和 iOS 平台的生态差异，给出了如下7种构建方式：</p>
+<p><img src="../assets/image-20191219114428981.png" alt="image-20191219114428981"></p>
+<p><img src="../assets/image-20191219135313857.png" alt="image-20191219135313857"></p>
+<h3 id="开发阶段的编译模式"><a href="#开发阶段的编译模式" class="headerlink" title="开发阶段的编译模式"></a>开发阶段的编译模式</h3><p>在开发阶段，我们需要 Flutter的 Hot Reload和 Hot Restart功能，方便 UI快速成型。同时，框架层也需要比较高的性能来进行视图渲染展现。因此开发模式下，Flutter使用了 Kernel Snapshot模式编译。<br>在打包产物中，你将发现几样东西：</p>
+<ul>
+<li><strong>isolate_snapshot_data</strong>：用于加速 isolate启动，业务无关代码，固定，仅和 flutter engine版本有关</li>
+<li><strong>app.dill</strong>：和 dart vm相关的 kernel代码，仅和 dart版本以及 engine编译版本有关。固定，业务无关代码。</li>
+<li><strong>vm_snapshot_data</strong>: 用于加速 dart vm启动的产物，业务无关代码，仅和 flutter engine版本有关</li>
+<li><strong>kernel_blob.bin</strong>：业务代码产物</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">项目/平台</th>
+<th style="text-align:center">Android</th>
+<th style="text-align:center">iOS</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">代码环境</td>
+<td style="text-align:center">debug</td>
+<td style="text-align:center">debug</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">编译模式</td>
+<td style="text-align:center">Kernel Snapshot</td>
+<td style="text-align:center">Kernel Snapshot</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">打包工具</td>
+<td style="text-align:center">dart vm</td>
+<td style="text-align:center">dart vm</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">Flutter命令</td>
+<td style="text-align:center">flutter build bundle</td>
+<td style="text-align:center">flutter build bundle</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">打包产物</td>
+<td style="text-align:center">flutter_assets/*</td>
+<td style="text-align:center">flutter_assets/*</td>
+</tr>
+</tbody>
+</table>
+<h3 id="生产阶段的编译模式"><a href="#生产阶段的编译模式" class="headerlink" title="生产阶段的编译模式"></a>生产阶段的编译模式</h3><p>在生产阶段，应用需要的是非常快的速度，所以 Android和 iOS target毫无意外地都选择了 AOT打包。不过由于平台特性不同，打包模式也是天壤之别。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">项目/平台</th>
+<th style="text-align:center">Android</th>
+<th style="text-align:center">iOS</th>
+<th style="text-align:center"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">代码环境</td>
+<td style="text-align:center">release</td>
+<td style="text-align:center">release</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">编译模式</td>
+<td style="text-align:center">AOT Assembly</td>
+<td style="text-align:center">AOT Assembly</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">打包工具</td>
+<td style="text-align:center">gen_snapshot</td>
+<td style="text-align:center">gen_snapshot</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">Flutter命令</td>
+<td style="text-align:center">flutter build aot</td>
+<td style="text-align:center">flutter build aot</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">打包产物</td>
+<td style="text-align:center">app.so</td>
+<td style="text-align:center">App.framework</td>
+</tr>
+</tbody>
+</table>
+<p>首先我们很容易认识到 iOS平台上做法的原因：App Store审核条例不允许动态下发可执行二进制代码。<br>所以在 iOS上，除了 JavaScript，其他语言运行时的实现都选择了 AOT。</p>
+<h3 id="Before-flutter-1-12-13-android-编译"><a href="#Before-flutter-1-12-13-android-编译" class="headerlink" title="Before flutter 1.12.13 android 编译"></a>Before flutter 1.12.13 android 编译</h3><ul>
+<li><p>AOT Assembly</p>
+<p>看上文</p>
+</li>
+<li><p>AOT Blob</p>
+<p>在 Android上，Flutter 默认是<strong>Core JIT</strong>的打包产物有 4个：<code>isolate_snapshot_data</code>, <code>vm_snapshot_data</code>, <code>isolate_snapshot_instr</code>, <code>vm_snapshot_instr</code>. 我们不认识的产物只有 2个：<code>isolate_snapshot_instr</code>和 <code>vm_snapshot_instr</code>，其实它俩代表着 <code>vm</code>和 <code>isolate</code>启动后所承载的指令等数据，在载入后，直接将该块内存标记为执行即可。</p>
+</li>
+</ul>
+<p><img src="../assets/image-20191219153222051.png" alt="image-20191219153222051"></p>
+<h2 id="概念-amp-名词："><a href="#概念-amp-名词：" class="headerlink" title="概念 &amp; 名词："></a>概念 &amp; 名词：</h2><h4 id="静态语言"><a href="#静态语言" class="headerlink" title="静态语言"></a>静态语言</h4><p>静态语言通常编译成目标机器的本地机器代码（或<strong>汇编代码</strong>）程序，该程序在运行时直接由硬件执行</p>
+<blockquote>
+<p><a href="https://en.wikipedia.org/wiki/Compiled_language" target="_blank" rel="noopener">维基百科</a></p>
+<p>A <strong>compiled language</strong> is a <a href="https://en.wikipedia.org/wiki/Programming_language" target="_blank" rel="noopener">programming language</a> whose <a href="https://en.wikipedia.org/wiki/Programming_language_implementation" target="_blank" rel="noopener">implementations</a> are typically <a href="https://en.wikipedia.org/wiki/Compiler" target="_blank" rel="noopener">compilers</a> (translators that generate <a href="https://en.wikipedia.org/wiki/Machine_code" target="_blank" rel="noopener">machine code</a> from <a href="https://en.wikipedia.org/wiki/Source_code" target="_blank" rel="noopener">source code</a>), and not <a href="https://en.wikipedia.org/wiki/Interpreter_(computing" target="_blank" rel="noopener">interpreters</a>) (step-by-step executors of <a href="https://en.wikipedia.org/wiki/Source_code" target="_blank" rel="noopener">source code</a>, where no pre-runtime translation takes place).</p>
+<p>The term is somewhat vague. In principle, any language can be implemented with a compiler or with an interpreter.<a href="https://en.wikipedia.org/wiki/Compiled_language#cite_note-1" target="_blank" rel="noopener">[1]</a> A combination of both solutions is also common: a compiler can translate the source code into some intermediate form (often called <a href="https://en.wikipedia.org/wiki/Byte_code" target="_blank" rel="noopener">p-code</a> or <a href="https://en.wikipedia.org/wiki/Bytecode" target="_blank" rel="noopener">bytecode</a>), which is then passed to an interpreter which executes it.</p>
+</blockquote>
+<h4 id="动态语言"><a href="#动态语言" class="headerlink" title="动态语言"></a>动态语言</h4><p>动态语言由解释器执行，不产生机器语言代码。机器代码是由解释器产生。</p>
+<blockquote>
+<p><a href="https://en.wikipedia.org/wiki/Interpreted_language" target="_blank" rel="noopener">维基百科</a></p>
+<p>An <strong>interpreted language</strong> is a type of <a href="https://en.wikipedia.org/wiki/Programming_language" target="_blank" rel="noopener">programming language</a> for which most of its implementations execute instructions directly and freely, without previously <a href="https://en.wikipedia.org/wiki/Compiler" target="_blank" rel="noopener">compiling</a> a <a href="https://en.wikipedia.org/wiki/Computer_program" target="_blank" rel="noopener">program</a> into <a href="https://en.wikipedia.org/wiki/Machine_language" target="_blank" rel="noopener">machine-language</a> instructions. The <a href="https://en.wikipedia.org/wiki/Interpreter_(computing" target="_blank" rel="noopener">interpreter</a>) executes the program directly, translating each statement into a sequence of one or more <a href="https://en.wikipedia.org/wiki/Subroutines" target="_blank" rel="noopener">subroutines</a>, and then into another language (often <a href="https://en.wikipedia.org/wiki/Machine_code" target="_blank" rel="noopener">machine code</a>).</p>
+</blockquote>
+<h4 id="VM-虚拟机"><a href="#VM-虚拟机" class="headerlink" title="VM 虚拟机"></a>VM 虚拟机</h4><blockquote>
+<p><a href="https://en.wikipedia.org/wiki/Virtual_machine" target="_blank" rel="noopener">维基百科</a></p>
+<p>In computing, a <strong>virtual machine</strong> (<strong>VM</strong>) is an <a href="https://en.wikipedia.org/wiki/Emulator" target="_blank" rel="noopener">emulation</a> of a computer system. Virtual machines are based on <a href="https://en.wikipedia.org/wiki/Computer_architectures" target="_blank" rel="noopener">computer architectures</a> and provide functionality of a physical computer. Their implementations may involve specialized hardware, software, or a combination.</p>
+</blockquote>
+<p>它其实只是一个<strong>高级的解释器</strong>，用软件模拟硬件设备。虚拟机使语言移植到新的硬件平台更容易。因此，VM 的输入语言常常是<a href="https://en.wikipedia.org/wiki/Intermediate_representation#Intermediate_language" target="_blank" rel="noopener">中间语言</a>。例如，一种编程语言（如<a href="https://en.wikipedia.org/wiki/Java_(programming_language" target="_blank" rel="noopener"> Java </a>)）被编译成中间语言（<a href="https://en.wikipedia.org/wiki/Java_bytecode" target="_blank" rel="noopener">字节码</a>），然后在VM（eg.<a href="https://en.wikipedia.org/wiki/Java_virtual_machine" target="_blank" rel="noopener"> JVM </a>）中执行。</p>
+<h4 id="JIT"><a href="#JIT" class="headerlink" title="JIT"></a>JIT</h4><p>JIT(Just In Time) 翻译为 <strong>即时编译</strong>，指的是在程序运行中，将热点代码编译成机器码，提高运行效率。常见例子有 V8 引擎 和 javaScript Core，JIT 可以充分利用解释型语言的优点，动态执行js源码，而不用考虑平台差异性。</p>
+<blockquote>
+<p>这里需要区分</p>
+<ul>
+<li>JIT 和解释型语言的区别，JIT 是一种编译模式，比如，Java 是编译型语言，但它也可以使用 JIT。只不过对于 JVM 来说，执行的源码指字节码，而不是 Java 源码。</li>
+</ul>
+</blockquote>
+<h4 id="AOT"><a href="#AOT" class="headerlink" title="AOT"></a>AOT</h4><p>AOT(Ahead Of Time) 称为 <strong>运行前编译</strong>，指的是在程序运行之前，已经编译成对应平台的机器码，不需要在运行中解释编译，就可以直接运行。常见例子有 C 和 C++。</p>
+<blockquote>
+<p>虽然，我们会区别 JIT 和 AOT 两种编译模式，但实际上，有很多语言并不是完全使用 JIT 或者 AOT 的，通常它们会混用这两种模式，来达到最大的性能优化。而 dart 语言</p>
+</blockquote>
+<h4 id="C-C-语言编译过程："><a href="#C-C-语言编译过程：" class="headerlink" title="C/C++ 语言编译过程："></a>C/C++ 语言编译过程：</h4><ul>
+<li>预编译 <ul>
+<li>主要以 <code>#</code> 开始的预编译指令</li>
+</ul>
+</li>
+<li>编译 <ul>
+<li>词法分析</li>
+<li>语法分析</li>
+<li>语义分析</li>
+<li>中间代码生成</li>
+<li>目标代码生成</li>
+<li>汇编代码文件</li>
+</ul>
+</li>
+<li>汇编 <ul>
+<li>将汇编代码转变成机器可执行的指令</li>
+</ul>
+</li>
+<li>链接<ul>
+<li>静态链接</li>
+<li>动态链接</li>
+</ul>
+</li>
+</ul>
+<p>一般来说，只有静态语言才适合 AOT 编译为本地机器代码，因为机器语言通常需要知道数据的类型，而动态语言中的类型事先并不确定。因此，动态语言通常被解释或 JIT 编译。</p>
+<p>在开发过程中 AOT 编译，开发周期（从更改程序到能够执行程序以查看更改结果的时间）总是很慢。但是 AOT 编译产生的程序可以更可预测地执行，并且运行时不需要停下来分析和编译。AOT 编译的程序也更快地开始执行（因为它们已经被编译）。</p>
+<p>相反，JIT 编译提供了更快的开发周期，但可能导致执行速度较慢或时快时慢。特别是，JIT 编译器启动较慢，因为当程序开始运行时，JIT 编译器必须在代码执行之前进行分析和编译。</p>
+<p>Dart 语言站在巨人的肩膀上在高级编译器和虚拟机上做了非常棒的工作，使得可以进行高效的 AOT 编译或 JIT 编译、解释或转译成其他语言。Dart 编译和执行不仅非常灵活，而且速度<strong>特别快</strong>。</p>
+<h4 id="Ninja"><a href="#Ninja" class="headerlink" title="Ninja"></a>Ninja</h4><blockquote>
+<p><a href="https://en.wikipedia.org/wiki/Ninja_(build_system" target="_blank" rel="noopener">维基百科</a>)</p>
+<p><strong>Ninja</strong> is a small <a href="https://en.wikipedia.org/wiki/Build_automation" target="_blank" rel="noopener">build system</a> with a focus on speed. It differs from other build systems in two major respects: it is designed to have its input files generated by a higher-level build system, and it is designed to run builds as fast as possible.</p>
+</blockquote>
+<h4 id="GN"><a href="#GN" class="headerlink" title="GN"></a>GN</h4><blockquote>
+<p><a href="https://chromium.googlesource.com/chromium/src/tools/gn/+/48062805e19b4697c5fbd926dc649c78b6aaa138/README.md" target="_blank" rel="noopener">what is GN?</a></p>
+<p>GN is a meta-build system that generates <a href="https://chromium.googlesource.com/chromium/src/tools/gn/+/48062805e19b4697c5fbd926dc649c78b6aaa138/NinjaBuild.md" target="_blank" rel="noopener">NinjaBuild</a> files. It’s meant to be faster and simpler than GYP. It outputs only Ninja build files.</p>
+</blockquote>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/12/03/2019-12-3-一直用的Git真的了解吗/" rel="next" title="一直用的 Git 真的了解吗？">
+                <i class="fa fa-chevron-left"></i> 一直用的 Git 真的了解吗？
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/04/15/2020-4-15-CordovaJs/" rel="prev" title="Cordova Js">
+                Cordova Js <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="karl">
+            
+              <p class="site-author-name" itemprop="name">karl</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">122</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">87</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/likenow" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:fmslikai@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://yujiangshui.com/" title="yujiangshui" target="_blank">yujiangshui</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Flutter–从提出问题到原理探索（一）"><span class="nav-number">1.</span> <span class="nav-text">Flutter–从提出问题到原理探索（一）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#好奇-amp-疑问"><span class="nav-number">1.1.</span> <span class="nav-text">好奇 &amp; 疑问</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#我的好奇与疑问："><span class="nav-number">1.1.1.</span> <span class="nav-text">我的好奇与疑问：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#抱着上述疑问，我开始了对-Flutter-的进一步了解。先说一下我的思考核查资料的历程："><span class="nav-number">1.1.2.</span> <span class="nav-text">抱着上述疑问，我开始了对 Flutter 的进一步了解。先说一下我的思考核查资料的历程：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Flutter-架构图"><span class="nav-number">1.2.</span> <span class="nav-text">Flutter 架构图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Flutter-工程结构"><span class="nav-number">1.3.</span> <span class="nav-text">Flutter 工程结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建一个demo工程"><span class="nav-number">1.3.1.</span> <span class="nav-text">创建一个demo工程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RUN-一下（命令行运行）"><span class="nav-number">1.3.2.</span> <span class="nav-text">RUN 一下（命令行运行）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编译"><span class="nav-number">1.4.</span> <span class="nav-text">编译</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#dart-的编译模式"><span class="nav-number">1.4.1.</span> <span class="nav-text">dart 的编译模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Flutter-build"><span class="nav-number">1.4.2.</span> <span class="nav-text">Flutter build</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#开发阶段的编译模式"><span class="nav-number">1.4.3.</span> <span class="nav-text">开发阶段的编译模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生产阶段的编译模式"><span class="nav-number">1.4.4.</span> <span class="nav-text">生产阶段的编译模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Before-flutter-1-12-13-android-编译"><span class="nav-number">1.4.5.</span> <span class="nav-text">Before flutter 1.12.13 android 编译</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#概念-amp-名词："><span class="nav-number">1.5.</span> <span class="nav-text">概念 &amp; 名词：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#静态语言"><span class="nav-number">1.5.0.1.</span> <span class="nav-text">静态语言</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#动态语言"><span class="nav-number">1.5.0.2.</span> <span class="nav-text">动态语言</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#VM-虚拟机"><span class="nav-number">1.5.0.3.</span> <span class="nav-text">VM 虚拟机</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JIT"><span class="nav-number">1.5.0.4.</span> <span class="nav-text">JIT</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#AOT"><span class="nav-number">1.5.0.5.</span> <span class="nav-text">AOT</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#C-C-语言编译过程："><span class="nav-number">1.5.0.6.</span> <span class="nav-text">C/C++ 语言编译过程：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Ninja"><span class="nav-number">1.5.0.7.</span> <span class="nav-text">Ninja</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#GN"><span class="nav-number">1.5.0.8.</span> <span class="nav-text">GN</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2013 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">karl</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
